@@ -1,0 +1,5 @@
+/* Add here all your CSS customizations */
+
+.tab-navigation nav>ul>li>a {
+    color: #777;
+}
