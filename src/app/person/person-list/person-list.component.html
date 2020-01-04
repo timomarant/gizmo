@@ -1,6 +1,6 @@
 <section role="main" class="content-body tab-menu-opened">
 
-    <div class="row">
+    <div class="row" *ngIf='people'>
         <div class="col">
             <section class="card">
 
@@ -33,59 +33,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            <tr *ngFor='let person of people'>
                                 <td data-title="" class="text-center"><i class="el el-star-empty"></i></td>
-                                <td data-title="Naam" class="text">AUSTRALIAN AGRICULTURAL COMPANY LIMITED.</td>
-                                <td data-title="E-mail" class="text">jon.doe@contoso.com</td>
-                                <td data-title="Telefoon" class="text ">+32 449 349 234</td>
+                                <td data-title="Naam" class="text">{{ person.name }}</td>
+                                <td data-title="E-mail" class="text">{{ person.email }}</td>
+                                <td data-title="Telefoon" class="text ">{{ person.telephoneNumber }}</td>
                                 <td data-title="Bedrijf" class="text">Gizmo BVBA</td>
                                 <td data-title="Labels" class="text"></td>
                                 <td data-title="Acties" class="text-center">
-                                    <a routerLink="/contact/detail/1" class="on-default edit-row"><i class="fas fa-pencil-alt"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td data-title="" class="text-center"><i class="el el-star-empty"></i></td>
-                                <td data-title="Naam" class="text">AUSTRALIAN AGRICULTURAL COMPANY LIMITED.</td>
-                                <td data-title="E-mail" class="text">jon.doe@contoso.com</td>
-                                <td data-title="Telefoon" class="text ">+32 449 349 234</td>
-                                <td data-title="Bedrijf" class="text">Gizmo BVBA</td>
-                                <td data-title="Labels" class="text"></td>
-                                <td data-title="Acties" class="text-center">
-                                    <a routerLink="/contact/detail/1" class="on-default edit-row"><i class="fas fa-pencil-alt"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td data-title="" class="text-center"><i class="el el-star-empty"></i></td>
-                                <td data-title="Naam" class="text">AUSTRALIAN AGRICULTURAL COMPANY LIMITED.</td>
-                                <td data-title="E-mail" class="text">jon.doe@contoso.com</td>
-                                <td data-title="Telefoon" class="text ">+32 449 349 234</td>
-                                <td data-title="Bedrijf" class="text">Gizmo BVBA</td>
-                                <td data-title="Labels" class="text"></td>
-                                <td data-title="Acties" class="text-center">
-                                    <a routerLink="/contact/detail/1" class="on-default edit-row"><i class="fas fa-pencil-alt"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td data-title="" class="text-center"><i class="el el-star-empty"></i></td>
-                                <td data-title="Naam" class="text">AUSTRALIAN AGRICULTURAL COMPANY LIMITED.</td>
-                                <td data-title="E-mail" class="text">jon.doe@contoso.com</td>
-                                <td data-title="Telefoon" class="text ">+32 449 349 234</td>
-                                <td data-title="Bedrijf" class="text">Gizmo BVBA</td>
-                                <td data-title="Labels" class="text"></td>
-                                <td data-title="Acties" class="text-center">
-                                    <a routerLink="/contact/detail/1" class="on-default edit-row"><i class="fas fa-pencil-alt"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td data-title="" class="text-center"><i class="el el-star-empty"></i></td>
-                                <td data-title="Naam" class="text">AUSTRALIAN AGRICULTURAL COMPANY LIMITED.</td>
-                                <td data-title="E-mail" class="text">jon.doe@contoso.com</td>
-                                <td data-title="Telefoon" class="text ">+32 449 349 234</td>
-                                <td data-title="Bedrijf" class="text">Gizmo BVBA</td>
-                                <td data-title="Labels" class="text"></td>
-                                <td data-title="Acties" class="text-center">
-                                    <a routerLink="/contact/detail/1" class="on-default edit-row"><i class="fas fa-pencil-alt"></i></a>
+                                    <a routerLink="/person/detail/" class="on-default edit-row"><i class="fas fa-pencil-alt"></i></a>
                                 </td>
                             </tr>
                         </tbody>

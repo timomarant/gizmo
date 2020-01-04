@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IPerson } from '../Person';
+import { PersonService } from '../person.service';
 
 @Component({
   selector: 'app-person-list',
@@ -8,24 +9,15 @@ import { IPerson } from '../Person';
 export class PersonListComponent implements OnInit {
 
   public people: IPerson[];
+  public errorMessage: string;
 
-  constructor() { 
-    
-  }
+  constructor(private personService: PersonService) { }
 
   ngOnInit() {
-    // this.dataService
-    //         .getAll<any[]>()
-    //         .subscribe((data: any[]) => this.people = data,
-    //         error => () => {
-    //            // this.toasterService.pop('error', 'Damn', 'Something went wrong...');
-    //            console.log('error');
-    //         },
-    //         () => {
-    //           //  this.toasterService.pop('success', 'Complete', 'Getting all people complete');
-    //            // this.slimLoadingBarService.complete();
-    //            console.log('success');
-    //         });
+    this.personService.getPeople().subscribe({
+      next: people => this.people = people,
+      error: err => this.errorMessage = err
+    });
   }
 
 }
