@@ -15,7 +15,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { CalculationModule } from './calculation/calculation.module';
-import { ContactModule } from './contact/contact.module';
+import { PersonModule } from './person/person.module';
 import { HomeModule } from './home/home.module';
 import { InvoiceModule } from './invoice/invoice.module';
 import { SettingsModule } from './settings/settings.module';
@@ -37,7 +37,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SharedModule,
     HomeModule,
     CalculationModule,
-    ContactModule,
+    PersonModule,
     InvoiceModule,
     SettingsModule,
     AppRoutingModule,

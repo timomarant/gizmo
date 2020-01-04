@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { ContactComponent } from './contact.component';
-import { ContactListComponent } from './contact-list.component';
-import { ContactDetailComponent } from './contact-detail.component';
-import { ContactImportComponent } from './contact-import.component';
+import { PersonComponent } from './person.component';
+import { PersonListComponent } from './person-list/person-list.component';
+import { PersonDetailComponent } from './person-detail/person-detail.component';
+import { PersonImportComponent } from './person-import/person-import.component';
 
 const routes: Routes = [
   {
-    path: 'contact',
-    component: ContactComponent,
+    path: 'person',
+    component: PersonComponent,
     children: [
       {
         path: '',
@@ -18,15 +18,15 @@ const routes: Routes = [
       },
       {
         path: 'list',
-        component: ContactListComponent
+        component: PersonListComponent
       },
       {
         path: 'detail/:id',
-        component: ContactDetailComponent
+        component: PersonDetailComponent
       },
       {
         path: 'import',
-        component: ContactImportComponent
+        component: PersonImportComponent
       }
     ]
   }
@@ -37,4 +37,4 @@ const routes: Routes = [
   imports: [CommonModule, RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ContactRoutingModule { }
+export class PersonRoutingModule { }
