@@ -5,8 +5,8 @@ import { tap, catchError } from "rxjs/operators";
 
 export class PersonService{
     
-    //private url = 'https://localhost:44352/api/people';
-    private url = 'https://gizmodevelopmentapi.azurewebsites.net/';
+    private url = 'https://localhost:44352/api/people';
+    //private url = 'https://gizmodevelopmentapi.azurewebsites.net/';
 
     constructor(private http: HttpClient){ }
 
