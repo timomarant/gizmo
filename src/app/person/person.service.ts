@@ -5,7 +5,8 @@ import { tap, catchError } from "rxjs/operators";
 
 export class PersonService{
     
-    private url = 'https://localhost:44352/api/people';
+    //private url = 'https://localhost:44352/api/people';
+    private url = 'https://gizmodevelopmentapi.azurewebsites.net/';
 
     constructor(private http: HttpClient){ }
 
@@ -20,7 +21,7 @@ export class PersonService{
         if (err.error instanceof ErrorEvent) {
             errorMessage = `An error occured: ${err.error.message}`;
         } else{
-            errorMessage = `Server returned code: ${err.status}, error message is: ${err.error.message}`;
+            errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
         }
 
         console.error(errorMessage);
