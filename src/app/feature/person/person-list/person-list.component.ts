@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { IPerson } from '../Person';
+import { IPerson } from '../person';
 import { IPagination } from '../../../shared/pagination';
 import { PersonService } from '../person.service';
 import { PagerService } from '../../../shared/services/pagerservice';

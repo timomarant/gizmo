@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpResponse } from "@angular/common/htt
 
 import { Observable, throwError } from "rxjs";
 import { tap, catchError } from "rxjs/operators";
-import { IPerson } from "./Person";
+import { IPerson } from "./person";
 
 @Injectable()
 export class PersonService{
