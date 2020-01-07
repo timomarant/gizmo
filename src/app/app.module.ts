@@ -14,11 +14,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { CalculationModule } from './calculation/calculation.module';
-import { PersonModule } from './person/person.module';
-import { HomeModule } from './home/home.module';
-import { InvoiceModule } from './invoice/invoice.module';
-import { SettingsModule } from './settings/settings.module';
+import { CalculationModule } from './feature/calculation/calculation.module';
+import { PersonModule } from './feature/person/person.module';
+import { HomeModule } from './feature/home/home.module';
+import { InvoiceModule } from './feature/invoice/invoice.module';
+import { SettingsModule } from './feature/settings/settings.module';
 
 import { AppComponent } from './app.component';
 
