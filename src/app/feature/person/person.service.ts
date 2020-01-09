@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpErrorResponse, HttpResponse } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpResponse, HttpParams, HttpHeaders } from "@angular/common/http";
 
 import { Observable, throwError } from "rxjs";
 import { tap, catchError } from "rxjs/operators";
@@ -16,13 +16,18 @@ export class PersonService{
     ){ }
 
     getPeople(): Observable<HttpResponse<IPerson[]>>{
-        return this.http.get<IPerson[]>(this.url,  { observe: 'response' }).pipe(
+        let headers = new HttpHeaders().set('Access-Control-Allow-Origin', this.url);
+
+        return this.http.get<IPerson[]>(this.url,  { headers, observe: 'response' }).pipe(
             tap(data => console.log('All: ' + JSON.stringify(data))),
             catchError(this.handleError));
     }
 
     getPeoplePage(pageNumber: number): Observable<HttpResponse<IPerson[]>>{
-        return this.http.get<IPerson[]>(this.url + "?PageNumber=" + pageNumber,  { observe: 'response' }).pipe(
+        let params = new HttpParams().set('PageNumber', pageNumber.toString());
+        let headers = new HttpHeaders().set('Access-Control-Allow-Origin', this.url);
+
+        return this.http.get<IPerson[]>(this.url,  { params, headers, observe: 'response' }).pipe(
             tap(data => console.log('All: ' + JSON.stringify(data))),
             catchError(this.handleError));
     }
