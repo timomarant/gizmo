@@ -9,7 +9,7 @@ import { IPerson } from "./person";
 export class PersonService{
     
     //private url = 'https://localhost:44352/api/people';
-    private url = 'https://gizmodevelopmentapi.azurewebsites.net/';
+    private url = 'https://gizmodevelopmentapi.azurewebsites.net/api/people';
 
     constructor(
         private http: HttpClient
