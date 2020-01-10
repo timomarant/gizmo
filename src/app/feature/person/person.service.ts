@@ -11,14 +11,13 @@ export class PersonService{
     protected basePath = '/';
 
     constructor(
-        private http: HttpClient,
-        @Optional() basePath: string
+        private http: HttpClient
     ){ 
-        if (basePath) {
-            this.basePath = basePath;
-        }
+        // if (basePath) {
+        //     this.basePath = basePath;
+        // }
 
-        //this.basePath = 'https://localhost:44352';
+        // this.basePath = 'https://localhost:44352';
         this.basePath = 'https://gizmodevelopmentapi.azurewebsites.net';
     }
 
