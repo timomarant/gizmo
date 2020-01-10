@@ -35,11 +35,11 @@
                             <tbody>
                                 <tr *ngFor='let person of people'>
                                     <td data-title="" class="text-center"><i class="el el-star-empty"></i></td>
-                                    <td data-title="Naam" class="text">{{ person.name }}</td>
-                                    <td data-title="E-mail" class="text">{{ person.email }}</td>
-                                    <td data-title="Telefoon" class="text ">{{ person.telephoneNumber }}</td>
-                                    <td data-title="Bedrijf" class="text">Gizmo BVBA</td>
-                                    <td data-title="Acties" class="text-center">
+                                    <td class="text">{{ person.name }}</td>
+                                    <td class="text">{{ person.email }}</td>
+                                    <td class="text ">{{ person.telephoneNumber }}</td>
+                                    <td class="text">Gizmo BVBA</td>
+                                    <td class="text-center">
                                         <a [routerLink]="['/person/detail/', person.personId]" class="on-default edit-row"><i class="fas fa-pencil-alt"></i></a>
                                     </td>
                                 </tr>
@@ -65,7 +65,6 @@
                             </ul>
                         </div>
                     </div>
-
                 </div>
             </section>
         </div>
