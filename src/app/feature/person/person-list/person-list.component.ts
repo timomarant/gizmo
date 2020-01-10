@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { IPerson } from '../person';
+import { IPersonListModel } from '../person-list.model';
 import { IPagination } from '../../../shared/pagination';
 import { PersonService } from '../person.service';
 import { PagerService } from '../../../shared/services/pagerservice';
@@ -11,12 +11,11 @@ import { PagerService } from '../../../shared/services/pagerservice';
 })
 export class PersonListComponent implements OnInit {
 
-  people: IPerson[];
-  pagination: IPagination;
-  errorMessage: string;
-  
-  pager: any = {}; // pager object
-  pagedItems: any[]; // paged items
+  public people: IPersonListModel[];
+  public pagination: IPagination;
+  public errorMessage: string;
+  public pager: any = {};
+  public pagedItems: any[];
 
   constructor(
     private personService: PersonService,
@@ -24,29 +23,22 @@ export class PersonListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.personService.getPeople().subscribe({
-      next: resp => {
-        this.people = resp.body;
-        this.pagination =  JSON.parse(resp.headers.get('X-Pagination'));
-        this.setPage(1);
-        console.log(this.pagination);
-      },
-      error: err => this.errorMessage = err
-    });
+    this.setPage(1);
   }
 
-  setPage(page: number) {
-    // get pager object from service
-    this.pager = this.pagerService.getPager(this.pagination.totalCount, page);
-    // get current page of items
-    this.pagedItems = this.people.slice(this.pager.startIndex, this.pager.endIndex + 1);
+  public setPage(page: number) {
+    console.log('setPage');
 
-    console.log('set page');
-    
-    this.personService.getPeoplePage(page).subscribe({
+    this.personService.getPeople(page).subscribe({
       next: resp => {
         this.people = resp.body;
-        this.pagination =  JSON.parse(resp.headers.get('X-Pagination'));
+        this.pagination = JSON.parse(resp.headers.get('X-Pagination'));
+        if (this.pagination) {
+          // get pager object from service
+          this.pager = this.pagerService.getPager(this.pagination.totalCount, page);
+          // get current page of items
+          this.pagedItems = this.people.slice(this.pager.startIndex, this.pager.endIndex + 1);
+        }
       },
       error: err => this.errorMessage = err
     });

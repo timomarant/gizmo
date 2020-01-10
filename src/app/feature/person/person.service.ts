@@ -1,33 +1,34 @@
-import { Injectable } from "@angular/core";
+import { Injectable, Optional, Inject } from "@angular/core";
 import { HttpClient, HttpErrorResponse, HttpResponse, HttpParams, HttpHeaders } from "@angular/common/http";
 
 import { Observable, throwError } from "rxjs";
 import { tap, catchError } from "rxjs/operators";
-import { IPerson } from "./person";
+import { IPersonListModel } from "./person-list.model";
 
 @Injectable()
 export class PersonService{
     
-    //private url = 'https://localhost:44352/api/people';
-    private url = 'https://gizmodevelopmentapi.azurewebsites.net/api/people';
+    protected basePath = '/';
 
     constructor(
-        private http: HttpClient
-    ){ }
+        private http: HttpClient,
+        @Optional() basePath: string
+    ){ 
+        if (basePath) {
+            this.basePath = basePath;
+        }
 
-    getPeople(): Observable<HttpResponse<IPerson[]>>{
-        let headers = new HttpHeaders().set('Access-Control-Allow-Origin', this.url);
-
-        return this.http.get<IPerson[]>(this.url,  { headers, observe: 'response' }).pipe(
-            tap(data => console.log('All: ' + JSON.stringify(data))),
-            catchError(this.handleError));
+        //this.basePath = 'https://localhost:44352/api/people';
+        this.basePath = 'https://gizmodevelopmentapi.azurewebsites.net';
     }
 
-    getPeoplePage(pageNumber: number): Observable<HttpResponse<IPerson[]>>{
-        let params = new HttpParams().set('PageNumber', pageNumber.toString());
-        let headers = new HttpHeaders().set('Access-Control-Allow-Origin', this.url);
+    getPeople(pageNumber: number): Observable<HttpResponse<IPersonListModel[]>>{
+        let params = new HttpParams();
+        if (pageNumber !== undefined && pageNumber !== null) {
+            params = params.set('PageNumber', <any>pageNumber);
+        }
 
-        return this.http.get<IPerson[]>(this.url,  { params, headers, observe: 'response' }).pipe(
+        return this.http.get<IPersonListModel[]>(`${this.basePath}/api/people`,  { params, observe: 'response' }).pipe(
             tap(data => console.log('All: ' + JSON.stringify(data))),
             catchError(this.handleError));
     }

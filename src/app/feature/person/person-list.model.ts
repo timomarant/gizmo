@@ -1,4 +1,4 @@
-export interface IPerson{
+export interface IPersonListModel{
     personId: number
     name: string
     email: string
