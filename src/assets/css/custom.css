@@ -3,3 +3,7 @@
 .tab-navigation nav>ul>li>a {
     color: #777;
 }
+
+.form-control.is-invalid, .was-validated .form-control:invalid {
+    background-image: none;
+}

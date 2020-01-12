@@ -1,18 +1,18 @@
-<section role="main" class="content-body tab-menu-opened">
-
+<section role="main"
+         class="content-body tab-menu-opened">
     <div class="row">
         <div class="col-lg-4 col-xl-3 mb-4 mb-xl-0">
-
             <section class="card">
                 <div class="card-body">
                     <div class="thumb-info mb-3">
-                        <img src="../../assets/img/!logged-user.jpg" class="rounded img-fluid" alt="John Doe">
+                        <img src="../../assets/img/!logged-user.jpg"
+                             class="rounded img-fluid"
+                             alt="John Doe">
                         <div class="thumb-info-title">
                             <span class="thumb-info-inner">John Doe</span>
                             <span class="thumb-info-type">CEO</span>
                         </div>
                     </div>
-
                     <div class="widget-toggle-expand mb-3">
                         <div class="widget-header">
                             <h5 class="mb-2">Profile Completion</h5>
@@ -20,7 +20,12 @@
                         </div>
                         <div class="widget-content-collapsed">
                             <div class="progress progress-xs light">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                                <div class="progress-bar"
+                                     role="progressbar"
+                                     aria-valuenow="60"
+                                     aria-valuemin="0"
+                                     aria-valuemax="100"
+                                     style="width: 60%;">
                                     60%
                                 </div>
                             </div>
@@ -34,139 +39,277 @@
                             </ul>
                         </div>
                     </div>
-
                     <hr class="dotted short">
-
-                    <h5 class="mb-2 mt-3">About</h5>
-                    <p class="text-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam quis vulputate quam. Interdum et malesuada</p>
+                    <h5 class="mb-2 mt-3">Over</h5>
+                    <p class="text-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam quis vulputate
+                        quam. Interdum et malesuada</p>
                     <div class="clearfix">
-                        <a class="text-uppercase text-muted float-right" href="#">(View All)</a>
+                        <a class="text-uppercase text-muted float-right"
+                           href="#">(View All)</a>
                     </div>
-
                     <hr class="dotted short">
-
                     <div class="social-icons-list">
-                        <a rel="tooltip" data-placement="bottom" target="_blank" href="http://www.facebook.com" data-original-title="Facebook"><i class="fab fa-facebook-f"></i><span>Facebook</span></a>
-                        <a rel="tooltip" data-placement="bottom" href="http://www.twitter.com" data-original-title="Twitter"><i class="fab fa-twitter"></i><span>Twitter</span></a>
-                        <a rel="tooltip" data-placement="bottom" href="http://www.linkedin.com" data-original-title="Linkedin"><i class="fab fa-linkedin-in"></i><span>Linkedin</span></a>
+                        <a rel="tooltip"
+                           data-placement="bottom"
+                           target="_blank"
+                           href="http://www.facebook.com"
+                           data-original-title="Facebook"><i class="fab fa-facebook-f"></i><span>Facebook</span></a>
+                        <a rel="tooltip"
+                           data-placement="bottom"
+                           href="http://www.twitter.com"
+                           data-original-title="Twitter"><i class="fab fa-twitter"></i><span>Twitter</span></a>
+                        <a rel="tooltip"
+                           data-placement="bottom"
+                           href="http://www.linkedin.com"
+                           data-original-title="Linkedin"><i class="fab fa-linkedin-in"></i><span>Linkedin</span></a>
                     </div>
-
                 </div>
             </section>
-
         </div>
         <div class="col-lg-8 col-xl-6">
-
             <div class="tabs">
                 <ul class="nav nav-tabs tabs-primary">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#overview" data-toggle="tab">Overview</a>
+                        <a class="nav-link"
+                           href="#overview"
+                           data-toggle="tab">Persoonlijke Informatie</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#edit" data-toggle="tab">Edit</a>
+                        <a class="nav-link"
+                           href="#adres"
+                           data-toggle="tab">Adresgegevens</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="#edit"
+                           data-toggle="tab">Algemeen</a>
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <div id="overview" class="tab-pane active">
-
-                        <form class="p-3">
-                            <h4 class="mb-3">Personal Information</h4>
-                            <div class="form-group">
-                                <label for="inputAddress">Address</label>
-                                <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-                            </div>
-                            <div class="form-group">
-                                <label for="inputAddress2">Address 2</label>
-                                <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+                    <div id="overview"
+                         class="tab-pane active">
+                        <form novalidate
+                              (ngSubmit)="save()"
+                              [formGroup]="personForm"
+                              class="p-3">
+                            <!-- <h4 class="mb-3">Persoonlijke Informatie</h4> -->
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="firstNameId">Voornaam:</label>
+                                    <input id="firstNameId"
+                                           type="text"
+                                           class="form-control"
+                                           placeholder="Voornaam (verplicht)"
+                                           formControlName="firstName"
+                                           [ngClass]="{'is-invalid': firstNameMessage}">
+                                    <span class="invalid-feedback">
+                                        {{ firstNameMessage }}
+                                    </span>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Tweede naam:</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           placeholder="Tweede naam"
+                                           formControlName="middleName"
+                                           [ngClass]="{'is-invalid': (personForm.get('middleName').touched || personForm.get('middleName').dirty) && !personForm.get('middleName').valid}">
+                                    <span class="invalid-feedback">
+                                        <span *ngIf="personForm.get('middleName').errors?.maxlength">
+                                            max.
+                                        </span>
+                                    </span>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="lastNameId">Achternaam:</label>
+                                    <input id="lastNameId"
+                                           type="text"
+                                           class="form-control"
+                                           placeholder="Achternaam (verplicht)"
+                                           formControlName="lastName"
+                                           [ngClass]="{'is-invalid': (personForm.get('lastName').touched || personForm.get('lastName').dirty) && !personForm.get('lastName').valid}">
+                                    <span class="invalid-feedback">
+                                        <span *ngIf="personForm.get('lastName').errors?.required">
+                                            Achternaam is verplicht.
+                                        </span>
+                                        <span *ngIf="personForm.get('lastName').errors?.maxlength">
+                                            max.
+                                        </span>
+                                    </span>
+                                </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="inputCity">City</label>
-                                    <input type="text" class="form-control" id="inputCity">
+                                    <label for="emailOneId">E-mail</label>
+                                    <input id="emailOneId"
+                                           type="text"
+                                           class="form-control"
+                                           placeholder="voornaam.achternaam@gmail.com"
+                                           formControlName="emailOne"
+                                           [ngClass]="{'is-invalid': (personForm.get('emailOne').touched || personForm.get('emailOne').dirty) && !personForm.get('emailOne').valid}">
+                                    <span class="invalid-feedback">
+                                        <span *ngIf="personForm.get('emailOne').errors?.email">
+                                            E-mail is ongeldig.
+                                        </span>
+                                        <span *ngIf="personForm.get('emailOne').errors?.maxlength">
+                                            max.
+                                        </span>
+                                    </span>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputAddress">Telefoon</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="inputAddress"
+                                           placeholder="0499 123 456">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <input type="text"
+                                           class="form-control"
+                                           id="inputAddress"
+                                           placeholder="voornaam.achternaam@gmail.com">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <input type="text"
+                                           class="form-control"
+                                           id="inputAddress"
+                                           placeholder="0499 123 456">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <input type="text"
+                                           class="form-control"
+                                           id="inputAddress"
+                                           placeholder="voornaam.achternaam@gmail.com">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <input type="text"
+                                           class="form-control"
+                                           id="inputAddress"
+                                           placeholder="0499 123 456">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputAddress">Adres</label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="inputAddress"
+                                       placeholder="Dorpstraat 51">
+                            </div>
+                            <div class="form-group">
+                                <!-- <label for="inputAddress2">Adres 2</label> -->
+                                <input type="text"
+                                       class="form-control"
+                                       id="inputAddress2"
+                                       placeholder="Appartemenent, studio, of verdieping">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputCity">Stad of dorp</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="inputCity">
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label for="inputState">State</label>
-                                    <select id="inputState" class="form-control">
-                                        <option selected>Choose...</option>
+                                    <label for="inputState">Gemeente</label>
+                                    <select id="inputState"
+                                            class="form-control">
+                                        <option selected>Kies...</option>
                                         <option>...</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-2">
-                                    <label for="inputZip">Zip</label>
-                                    <input type="text" class="form-control" id="inputZip">
+                                    <label for="inputZip">Postcode</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="inputZip">
                                 </div>
                             </div>
-
                             <hr class="dotted tall">
-
-
                             <div class="form-row">
                                 <div class="col-md-12 text-right mt-3">
-                                    <button class="btn btn-primary modal-confirm">Save</button>
+                                    <button class="btn btn-primary"
+                                            type="submit"
+                                            [title]="personForm.valid ? 'Save your entered data' : 'Disabled until the form is valid'"
+                                            [disabled]="!personForm.valid">Bewaar</button>
                                 </div>
                             </div>
-
                         </form>
-
                     </div>
-                    <div id="edit" class="tab-pane">
-
-                        <form class="p-3">
-                            <h4 class="mb-3">Personal Information</h4>
-                            <div class="form-group">
-                                <label for="inputAddress">Address</label>
-                                <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                    <div id="edit"
+                         class="tab-pane">
+                        <h4 class="mb-3">Personal Information</h4>
+                        <div class="form-group">
+                            <label for="inputAddress">Address</label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="inputAddress"
+                                   placeholder="1234 Main St">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputAddress2">Address 2</label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="inputAddress2"
+                                   placeholder="Apartment, studio, or floor">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputCity">City</label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="inputCity">
                             </div>
-                            <div class="form-group">
-                                <label for="inputAddress2">Address 2</label>
-                                <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+                            <div class="form-group col-md-4">
+                                <label for="inputState">State</label>
+                                <select id="inputState"
+                                        class="form-control">
+                                    <option selected>Choose...</option>
+                                    <option>...</option>
+                                </select>
                             </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="inputCity">City</label>
-                                    <input type="text" class="form-control" id="inputCity">
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="inputState">State</label>
-                                    <select id="inputState" class="form-control">
-                                        <option selected>Choose...</option>
-                                        <option>...</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-2">
-                                    <label for="inputZip">Zip</label>
-                                    <input type="text" class="form-control" id="inputZip">
-                                </div>
+                            <div class="form-group col-md-2">
+                                <label for="inputZip">Zip</label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="inputZip">
                             </div>
+                        </div>
 
-                            <hr class="dotted tall">
+                        <hr class="dotted tall">
 
-                            <h4 class="mb-3">Change Password</h4>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="inputPassword4">New Password</label>
-                                    <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="inputPassword4">Re New Password</label>
-                                    <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
-                                </div>
+                        <h4 class="mb-3">Change Password</h4>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputPassword4">New Password</label>
+                                <input type="password"
+                                       class="form-control"
+                                       id="inputPassword4"
+                                       placeholder="Password">
                             </div>
-
-                            <div class="form-row">
-                                <div class="col-md-12 text-right mt-3">
-                                    <button class="btn btn-primary modal-confirm">Save</button>
-                                </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputPassword4">Re New Password</label>
+                                <input type="password"
+                                       class="form-control"
+                                       id="inputPassword4"
+                                       placeholder="Password">
                             </div>
-
-                        </form>
-
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-12 text-right mt-3">
+                                <button class="btn btn-primary"
+                                        type="submit"
+                                        [title]="personForm.valid ? 'Save your entered data' : 'Disabled until the form is valid'"
+                                        [disabled]="!personForm.valid">Save</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-xl-3">
-
             <h4 class="mb-3 mt-0">Sale Stats</h4>
             <ul class="simple-card-list mb-3">
                 <li class="primary">
@@ -184,6 +327,7 @@
             </ul>
 
             <h4 class="mb-3 mt-4 pt-2">Projects</h4>
+
             <ul class="simple-bullet-list mb-3">
                 <li class="red">
                     <span class="title">Porto Template</span>
@@ -202,8 +346,10 @@
                     <span class="description truncate">Lorem ipsom dolor sit.</span>
                 </li>
             </ul>
-
         </div>
-
     </div>
 </section>
+<br>Dirty: {{ personForm.dirty }}
+<br>Touched: {{ personForm.touched }}
+<br>Valid: {{ personForm.valid }}
+<br>VAlue: {{ personForm.value | json }}
