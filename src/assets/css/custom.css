@@ -26,3 +26,7 @@ a.close-href:hover{
     color: #33353F;
     text-decoration: none;
 }
+
+.social-icons-list>a{
+    margin-right: 5px;
+}
