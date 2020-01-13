@@ -15,7 +15,7 @@ export class PersonDetailComponent implements OnInit {
 
   validationMessages = {
     required: 'Vul alstublieft uw voornaam in.',
-    maxLength: 'De maximumlengte is .'
+    maxLength: 'De maximumlengte is 50.'
   }
 
   constructor(
@@ -30,11 +30,11 @@ export class PersonDetailComponent implements OnInit {
       emailOne: ['', [Validators.email, Validators.maxLength(100)]],
     });
 
-    const ctrl = this.personForm.get('firstName');
-    ctrl.valueChanges.pipe(
+    const firstNameControl = this.personForm.get('firstName');
+    firstNameControl.valueChanges.pipe(
       debounceTime(1000)
     ).subscribe(
-      value => this.setMessage(ctrl)
+      value => this.setMessage(firstNameControl)
     );
   }
 

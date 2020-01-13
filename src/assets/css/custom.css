@@ -7,3 +7,22 @@
 .form-control.is-invalid, .was-validated .form-control:invalid {
     background-image: none;
 }
+
+.close-href{
+    font-size: 18px;
+}
+
+a.close-href:link{
+    color: #777;
+    text-decoration: none;
+}
+
+a.close-href:visited{
+    color: #777;
+    text-decoration: none;
+}
+
+a.close-href:hover{
+    color: #33353F;
+    text-decoration: none;
+}
