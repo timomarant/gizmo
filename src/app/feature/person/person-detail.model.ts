@@ -1,23 +1,14 @@
 export class PersonDetailModel { 
     id?: number;
     firstName: string;
-    middleName?: string;
     lastName?: string;
+    title?: string;
+    address?: string;
     emailOne?: string;
-    emailTwo?: string;
-    emailThree?: string;
-    telephoneNumberOne?: string;
-    telephoneNumberTwo?: string;
-    telephoneNumberThree?: string;
-    companyTelephoneNumber?: string;
+    phoneOne?: string;
     country?: string;
+    postalCode?: string;
+    city?: string;
     language?: string;
-    photoUrl?: string;
-    likes?: string;
-    dislikes?: string;
-    hobbies?: string;
-    notes?: string;
     companyName?: string;
-    dateOfBirth?: Date;
-    readonly age?: number;
 }

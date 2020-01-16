@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PersonComponent } from './person.component';
 import { PersonListComponent } from './person-list/person-list.component';
 import { PersonDetailComponent } from './person-detail/person-detail.component';
+import { PersonNewComponent } from './person-new/person-new.component';
 import { PersonImportComponent } from './person-import/person-import.component';
 
 const routes: Routes = [
@@ -22,7 +23,11 @@ const routes: Routes = [
         component: PersonListComponent
       },
       {
-        path: 'detail/:id',
+        path: ':id/edit',
+        component: PersonNewComponent
+      },
+      {
+        path: ':id',
         component: PersonDetailComponent
       },
       {

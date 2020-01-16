@@ -1,0 +1,229 @@
+<div class="row">
+    <div class="col-md-12"
+         style="padding-top: 5px;">
+        <span class="float-right"><a routerLink="/person/list"
+               title="Sluiten"
+               class="close-href"><i class="lni-close"></i></a></span>
+    </div>
+</div>
+<div class="row pt-0">
+    <div class="col-lg-4 col-xl-3 mb-4 mb-xl-0">
+        <section class="card">
+            <div class="card-body">
+                <div class="thumb-info mb-3">
+                    <img src="../../assets/img/!logged-user.jpg"
+                         class="rounded img-fluid"
+                         alt="John Doe">
+                    <div class="thumb-info-title">
+                        <span class="thumb-info-inner">sfd</span>
+                        <span class="thumb-info-type">CEO</span>
+                    </div>
+                </div>
+                <hr class="dotted short">
+                <h5 class="mb-2 mt-3">Over</h5>
+                <p class="text-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam quis vulputate
+                    quam. Interdum et malesuada</p>
+                <div class="clearfix">
+                    <a class="text-uppercase text-muted float-right"
+                       href="#">(View All)</a>
+                </div>
+                <hr class="dotted short">
+                <div class="social-icons-list">
+                    <a rel="tooltip"
+                       data-placement="bottom"
+                       target="_blank"
+                       href="http://www.facebook.com"
+                       data-original-title="Facebook"><i class="fab fa-facebook-f"></i><span>Facebook</span></a>
+                    <a rel="tooltip"
+                       data-placement="bottom"
+                       href="http://www.twitter.com"
+                       data-original-title="Twitter"><i class="fab fa-twitter"></i><span>Twitter</span></a>
+                    <a rel="tooltip"
+                       data-placement="bottom"
+                       href="http://www.linkedin.com"
+                       data-original-title="Linkedin"><i class="fab fa-linkedin-in"></i><span>Linkedin</span></a>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="col-lg-8 col-xl-6">
+        <div class="tabs">
+            <ul class="nav nav-tabs tabs-primary">
+                <li class="nav-item active">
+                    <a class="nav-link"
+                       href="#overview"
+                       data-toggle="tab">Algemeen</a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a class="nav-link"
+                       href="#adres"
+                       data-toggle="tab">Adres</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="#edit"
+                       data-toggle="tab">Opmerkingen</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="#media"
+                       data-toggle="tab">Documenten</a>
+                </li> -->
+            </ul>
+            <div class="tab-content">
+                <div id="overview"
+                     class="tab-pane active">
+                    <form novalidate
+                          (ngSubmit)="save()"
+                          [formGroup]="personForm"
+                          class="p-3">
+                        <!-- <h4 class="mb-3">Persoonlijke Informatie</h4> -->
+                        <div class="form-row">
+                            <div class="form-group col-md-5">
+                                <label for="firstNameId">Voornaam:<span style="color: red;">*</span></label>
+                                <input id="firstNameId"
+                                       type="text"
+                                       class="form-control"
+                                       formControlName="firstName"
+                                       [ngClass]="{'is-invalid': firstNameMessage}">
+                                <span class="invalid-feedback">
+                                    {{ firstNameMessage }}
+                                </span>
+                            </div>
+                             <div class="form-group col-md-5">
+                                <label for="lastNameId">Achternaam:</label>
+                                <input id="lastNameId"
+                                       type="text"
+                                       class="form-control"
+                                       formControlName="lastName"
+                                       [ngClass]="{'is-invalid': lastNameMessage}">
+                                <span class="invalid-feedback">
+                                    <span *ngIf="personForm.get('lastName').errors?.maxlength">
+                                        {{ lastNameMessage }}
+                                    </span>
+                                </span>
+                            </div>
+                             <div class="form-group col-md-2">
+                                <label for="titleId">Titel:</label>
+                                <input id="titleId"
+                                       type="text"
+                                       class="form-control"
+                                       formControlName="title"
+                                       [ngClass]="{'is-invalid': titleMessage}">
+                                <span class="invalid-feedback">
+                                    <span *ngIf="personForm.get('title').errors?.maxlength">
+                                        {{ titleMessage }}
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="addressId">Adres</label>
+                            <textarea id="addressId"
+                                      type="text"
+                                      class="form-control"
+                                      style="resize: none;"
+                                      formControlName="address"></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="countryId">Land</label>
+                                <select id="countryId"
+                                        class="form-control"
+                                        formControlName="country">
+                                    <option selected>Belgie</option>
+                                    <option>...</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="postalCodeId">Postcode</label>
+                                <input id="postalCodeId"
+                                       type="text"
+                                       class="form-control"
+                                       style="resize: none;"
+                                       formControlName="postalCode" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="cityId">Gemeente</label>
+                                <input id="cityId"
+                                       type="text"
+                                       class="form-control"
+                                       style="resize: none;"
+                                       formControlName="city" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="phoneOneId">Telefoon</label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-phone"></i>
+                                        </span>
+                                    </span>
+                                    <input id="phoneOneId"
+                                           type="text"
+                                           class="form-control"
+                                           formControlName="phoneOne">
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="emailOneId">E-mail</label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-envelope"></i>
+                                        </span>
+                                    </span>
+                                    <input id="emailOneId"
+                                           type="text"
+                                           class="form-control"
+                                           formControlName="emailOne"
+                                           [ngClass]="{'is-invalid': (personForm.get('emailOne').touched || personForm.get('emailOne').dirty) && !personForm.get('emailOne').valid}">
+                                    <span class="invalid-feedback">
+                                        <span *ngIf="personForm.get('emailOne').errors?.email">
+                                            E-mail is ongeldig.
+                                        </span>
+                                        <span *ngIf="personForm.get('emailOne').errors?.maxlength">
+                                            max.
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <span class="float-right"><a href="#"
+                                       title="E-mail toevoegen"
+                                       style="text-decoration: none;"><i class="icons icon-plus"
+                                           style="font-size: 18px;"></i></a></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <span class="float-right"><a href="#"
+                                       title="Telefoon toevoegen"
+                                       style="text-decoration: none;"><i class="icons icon-plus"
+                                           style="font-size: 18px;"></i></a></span>
+                            </div>
+                        </div>
+                        <hr class="dotted tall">
+                        <div class="form-row">
+                            <div class="col-md-12 text-right mt-3">
+                                <button class="btn btn-primary"
+                                        type="submit"
+                                        [title]="personForm.valid ? 'Save your entered data' : 'Disabled until the form is valid'"
+                                        [disabled]="!personForm.valid">Bewaar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3">
+
+    </div>
+</div>
+<br>Dirty: {{ personForm.dirty }}
+<br>Touched: {{ personForm.touched }}
+<br>Valid: {{ personForm.valid }}
+<br>Value: {{ personForm.value | json }}

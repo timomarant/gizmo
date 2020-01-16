@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { SharedModule } from '../../shared/shared.module';
 import { PersonRoutingModule } from './person-routing.module';
 import { PersonListComponent } from './person-list/person-list.component';
 import { PersonDetailComponent } from './person-detail/person-detail.component';
+import { PersonNewComponent } from './person-new/person-new.component';
 import { PersonComponent } from './person.component';
 import { PersonImportComponent } from './person-import/person-import.component';
 
@@ -14,10 +14,10 @@ import { PersonImportComponent } from './person-import/person-import.component';
     PersonComponent, 
     PersonListComponent, 
     PersonDetailComponent, 
+    PersonNewComponent,
     PersonImportComponent
   ],
   imports: [
-    CommonModule,
     SharedModule,
     PersonRoutingModule
   ]
