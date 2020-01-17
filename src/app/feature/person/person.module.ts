@@ -4,7 +4,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { PersonRoutingModule } from './person-routing.module';
 import { PersonListComponent } from './person-list/person-list.component';
 import { PersonDetailComponent } from './person-detail/person-detail.component';
-import { PersonNewComponent } from './person-new/person-new.component';
+import { PersonEditComponent } from './person-edit/person-edit.component';
 import { PersonComponent } from './person.component';
 import { PersonImportComponent } from './person-import/person-import.component';
 
@@ -14,7 +14,7 @@ import { PersonImportComponent } from './person-import/person-import.component';
     PersonComponent, 
     PersonListComponent, 
     PersonDetailComponent, 
-    PersonNewComponent,
+    PersonEditComponent,
     PersonImportComponent
   ],
   imports: [

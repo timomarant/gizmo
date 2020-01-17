@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, ElementRef, ViewChildren } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControl, FormControlName } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControlName } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { debounceTime } from 'rxjs/operators'
 import { Subscription } from 'rxjs/internal/Subscription';
@@ -11,9 +11,9 @@ import { fromEvent } from 'rxjs/internal/observable/fromEvent';
 import { merge } from 'rxjs/internal/observable/merge';
 
 @Component({
-    templateUrl: './person-new.component.html'
+    templateUrl: './person-edit.component.html'
 })
-export class PersonNewComponent implements OnInit, AfterViewInit, OnDestroy {
+export class PersonEditComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
 
     public personForm: FormGroup;
