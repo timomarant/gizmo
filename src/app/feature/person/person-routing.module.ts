@@ -23,7 +23,7 @@ const routes: Routes = [
         component: PersonListComponent
       },
       {
-        path: ':id/edit',
+        path: 'new',
         component: PersonNewComponent
       },
       {

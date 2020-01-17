@@ -1,67 +1,79 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { Component, OnInit, AfterViewInit, OnDestroy, ElementRef, ViewChildren } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, AbstractControl, FormControlName } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { debounceTime } from 'rxjs/operators'
 import { Subscription } from 'rxjs/internal/Subscription';
+import { Observable } from 'rxjs/internal/Observable';
 
 import { PersonDetailModel } from '../person-detail.model';
+import { GenericValidator } from '../../../shared/generic-validator';
+import { fromEvent } from 'rxjs/internal/observable/fromEvent';
+import { merge } from 'rxjs/internal/observable/merge';
 
 @Component({
     templateUrl: './person-new.component.html'
 })
-export class PersonNewComponent implements OnInit, OnDestroy {
+export class PersonNewComponent implements OnInit, AfterViewInit, OnDestroy {
+    @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
+
     public personForm: FormGroup;
     public personDetail = new PersonDetailModel();
-    public firstNameMessage: string;
-    public lastNameMessage: string;
-    public titleMessage: string;
+
+    private validationMessages: { [key: string]: { [key: string]: string } };
+    private genericValidator: GenericValidator;
+    public displayMessage: { [key: string]: string } = {};
 
     private sub: Subscription;
-
-    firstNameValidationMessages = {
-        required: 'Vul alstublieft uw voornaam in.',
-        maxLength: 'De maximumlengte is 50.'
-    }
-
-    // lastNameValidationMessages = {
-    //     maxLength: 'De maximumlengte is 50.'
-    // }
-
-    // titleValidationMessages = {
-    //     maxLength: 'De maximumlengte is 20.'
-    // }
 
     constructor(
         private fb: FormBuilder,
         private route: ActivatedRoute
-    ) { }
+    ) {
+        this.validationMessages = {
+            firstName: {
+                required: 'Vul alstublieft uw voornaam in.',
+                maxlength: 'De maximumlengte is 50.'
+            },
+            lastName: {
+                maxlength: 'De maximumlengte is 50.'
+            },
+            title: {
+                maxlength: 'De maximumlengte is 20.'
+            },
+            address: {
+                maxlength: 'De maximumlengte is 100.'
+            },
+            postalCode: {
+                maxlength: 'De maximumlengte is 10.'
+            },
+            city: {
+                maxlength: 'De maximumlengte is 100.'
+            },
+            phoneOne: {
+                maxlength: 'De maximumlengte is 100.'
+            },
+            emailOne: {
+                email: 'Vul alstublieft een geldig e-mail adres.',
+                maxlength: 'De maximumlengte is 100.'
+            }
+        }
+
+        this.genericValidator = new GenericValidator(this.validationMessages);
+    }
 
     ngOnInit() {
         this.personForm = this.fb.group({
-            firstName: ['', [Validators.required, Validators.maxLength(50)]],
+            firstName: ['', [Validators.required, 
+                             Validators.maxLength(50)]],
             lastName: ['', [Validators.maxLength(50)]],
             title: ['', [Validators.maxLength(20)]],
-            address: ['', [Validators.maxLength(100)]],
-            country: ['', [Validators.maxLength(100)]],
+            address: ['', [Validators.maxLength(100)]],        
             city: ['', [Validators.maxLength(100)]],
-            postalCode: ['', [Validators.maxLength(100)]],
+            postalCode: ['', [Validators.maxLength(10)]],
             phoneOne: ['', [Validators.maxLength(100)]],
-            emailOne: ['', [Validators.email, Validators.maxLength(100)]],
+            emailOne: ['', [Validators.email, 
+                            Validators.maxLength(100)]],
         });
-
-        const firstNameControl = this.personForm.get('firstName');
-        firstNameControl.valueChanges.pipe(
-            debounceTime(1000)
-        ).subscribe(
-            value => this.setMessage(firstNameControl)
-        );
-
-        // const lastNameControl = this.personForm.get('lastName');
-        // lastNameControl.valueChanges.pipe(
-        //     debounceTime(1000)
-        // ).subscribe(
-        //     value => this.setMessage(lastNameControl, this.lastNameMessage, this.lastNameValidationMessages)
-        // );
 
         // Read the product Id from the route parameter
         this.sub = this.route.paramMap.subscribe(
@@ -72,14 +84,22 @@ export class PersonNewComponent implements OnInit, OnDestroy {
         );
     }
 
-    ngOnDestroy(): void {
-        this.sub.unsubscribe();
+    ngAfterViewInit(): void {
+        // Watch for the blur event from any input element on the form.
+        // This is required because the valueChanges does not provide notification on blur
+        const controlBlurs: Observable<any>[] = this.formInputElements
+            .map((formControl: ElementRef) => fromEvent(formControl.nativeElement, 'blur'));
+
+        // Merge the blur event observable with the valueChanges observable
+        // so we only need to subscribe once.
+        merge(this.personForm.valueChanges, ...controlBlurs).pipe(
+            debounceTime(800)
+        ).subscribe(value => {
+            this.displayMessage = this.genericValidator.processMessages(this.personForm);
+        });
     }
 
-    setMessage(c: AbstractControl): void {
-        this.firstNameMessage = '';
-        if ((c.touched || c.dirty) && c.errors) {
-            this.firstNameMessage = Object.keys(c.errors).map(key => this.firstNameValidationMessages[key]).join(' ');
-        }
+    ngOnDestroy(): void {
+        this.sub.unsubscribe();
     }
 }
