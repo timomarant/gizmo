@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-
 import { IPersonListModel } from '../person-list.model';
 import { IPagination } from '../../../shared/pagination';
 import { PersonService } from '../person.service';
 import { PagerService } from '../../../shared/services/pagerservice';
+import { CustomerService } from '../../customer/customer.service';
+import { ICustomerForList } from '../../customer/customer-for-list';
 
 @Component({
   selector: 'app-person-list',
@@ -12,6 +13,7 @@ import { PagerService } from '../../../shared/services/pagerservice';
 export class PersonListComponent implements OnInit {
 
   public people: IPersonListModel[];
+  public customers: ICustomerForList[];
   public pagination: IPagination;
   public errorMessage: string;
   public pager: any = {};
@@ -19,29 +21,52 @@ export class PersonListComponent implements OnInit {
 
   constructor(
     private personService: PersonService,
-    private pagerService: PagerService
+    private pagerService: PagerService,
+    private customerService: CustomerService
   ) { }
 
   ngOnInit() {
-    this.setPage(1);
+    //this.setPage(1);
+    this.displayCustomers(1);
   }
 
-  public setPage(page: number) {
+  public displayCustomers(page: number) {
     console.log('setPage');
+    this.getCustomers(page);
+  }
 
-    this.personService.getPeople(page).subscribe({
+  private getCustomers(page: number): void {
+    this.customerService.getCustomers(page).subscribe({
       next: resp => {
-        this.people = resp.body;
+        this.customers = resp.body;
         this.pagination = JSON.parse(resp.headers.get('X-Pagination'));
         if (this.pagination) {
           // get pager object from service
           this.pager = this.pagerService.getPager(this.pagination.totalCount, page);
           // get current page of items
-          this.pagedItems = this.people.slice(this.pager.startIndex, this.pager.endIndex + 1);
+          this.pagedItems = this.customers.slice(this.pager.startIndex, this.pager.endIndex + 1);
         }
       },
       error: err => this.errorMessage = err
     });
-
   }
+
+  // public setPage(page: number) {
+  //   console.log('setPage');
+
+  //   this.personService.getPeople(page).subscribe({
+  //     next: resp => {
+  //       this.people = resp.body;
+  //       this.pagination = JSON.parse(resp.headers.get('X-Pagination'));
+  //       if (this.pagination) {
+  //         // get pager object from service
+  //         this.pager = this.pagerService.getPager(this.pagination.totalCount, page);
+  //         // get current page of items
+  //         this.pagedItems = this.people.slice(this.pager.startIndex, this.pager.endIndex + 1);
+  //       }
+  //     },
+  //     error: err => this.errorMessage = err
+  //   });
+  // }
+
 }

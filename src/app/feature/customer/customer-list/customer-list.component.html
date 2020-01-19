@@ -5,7 +5,7 @@
                  style="display: block;">
                 <div class="row mb-5">
                     <div class="col-md-4"><button type="button"
-                                [routerLink]="['/person/0/edit']"
+                                [routerLink]="['/customer/0/edit']"
                                 class="mb-1 mt-1 mr-1 btn btn-primary">Nieuwe klant</button></div>
                     <div class="col-md-4">
                         <div class="input-group">
@@ -47,7 +47,7 @@
                                 <td class="text">{{ customer.email }}</td>
                                 <td class="text ">{{ customer.phone }}</td>
                                 <td class="text-center">
-                                    <a [routerLink]="['/person/', customer.id, 'edit']"
+                                    <a [routerLink]="['/customer/', customer.id, 'edit']"
                                        class="on-default edit-row"><i class="fas fa-pencil-alt"></i></a>
                                 </td>
                             </tr>

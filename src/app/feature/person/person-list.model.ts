@@ -1,5 +1,5 @@
 export interface IPersonListModel{
-    personId: number
+    id: number
     name: string
     email: string
     telephoneNumber: string

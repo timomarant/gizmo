@@ -12,13 +12,14 @@ import { AppRoutingModule } from './app-routing.module';
 // NG Translate
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { AgmCoreModule } from '@agm/core';
 
 import { CalculationModule } from './feature/calculation/calculation.module';
 import { PersonModule } from './feature/person/person.module';
+import { CustomerModule } from './feature/customer/customer.module';
 import { HomeModule } from './feature/home/home.module';
 import { InvoiceModule } from './feature/invoice/invoice.module';
 import { SettingsModule } from './feature/settings/settings.module';
-
 import { AppComponent } from './app.component';
 
 // AoT requires an exported function for factories
@@ -33,10 +34,14 @@ export function HttpLoaderFactory(http: HttpClient) {
     HttpClientModule,
     CoreModule,
     SharedModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBmDecHs1UWI64oUe8kVIvnUYTwfrsFX0E'
+    }),
     HomeModule,
     CalculationModule,
-    PersonModule,
+    CustomerModule,
     InvoiceModule,
+    PersonModule,
     SettingsModule,
     AppRoutingModule,
     TranslateModule.forRoot({
@@ -50,4 +55,4 @@ export function HttpLoaderFactory(http: HttpClient) {
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

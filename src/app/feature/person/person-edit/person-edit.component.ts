@@ -9,9 +9,15 @@ import { PersonDetailModel } from '../person-detail.model';
 import { GenericValidator } from '../../../shared/generic-validator';
 import { fromEvent } from 'rxjs/internal/observable/fromEvent';
 import { merge } from 'rxjs/internal/observable/merge';
+import { CustomerService } from '../../customer/customer.service';
 
 @Component({
-    templateUrl: './person-edit.component.html'
+    templateUrl: './person-edit.component.html',
+    styles: [`
+    agm-map {
+      height: 400px;
+    }
+  `]
 })
 export class PersonEditComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
@@ -27,7 +33,8 @@ export class PersonEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
     constructor(
         private fb: FormBuilder,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private customerService: CustomerService
     ) {
         this.validationMessages = {
             firstName: {
@@ -63,23 +70,23 @@ export class PersonEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngOnInit() {
         this.personForm = this.fb.group({
-            firstName: ['', [Validators.required, 
-                             Validators.maxLength(50)]],
+            firstName: ['', [Validators.required,
+            Validators.maxLength(50)]],
             lastName: ['', [Validators.maxLength(50)]],
             title: ['', [Validators.maxLength(20)]],
-            address: ['', [Validators.maxLength(100)]],        
+            address: ['', [Validators.maxLength(100)]],
             city: ['', [Validators.maxLength(100)]],
             postalCode: ['', [Validators.maxLength(10)]],
             phoneOne: ['', [Validators.maxLength(100)]],
-            emailOne: ['', [Validators.email, 
-                            Validators.maxLength(100)]],
+            emailOne: ['', [Validators.email,
+            Validators.maxLength(100)]],
         });
 
         // Read the product Id from the route parameter
         this.sub = this.route.paramMap.subscribe(
             params => {
                 const id = +params.get('id');
-                //this.getProduct(id);
+                this.customerService.getCustomer(id);
             }
         );
     }
@@ -93,7 +100,7 @@ export class PersonEditComponent implements OnInit, AfterViewInit, OnDestroy {
         // Merge the blur event observable with the valueChanges observable
         // so we only need to subscribe once.
         merge(this.personForm.valueChanges, ...controlBlurs).pipe(
-            debounceTime(800)
+            debounceTime(500)
         ).subscribe(value => {
             this.displayMessage = this.genericValidator.processMessages(this.personForm);
         });
@@ -102,4 +109,8 @@ export class PersonEditComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnDestroy(): void {
         this.sub.unsubscribe();
     }
+
+    //     private getProduct(id: number): void{
+    // this.customerService.getCustomer(id)
+    //     }
 }

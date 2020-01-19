@@ -16,7 +16,6 @@ export class PersonService{
         // if (basePath) {
         //     this.basePath = basePath;
         // }
-
         // this.basePath = 'https://localhost:44352';
         this.basePath = 'https://gizmodevelopmentapi.azurewebsites.net';
     }

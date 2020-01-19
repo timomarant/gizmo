@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-12"
          style="padding-top: 5px;">
-        <span class="float-right"><a routerLink="/person/list"
+        <span class="float-right"><a routerLink="/customer/list"
                title="Sluiten"
                class="close-href"><i class="lni-close"></i></a></span>
     </div>
@@ -23,8 +23,8 @@
                                     [markerDraggable]="false"></agm-marker>
                     </agm-map>
                     <div class="thumb-info-title">
-                        <span class="thumb-info-inner">Timo</span>
-                        <span class="thumb-info-type">CEO</span>
+                        <span class="thumb-info-inner">Gizmo Rossi</span>
+                        <span class="thumb-info-type">Zaakvoerder</span>
                     </div>
                 </div>
                 <hr class="dotted short">
@@ -83,7 +83,7 @@
                      class="tab-pane active">
                     <form novalidate
                           (ngSubmit)="save()"
-                          [formGroup]="personForm"
+                          [formGroup]="customerForm"
                           class="p-3">
                         <!-- <h4 class="mb-3">Persoonlijke Informatie</h4> -->
                         <div class="form-row">
@@ -233,8 +233,8 @@
                             <div class="col-md-12 text-right mt-3">
                                 <button class="btn btn-primary"
                                         type="submit"
-                                        [title]="personForm.valid ? 'Save your entered data' : 'Disabled until the form is valid'"
-                                        [disabled]="!personForm.valid">Bewaar</button>
+                                        [title]="customerForm.valid ? 'Save your entered data' : 'Disabled until the form is valid'"
+                                        [disabled]="!customerForm.valid">Bewaar</button>
                             </div>
                         </div>
                     </form>
@@ -246,7 +246,3 @@
 
     </div>
 </div>
-<br>Dirty: {{ personForm.dirty }}
-<br>Touched: {{ personForm.touched }}
-<br>Valid: {{ personForm.valid }}
-<br>Value: {{ personForm.value | json }}

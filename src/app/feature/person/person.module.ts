@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-
+import { AgmCoreModule } from '@agm/core';
 import { SharedModule } from '../../shared/shared.module';
 import { PersonRoutingModule } from './person-routing.module';
 import { PersonListComponent } from './person-list/person-list.component';
@@ -19,7 +19,10 @@ import { PersonImportComponent } from './person-import/person-import.component';
   ],
   imports: [
     SharedModule,
-    PersonRoutingModule
+    PersonRoutingModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBmDecHs1UWI64oUe8kVIvnUYTwfrsFX0E'
+    }),
   ]
 })
 export class PersonModule { }
