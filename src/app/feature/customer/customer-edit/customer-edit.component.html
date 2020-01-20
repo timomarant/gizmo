@@ -85,12 +85,23 @@
                           [formGroup]="customerForm"
                           class="p-3">
                         <!-- <h4 class="mb-3">Persoonlijke Informatie</h4> -->
-                        <div class="form-row">
-                            <div class="form-group col-md-2">
-
-                            </div>
-                            <div class="form-group col-md-2">
-
+                        <div class="form-group">
+                            <label for="firstNameId">Rechtsvorm:<span style="color: red;">*</span></label>
+                            <div class="form-row">
+                                <button type="button"
+                                        class="mb-1 mt-1 mr-1 btn btn-default active"
+                                        style="width: 114px;">
+                                    <i class="lni lni-network"
+                                       style="font-size: 32px;"></i>
+                                    <div>Onderneming</div>
+                                </button>
+                                <button type="button"
+                                        class="mb-1 mt-1 mr-1 btn btn-default"
+                                        style="width: 114px;">
+                                    <i class="lni lni-user"
+                                       style="font-size: 32px;"></i>
+                                    <div>Persoon</div>
+                                </button>
                             </div>
                         </div>
                         <div class="form-row">
