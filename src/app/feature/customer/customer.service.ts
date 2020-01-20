@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpParams, HttpErrorResponse } 
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 import { ICustomerForList } from './customer-for-list';
-import { ICustomerForEdit } from './customer-for-edit';
+import { CustomerForEdit } from './customer-for-edit';
 
 @Injectable({
   providedIn: 'root'
@@ -26,12 +26,12 @@ export class CustomerService {
       catchError(this.handleError));
   }
 
-  getCustomer(id: number): Observable<ICustomerForEdit> {
+  getCustomer(id: number): Observable<CustomerForEdit> {
     if (id === 0) {
       return of(this.initializeCustomer());
     }
     const url = `${this.customersUrl}/${id}`;
-    return this.http.get<ICustomerForEdit>(url)
+    return this.http.get<CustomerForEdit>(url)
       .pipe(
         tap(data => console.log('getCustomer: ' + JSON.stringify(data))),
         catchError(this.handleError)
@@ -98,18 +98,23 @@ export class CustomerService {
     return throwError(errorMessage);
   }
 
-  private initializeCustomer(): ICustomerForEdit {
+  private initializeCustomer(): CustomerForEdit {
     return {
       id: 0,
       companyName: null,
       personFirstName: null,
       personLastName: null,
+      personTitle: null,
       address: null,
       city: null,
       postalCode: null,
       country: null,
-      email: null,
-      phone: null,
+      emailOne: null,
+      emailTwo: null,
+      emailThree: null,
+      phoneOne: null,
+      phoneTwo: null,
+      phoneThree: null,
     };
   }
 }
