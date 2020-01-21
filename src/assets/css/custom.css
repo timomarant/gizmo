@@ -1,4 +1,15 @@
 /* Add here all your CSS customizations */
+body {	
+	font-size: 16px;
+}
+
+.nav-tabs li .nav-link {
+    font-size: 16px;
+}
+
+.invalid-feedback {
+    font-size: 90%;
+}
 
 .tab-navigation nav>ul>li>a {
     color: #777;

@@ -37,6 +37,18 @@ export class CustomerService {
         catchError(this.handleError)
       );
   }
+  
+  updateProduct(customerForEdit: CustomerForEdit): Observable<CustomerForEdit> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const url = `${this.customersUrl}/${customerForEdit.id}`;
+    return this.http.put<CustomerForEdit>(url, CustomerForEdit, { headers })
+      .pipe(
+        tap(() => console.log('updateProduct: ' + customerForEdit.id)),
+        // Return the CustomerForEdit on an update
+        map(() => customerForEdit),
+        catchError(this.handleError)
+      );
+  }
 
   // createProduct(IPersonListModel: IPersonListModel): Observable<IPersonListModel> {
   //   const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -57,30 +69,6 @@ export class CustomerService {
   //       catchError(this.handleError)
   //     );
   // }
-
-  // updateProduct(IPersonListModel: IPersonListModel): Observable<IPersonListModel> {
-  //   const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-  //   const url = `${this.customersUrl}/${IPersonListModel.id}`;
-  //   return this.http.put<IPersonListModel>(url, IPersonListModel, { headers })
-  //     .pipe(
-  //       tap(() => console.log('updateProduct: ' + IPersonListModel.id)),
-  //       // Return the IPersonListModel on an update
-  //       map(() => IPersonListModel),
-  //       catchError(this.handleError)
-  //     );
-  // }
-
-  private handleHttpErrorResponse(err: HttpErrorResponse) {
-    let errorMessage = '';
-    if (err.error instanceof ErrorEvent) {
-      errorMessage = `An error occured: ${err.error.message}`;
-    } else {
-      errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
-    }
-
-    console.error(errorMessage);
-    return throwError(errorMessage);
-  }
 
   private handleError(err) {
     // in a real world app, we may send the server to some remote logging infrastructure

@@ -1,14 +1,14 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, ViewChildren, ElementRef } from '@angular/core';
-import { FormBuilder, FormControlName, FormGroup, Validators } from '@angular/forms';
-import { GenericValidator } from '../../../shared/generic-validator';
+import { FormBuilder, FormControlName, FormGroup, Validators, FormArray } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { ActivatedRoute } from '@angular/router';
-import { CustomerService } from '../customer.service';
-import { CustomerForEdit } from '../customer-for-edit';
 import { Observable } from 'rxjs/internal/Observable';
 import { fromEvent } from 'rxjs/internal/observable/fromEvent';
 import { merge } from 'rxjs/internal/observable/merge';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
+import { GenericValidator } from '../../../shared/generic-validator';
+import { CustomerService } from '../customer.service';
+import { CustomerForEdit } from '../customer-for-edit';
 
 @Component({
     selector: 'app-customer-edit',
@@ -22,20 +22,30 @@ import { debounceTime } from 'rxjs/internal/operators/debounceTime';
 export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
 
+    private sub: Subscription;
+    private genericValidator: GenericValidator;
+    private validationMessages: { [key: string]: { [key: string]: string } };
+
     public customerForm: FormGroup;
     public customerForEdit = new CustomerForEdit();
-
-    private validationMessages: { [key: string]: { [key: string]: string } };
-    private genericValidator: GenericValidator;
     public displayMessage: { [key: string]: string } = {};
-
+    public primaryLabelOnMap: string;
+    public secondaryLabelOnMap: string;
+    public titleOnMap: string;
     public errorMessage: string;
 
-    private sub: Subscription;
+    get phoneNumbers(): FormArray {
+        return <FormArray>this.customerForm.get('phoneNumbers');
+    }
+
+    get emailAddresses(): FormArray {
+        return <FormArray>this.customerForm.get('emailAddresses');
+    }
 
     constructor(
         private fb: FormBuilder,
         private route: ActivatedRoute,
+        private router: Router,
         private customerService: CustomerService
     ) {
         this.validationMessages = {
@@ -59,6 +69,7 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
                 maxlength: 'De maximumlengte is 100.'
             },
             phoneOne: {
+                required: 'Vul alstublieft uw telefoon in.',
                 maxlength: 'De maximumlengte is 100.'
             },
             emailOne: {
@@ -72,14 +83,15 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngOnInit() {
         this.customerForm = this.fb.group({
+            // customerType: ['', [Validators.required]],
             firstName: ['', [Validators.required, Validators.maxLength(50)]],
             lastName: ['', [Validators.maxLength(50)]],
             title: ['', [Validators.maxLength(20)]],
             address: ['', [Validators.maxLength(100)]],
             city: ['', [Validators.maxLength(100)]],
             postalCode: ['', [Validators.maxLength(10)]],
-            phoneOne: ['', [Validators.maxLength(100)]],
-            emailOne: ['', [Validators.email, Validators.maxLength(100)]],
+            phoneNumbers: this.fb.array([this.builPhoneNumbers()]),
+            emailAddresses: this.fb.array([this.buildEmailAdrresses()])
         });
 
         // Read the product Id from the route parameter
@@ -104,10 +116,45 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         ).subscribe(value => {
             this.displayMessage = this.genericValidator.processMessages(this.customerForm);
         });
+
+        this.customerForm.valueChanges.subscribe(value => {
+            this.primaryLabelOnMap = '';
+            this.secondaryLabelOnMap = '';
+            if (this.customerForm.get('firstName').value)
+                this.primaryLabelOnMap = this.customerForm.get('firstName').value.substring(0, 20);
+            if (this.customerForm.get('title').value)
+                this.secondaryLabelOnMap = this.customerForm.get('title').value.substring(0, 20);
+        });
     }
 
     ngOnDestroy(): void {
         this.sub.unsubscribe();
+    }
+
+    public addPhoneNumber(): void {
+        if (this.phoneNumbers.length === 3) return;
+        this.phoneNumbers.push(this.builPhoneNumbers());
+    }
+
+    public addEmailAddress(): void {
+        if (this.emailAddresses.length === 3) return;
+        this.emailAddresses.push(this.buildEmailAdrresses());
+    }
+
+    public removeEmailAddress(): void {
+        //this.emailAddresses.pop();
+    }
+
+    private builPhoneNumbers(): FormGroup {
+        return this.fb.group({
+            phoneOne: ['', [Validators.maxLength(10)]]
+        });
+    }
+
+    private buildEmailAdrresses(): FormGroup {
+        return this.fb.group({
+            emailOne: ['', [Validators.email, Validators.maxLength(100)]]
+        });
     }
 
     private DisplayCustomer(customerForEdit: CustomerForEdit): void {
@@ -139,5 +186,33 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
             next: (customerForEdit: CustomerForEdit) => this.DisplayCustomer(customerForEdit),
             error: err => this.errorMessage = err
         });
+    }
+
+    private saveCustomer(): void {
+        if (this.customerForm.valid) {
+            if (this.customerForm.dirty) {
+                const c = { ...this.customerForEdit, ...this.customerForm.value }
+
+                if (c === 0) {
+
+                } else {
+                    this.customerService.updateProduct(c)
+                        .subscribe({
+                            next: () => this.onSaveComplete(),
+                            error: err => this.errorMessage = err
+                        });
+                }
+            } else {
+                this.onSaveComplete()
+            }
+
+        } else {
+            this.errorMessage = 'Please correct the validation errors.'
+        }
+    }
+
+    private onSaveComplete(): void{
+        this.customerForm.reset();
+        this.router.navigate(['/customers']);
     }
 }

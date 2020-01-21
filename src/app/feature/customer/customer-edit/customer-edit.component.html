@@ -22,9 +22,10 @@
                                     [longitude]="4.791020"
                                     [markerDraggable]="false"></agm-marker>
                     </agm-map>
-                    <div class="thumb-info-title">
-                        <span class="thumb-info-inner">Gizmo Rossi</span>
-                        <span class="thumb-info-type">Zaakvoerder</span>
+                    <div class="thumb-info-title"
+                         *ngIf="primaryLabelOnMap || secondaryLabelOnMap">
+                        <span class="thumb-info-inner">{{ primaryLabelOnMap }}</span>
+                        <span class="thumb-info-type">{{ secondaryLabelOnMap }}</span>
                     </div>
                 </div>
                 <hr class="dotted short">
@@ -82,9 +83,10 @@
                 <div id="overview"
                      class="tab-pane active">
                     <form novalidate
+                          (ngSubmit)="saveCustomer()"
                           [formGroup]="customerForm"
                           class="p-3">
-                        <!-- <h4 class="mb-3">Persoonlijke Informatie</h4> -->
+
                         <div class="form-group">
                             <label for="firstNameId">Rechtsvorm:<span style="color: red;">*</span></label>
                             <div class="form-row">
@@ -102,8 +104,12 @@
                                        style="font-size: 32px;"></i>
                                     <div>Persoon</div>
                                 </button>
+                                <span class="invalid-feedback">
+                                    {{displayMessage.customerType}}
+                                </span>
                             </div>
                         </div>
+
                         <div class="form-row">
                             <div class="form-group col-md-5">
                                 <label for="firstNameId">Voornaam:<span style="color: red;">*</span></label>
@@ -139,6 +145,7 @@
                                 </span>
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label for="addressId">Adres</label>
                             <textarea id="addressId"
@@ -152,6 +159,7 @@
                                 {{displayMessage.address}}
                             </span>
                         </div>
+
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="countryId">Land</label>
@@ -186,59 +194,96 @@
                                 </span>
                             </div>
                         </div>
+
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="phoneOneId">Telefoon</label>
-                                <div class="input-group">
-                                    <span class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            <i class="fas fa-phone"></i>
-                                        </span>
-                                    </span>
-                                    <input id="phoneOneId"
-                                           type="text"
-                                           class="form-control"
-                                           formControlName="phoneOne"
-                                           [ngClass]="{'is-invalid': displayMessage.phoneOne}" />
-                                    <span class="invalid-feedback">
-                                        {{displayMessage.phoneOne}}
-                                    </span>
+                                <div formArrayName="phoneNumbers"
+                                     *ngFor="let phone of phoneNumbers.controls; let i=index">
+                                    <label attr.for="{{ 'phoneId' + i }}"
+                                           *ngIf="i===0">Telefoon</label>
+                                    <div [formGroupName]="i"
+                                         class="mb-2">
+                                        <div class="input-group">
+                                            <span class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-phone"></i>
+                                                </span>
+                                            </span>
+                                            <input id="{{ 'phoneId' + i }}"
+                                                   type="text"
+                                                   class="form-control"
+                                                   formControlName="phoneOne"
+                                                   [ngClass]="{'is-invalid': displayMessage.phoneOne}" />
+                                            <span class="invalid-feedback">
+                                                {{displayMessage.phoneOne}}
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
                             <div class="form-group col-md-6">
-                                <label for="emailOneId">E-mail</label>
-                                <div class="input-group">
-                                    <span class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            <i class="fas fa-envelope"></i>
-                                        </span>
-                                    </span>
-                                    <input id="emailOneId"
-                                           type="text"
-                                           class="form-control"
-                                           formControlName="emailOne"
-                                           [ngClass]="{'is-invalid': displayMessage.emailOne}" />
-                                    <span class="invalid-feedback">
-                                        {{displayMessage.emailOne}}
-                                    </span>
+                                <div formArrayName="emailAddresses"
+                                     *ngFor="let emailAddress of emailAddresses.controls; let i=index">
+                                    <label attr.for="{{ 'emailId' + i }}"
+                                           *ngIf="i===0">E-mail</label>
+                                    <div [formGroupName]="i"
+                                         class="mb-2">
+                                        <div class="input-group">
+                                            <span class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-envelope"></i>
+                                                </span>
+                                            </span>
+                                            <input id="{{ 'emailId' + i }}"
+                                                   type="text"
+                                                   class="form-control"
+                                                   formControlName="emailOne"
+                                                   [ngClass]="{'is-invalid': displayMessage.emailOne}" />
+                                            <span class="invalid-feedback">
+                                                {{displayMessage.emailOne}}
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <span class="float-right"><a href="#"
-                                       title="E-mail toevoegen"
-                                       style="text-decoration: none;"><i class="icons icon-plus"
+                                <span class="float-right">
+                                    <a [routerLink]=""
+                                       title="Telefoonnummer verwijderen"
+                                       style="text-decoration: none;">
+                                        <i class="icons icon-minus"
+                                           style="font-size: 18px;"></i></a>
+                                    &nbsp;
+                                    <a [routerLink]=""
+                                       title="Telefoonnummer toevoegen"
+                                       style="text-decoration: none;"
+                                       (click)="addPhoneNumber()"><i class="icons icon-plus"
                                            style="font-size: 18px;"></i></a></span>
                             </div>
                             <div class="form-group col-md-6">
-                                <span class="float-right"><a href="#"
-                                       title="Telefoon toevoegen"
-                                       style="text-decoration: none;"><i class="icons icon-plus"
+                                <span class="float-right">
+                                    <a [routerLink]=""
+                                       title="E-mail adres verwijderen"
+                                       style="text-decoration: none;"
+                                       (click)="removeEmailAddress()">
+                                        <i class="icons icon-minus"
+                                           style="font-size: 18px;"></i></a>
+                                    &nbsp;
+                                    <a [routerLink]=""
+                                       title="E-mail adres toevoegen"
+                                       style="text-decoration: none;"
+                                       (click)="addEmailAddress()">
+                                        <i class="icons icon-plus"
                                            style="font-size: 18px;"></i></a></span>
                             </div>
+
                         </div>
-                        <hr class="dotted tall">
+
+                        <hr class="dotted small">
                         <div class="form-row">
                             <div class="col-md-12 text-right mt-3">
                                 <button class="btn btn-primary"
@@ -256,3 +301,8 @@
 
     </div>
 </div>
+
+<br>dirty: {{ customerForm.dirty}}
+<br>touched: {{ customerForm.touched}}
+<br>valid: {{ customerForm.valid}}
+<br>value: {{ customerForm.value | json}}
