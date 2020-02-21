@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, ViewChildren, ElementRef } from '@angular/core';
-import { FormBuilder, FormControlName, FormGroup, Validators, FormArray } from '@angular/forms';
+import { FormBuilder, FormControlName, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { Observable } from 'rxjs/internal/Observable';
@@ -34,13 +34,13 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     public titleOnMap: string;
     public errorMessage: string;
 
-    get phoneNumbers(): FormArray {
+    get phoneNumbersFormArray(): FormArray {
         return <FormArray>this.customerForm.get('phoneNumbers');
     }
 
-    get emailAddresses(): FormArray {
-        return <FormArray>this.customerForm.get('emailAddresses');
-    }
+    // get emailAddressesFormArray(): FormArray {
+    //     return <FormArray>this.customerForm.get('emailAddresses');
+    // }
 
     constructor(
         private fb: FormBuilder,
@@ -49,15 +49,9 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         private customerService: CustomerService
     ) {
         this.validationMessages = {
-            firstName: {
-                required: 'Vul alstublieft uw voornaam in.',
+            name: {
+                required: 'Vul alstublieft uw naam in.',
                 maxlength: 'De maximumlengte is 50.'
-            },
-            lastName: {
-                maxlength: 'De maximumlengte is 50.'
-            },
-            title: {
-                maxlength: 'De maximumlengte is 20.'
             },
             address: {
                 maxlength: 'De maximumlengte is 100.'
@@ -68,11 +62,10 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
             city: {
                 maxlength: 'De maximumlengte is 100.'
             },
-            phoneOne: {
-                required: 'Vul alstublieft uw telefoon in.',
-                maxlength: 'De maximumlengte is 100.'
+            phone: {
+                maxlength: 'De maximumlengte is 20.'
             },
-            emailOne: {
+            email: {
                 email: 'Vul alstublieft een geldig e-mail adres.',
                 maxlength: 'De maximumlengte is 100.'
             }
@@ -83,18 +76,15 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngOnInit() {
         this.customerForm = this.fb.group({
-            // customerType: ['', [Validators.required]],
-            firstName: ['', [Validators.required, Validators.maxLength(50)]],
-            lastName: ['', [Validators.maxLength(50)]],
-            title: ['', [Validators.maxLength(20)]],
+            name: ['', [Validators.required, Validators.maxLength(50)]],
             address: ['', [Validators.maxLength(100)]],
             city: ['', [Validators.maxLength(100)]],
             postalCode: ['', [Validators.maxLength(10)]],
-            phoneNumbers: this.fb.array([this.builPhoneNumbers()]),
-            emailAddresses: this.fb.array([this.buildEmailAdrresses()])
+            phoneNumbers: this.fb.array([this.buildPhoneNumbersGroup(null)])
+            // emailAddressesFormArray: this.fb.array([this.buildEmailAdrresses()])
         });
 
-        // Read the product Id from the route parameter
+        // Read the customer Id from the route parameter
         this.sub = this.route.paramMap.subscribe(
             params => {
                 const id = +params.get('id');
@@ -117,86 +107,39 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
             this.displayMessage = this.genericValidator.processMessages(this.customerForm);
         });
 
-        this.customerForm.valueChanges.subscribe(value => {
-            this.primaryLabelOnMap = '';
-            this.secondaryLabelOnMap = '';
-            if (this.customerForm.get('firstName').value)
-                this.primaryLabelOnMap = this.customerForm.get('firstName').value.substring(0, 20);
-            if (this.customerForm.get('title').value)
-                this.secondaryLabelOnMap = this.customerForm.get('title').value.substring(0, 20);
-        });
+        //this.customerForm.valueChanges.subscribe(value => {
+        // this.primaryLabelOnMap = '';
+        // this.secondaryLabelOnMap = '';
+        // if (this.customerForm.get('name').value) {
+        //     this.primaryLabelOnMap = this.customerForm.get('name').value.substring(0, 20);
+        // }
+        // var phoneArray = this.customerForm.get('phoneNumbers') as FormArray;
+        // var phoneGroup = phoneArray.at(0);
+        // if (phoneGroup.get('phoneOne').value) {
+        //     this.secondaryLabelOnMap = phoneGroup.get('phoneOne').value.substring(0, 20);
+        // }
+        //});
     }
 
     ngOnDestroy(): void {
         this.sub.unsubscribe();
     }
 
-    public addPhoneNumber(): void {
-        if (this.phoneNumbers.length === 3) return;
-        this.phoneNumbers.push(this.builPhoneNumbers());
-    }
-
-    public addEmailAddress(): void {
-        if (this.emailAddresses.length === 3) return;
-        this.emailAddresses.push(this.buildEmailAdrresses());
-    }
-
-    public removeEmailAddress(): void {
-        //this.emailAddresses.pop();
-    }
-
-    private builPhoneNumbers(): FormGroup {
-        return this.fb.group({
-            phoneOne: ['', [Validators.maxLength(10)]]
-        });
-    }
-
-    private buildEmailAdrresses(): FormGroup {
-        return this.fb.group({
-            emailOne: ['', [Validators.email, Validators.maxLength(100)]]
-        });
-    }
-
-    private DisplayCustomer(customerForEdit: CustomerForEdit): void {
-        if (this.customerForm) {
-            this.customerForm.reset();
-        }
-
-        this.customerForEdit = customerForEdit;
-
-        if (this.customerForEdit.id === 0) {
-
-        } else {
-
-        }
-
-        this.customerForm.patchValue({
-            firstName: this.customerForEdit.personFirstName,
-            lastName: this.customerForEdit.personLastName,
-            title: this.customerForEdit.personTitle,
-            address: this.customerForEdit.address,
-            postalCode: this.customerForEdit.postalCode,
-            city: this.customerForEdit.city,
-            emailOne: this.customerForEdit.emailOne,
-        });
-    }
-
-    private getCustomer(id: number): void {
-        this.customerService.getCustomer(id).subscribe({
-            next: (customerForEdit: CustomerForEdit) => this.DisplayCustomer(customerForEdit),
-            error: err => this.errorMessage = err
-        });
-    }
-
-    private saveCustomer(): void {
+    public saveCustomer(): void {
+        console.log(this.customerForm);
+        const c = this.mapFormToCustomer();
+        console.log(c);
         if (this.customerForm.valid) {
             if (this.customerForm.dirty) {
-                const c = { ...this.customerForEdit, ...this.customerForm.value }
-
-                if (c === 0) {
-
+                const c = this.mapFormToCustomer();
+                if (c.id === 0) {
+                    this.customerService.createCustomer(c)
+                        .subscribe({
+                            next: () => this.onSaveComplete(),
+                            error: err => this.errorMessage = err
+                        });
                 } else {
-                    this.customerService.updateProduct(c)
+                    this.customerService.updateCustomer(c)
                         .subscribe({
                             next: () => this.onSaveComplete(),
                             error: err => this.errorMessage = err
@@ -211,8 +154,97 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }
 
-    private onSaveComplete(): void{
+    public addPhoneNumber(): void {
+        if (this.phoneNumbersFormArray.length === 3) return;
+        this.phoneNumbersFormArray.push(this.buildPhoneNumbersGroup(null));
+    }
+
+    public deletePhoneNumber(): void {
+        if (this.phoneNumbersFormArray.length === 1) return;
+        this.phoneNumbersFormArray.removeAt(this.phoneNumbersFormArray.length - 1);
+        this.phoneNumbersFormArray.markAsDirty();
+    }
+
+    public addEmailAddress(): void {
+        // if (this.emailAddressesFormArray.length === 3) return;
+        // this.emailAddressesFormArray.push(this.buildEmailAdrresses());
+    }
+
+    private buildPhoneNumbersGroup(value: string): FormGroup {
+        if (value) {
+            return this.fb.group({ phone: [value, [Validators.maxLength(20)]] });
+        }
+        else {
+            return this.fb.group({ phone: [null, [Validators.maxLength(20)]] });
+        }
+    }
+
+    // private buildEmailAdrresses(): FormGroup {
+    //     return this.fb.group({
+    //         email: ['', [Validators.email, Validators.maxLength(100)]]
+    //     });
+    // }
+
+    private DisplayCustomer(customerForEdit: CustomerForEdit): void {
+        if (this.customerForm) {
+            this.phoneNumbersFormArray.clear();
+            this.customerForm.reset();
+        }
+
+        this.customerForEdit = customerForEdit;
+        this.PatchForm();
+    }
+
+    private PatchForm() {
+        this.customerForm.patchValue({
+            name: this.customerForEdit.name,
+            address: this.customerForEdit.address,
+            postalCode: this.customerForEdit.postalCode,
+            city: this.customerForEdit.city
+        });
+        if (this.customerForEdit.phoneOne) {
+            this.phoneNumbersFormArray.push(this.buildPhoneNumbersGroup(this.customerForEdit.phoneOne));
+        }
+        if (this.customerForEdit.phoneTwo) {
+            this.phoneNumbersFormArray.push(this.buildPhoneNumbersGroup(this.customerForEdit.phoneTwo));
+        }
+        if (this.customerForEdit.phoneThree) {
+            this.phoneNumbersFormArray.push(this.buildPhoneNumbersGroup(this.customerForEdit.phoneThree));
+        }
+    }
+
+    private getCustomer(id: number): void {
+        this.customerService.getCustomer(id).subscribe({
+            next: (customerForEdit: CustomerForEdit) => this.DisplayCustomer(customerForEdit),
+            error: err => this.errorMessage = err
+        });
+    }
+
+    private onSaveComplete(): void {
         this.customerForm.reset();
-        this.router.navigate(['/customers']);
+        this.router.navigate(['/customer/list']);
+    }
+
+    private mapFormToCustomer(): CustomerForEdit {
+        const c = { ...this.customerForEdit, ...this.customerForm.value }
+
+        c.countryTwoLetterCode = 'BE';
+
+        if (this.phoneNumbersFormArray.at(0))  c.phoneOne = this.getValueOrNull(this.phoneNumbersFormArray.at(0).get('phone').value);
+        if (this.phoneNumbersFormArray.at(1)) c.phoneTwo = this.getValueOrNull(this.phoneNumbersFormArray.at(1).get('phone').value);
+        if (this.phoneNumbersFormArray.at(2)) c.phoneThree = this.getValueOrNull(this.phoneNumbersFormArray.at(2).get('phone').value);
+
+        // if (this.emailAddressesFormArray.at(0)) c.emailOne = this.emailAddressesFormArray.at(0).get('email').value;
+        // if (this.emailAddressesFormArray.at(1)) c.emailTwo = this.emailAddressesFormArray.at(1).get('email').value;
+        // if (this.emailAddressesFormArray.at(2)) c.emailThree = this.emailAddressesFormArray.at(2).get('email').value;
+
+        return c;
+    }
+
+    private getValueOrNull(value: any): any {
+        if (value)
+            return value;
+        else
+            return null;
     }
 }

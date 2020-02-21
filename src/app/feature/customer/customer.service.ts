@@ -9,13 +9,14 @@ import { CustomerForEdit } from './customer-for-edit';
   providedIn: 'root'
 })
 export class CustomerService {
-  private customersUrl = 'https://gizmodevelopmentapi.azurewebsites.net/api/customers';
+    //private customersUrl = 'https://gizmodevelopmentapi.azurewebsites.net/api/customers';
+    private customersUrl = 'https://gizmodevelopmentapi.azurewebsites.net/api/customers';
 
   constructor(
     private http: HttpClient
   ) { }
 
-  getCustomers(pageNumber: number): Observable<HttpResponse<ICustomerForList[]>> {
+  public getCustomers(pageNumber: number): Observable<HttpResponse<ICustomerForList[]>> {
     let params = new HttpParams();
     if (pageNumber !== undefined && pageNumber !== null) {
       params = params.set('PageNumber', <any>pageNumber);
@@ -26,7 +27,7 @@ export class CustomerService {
       catchError(this.handleError));
   }
 
-  getCustomer(id: number): Observable<CustomerForEdit> {
+  public getCustomer(id: number): Observable<CustomerForEdit> {
     if (id === 0) {
       return of(this.initializeCustomer());
     }
@@ -38,10 +39,10 @@ export class CustomerService {
       );
   }
   
-  updateProduct(customerForEdit: CustomerForEdit): Observable<CustomerForEdit> {
+  public updateCustomer(customerForEdit: CustomerForEdit): Observable<CustomerForEdit> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${this.customersUrl}/${customerForEdit.id}`;
-    return this.http.put<CustomerForEdit>(url, CustomerForEdit, { headers })
+    return this.http.put<CustomerForEdit>(url, customerForEdit, { headers })
       .pipe(
         tap(() => console.log('updateProduct: ' + customerForEdit.id)),
         // Return the CustomerForEdit on an update
@@ -50,25 +51,15 @@ export class CustomerService {
       );
   }
 
-  // createProduct(IPersonListModel: IPersonListModel): Observable<IPersonListModel> {
-  //   const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-  //   IPersonListModel.id = null;
-  //   return this.http.post<IPersonListModel>(this.customersUrl, IPersonListModel, { headers })
-  //     .pipe(
-  //       tap(data => console.log('createProduct: ' + JSON.stringify(data))),
-  //       catchError(this.handleError)
-  //     );
-  // }
-
-  // deleteProduct(id: number): Observable<{}> {
-  //   const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-  //   const url = `${this.customersUrl}/${id}`;
-  //   return this.http.delete<IPersonListModel>(url, { headers })
-  //     .pipe(
-  //       tap(data => console.log('deleteProduct: ' + id)),
-  //       catchError(this.handleError)
-  //     );
-  // }
+  public createCustomer(customerForEdit: CustomerForEdit): Observable<CustomerForEdit> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    customerForEdit.id = null;
+    return this.http.post<CustomerForEdit>(this.customersUrl, customerForEdit, { headers })
+      .pipe(
+        tap(data => console.log('createProduct: ' + JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
 
   private handleError(err) {
     // in a real world app, we may send the server to some remote logging infrastructure
@@ -89,20 +80,18 @@ export class CustomerService {
   private initializeCustomer(): CustomerForEdit {
     return {
       id: 0,
-      companyName: null,
-      personFirstName: null,
-      personLastName: null,
-      personTitle: null,
+      name: null,
       address: null,
       city: null,
       postalCode: null,
-      country: null,
-      emailOne: null,
-      emailTwo: null,
-      emailThree: null,
+      countryTwoLetterCode: 'be',
       phoneOne: null,
-      phoneTwo: null,
-      phoneThree: null,
+      phoneTwo: null,      
+      phoneThree: null,    
+      emailOne: null,
+      emailTwo: null,      
+      emailThree: null,      
+      isDeleted: false
     };
   }
 }

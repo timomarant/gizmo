@@ -13,19 +13,19 @@
         <!-- start: search & user box -->
         <div class="header-right">
 
-            <form action="pages-search-results.html" class="search nav-form">
+            <!-- <form action="pages-search-results.html" class="search nav-form">
                 <div class="input-group">
                     <input type="text" class="form-control" name="q" id="q" placeholder="Search...">
                     <span class="input-group-append">
                         <button class="btn btn-default" type="submit"><i class="fas fa-search"></i></button>
                     </span>
                 </div>
-            </form>
+            </form> -->
 
             <span class="separator"></span>
 
             <ul class="notifications">
-                <li>
+                <!-- <li>
                     <a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
                         <i class="fas fa-tasks"></i>
                         <span class="badge">3</span>
@@ -69,13 +69,13 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
-                </li>
+                    </div> 
+                </li>-->
                 <li>
-                    <a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
+                    <!-- <a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
                         <i class="fas fa-envelope"></i>
                         <span class="badge">4</span>
-                    </a>
+                    </a> -->
 
                     <div class="dropdown-menu notification-menu">
                         <div class="notification-title">
@@ -251,24 +251,8 @@
                         </ul>
                     </li>
                     <li class="dropdown" routerLinkActive="nav-expanded nav-active">
-                        <a routerLink="/customer" class="nav-link dropdown-toggle">
-                            <i class="fas fa-users"></i>Klanten</a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a routerLink="/customer/list" class="nav-link">
-                                    <i class="fas fa-list"></i><span style="margin-left: 5px;"></span> Alle klanten
-                                </a>
-                            </li>
-                            <!-- <li>
-                                <a routerLink="/person/import" class="nav-link">
-                                    <i class="fas fa-file-import"></i> Importeer
-                                </a>
-                            </li> -->
-                        </ul>
-                    </li>
-                    <li class="dropdown" routerLinkActive="nav-expanded nav-active">
                         <a routerLink="/supplier" class="nav-link dropdown-toggle">
-                            <i class="fas fa-parachute-box"></i>Leveranciers</a>
+                            <i class="fas fa-handshake"></i>Projecten</a>
                         <ul class="dropdown-menu">
                             <li>
                                 <a routerLink="/supplier/list" class="nav-link">
@@ -283,6 +267,22 @@
                         </ul>
                     </li>
                     <li class="dropdown" routerLinkActive="nav-expanded nav-active">
+                        <a routerLink="/customer" class="nav-link dropdown-toggle">
+                            <i class="fas fa-users"></i>Klanten</a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a routerLink="/customer/list" class="nav-link">
+                                    <i class="fas fa-list"></i><span style="margin-left: 5px;"></span> Alle klanten
+                                </a>
+                            </li>
+                            <!-- <li>
+                                <a routerLink="/person/import" class="nav-link">
+                                    <i class="fas fa-file-import"></i> Importeer
+                                </a>
+                            </li> -->
+                        </ul>
+                    </li>                  
+                    <!-- <li class="dropdown" routerLinkActive="nav-expanded nav-active">
                         <a routerLink="/invoice" class="nav-link dropdown-toggle"><i
                                 class="fas fa-copy"></i>Facturen</a>
                         <ul class="dropdown-menu">
@@ -378,7 +378,7 @@
                                 </ul>
                             </li>
                         </ul>
-                    </li>
+                    </li> -->
 
                 </ul>
             </nav>

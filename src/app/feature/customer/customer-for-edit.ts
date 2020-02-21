@@ -1,17 +1,15 @@
 export class CustomerForEdit {
   id: number;
-  companyName?: string;
-  personFirstName?: string;
-  personLastName?: string;
-  personTitle?: string;
+  name: string; 
   address?: string; 
-  country?: string; 
-  city?: string; 
+  countryTwoLetterCode?: string; 
   postalCode?: string;   
+  city?: string;  
   phoneOne?: string; 
   phoneTwo?: string; 
   phoneThree?: string; 
   emailOne?: string; 
   emailTwo?: string; 
   emailThree?: string; 
+  isDeleted: boolean;
 }
