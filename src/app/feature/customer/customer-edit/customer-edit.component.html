@@ -10,10 +10,7 @@
     <div class="col-lg-4 col-xl-3 mb-4 mb-xl-0">
         <section class="card">
             <div class="card-body">
-                <div class="thumb-info mb-3">
-                    <!-- <img src="../../assets/img/!logged-user.jpg"
-                         class="rounded img-fluid"
-                         alt="John Doe"> -->
+                <div class="thumb-info mb-3">                  
                     <agm-map [latitude]="51.074760"
                              [longitude]="4.791020"
                              [zoom]="15">
@@ -103,9 +100,8 @@
                             <div class="form-group col-md-3">
                                 <label for="countryId">Land</label>
                                 <select id="countryId"
-                                        class="form-control"
-                                        disabled>
-                                    <option selected>Belgie</option>
+                                        class="form-control"                                        >
+                                    <option *ngFor="let item of countryList" [value]=item.code [selected]=item.code=='BE'>{{item.name}}</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-2">
@@ -152,7 +148,7 @@
                             <div formArrayName="phoneNumbers"
                                  *ngFor="let group of phoneNumbersFormArray.controls; let i=index">
                                 <label attr.for="{{ 'phone' + i }}"
-                                       *ngIf="i===0">Telefoon <abbr style="font-size: small;">(max. 3)</abbr></label>
+                                       *ngIf="i===0">Telefoon <abbr>(max. 3)</abbr></label>
                                 <div [formGroupName]="i"
                                      class="mb-2">
                                     <div class="input-group">
@@ -163,12 +159,13 @@
                                         </span>
                                         <input id="{{ 'phone' + i }}"
                                                type="text"
-                                               class="form-control"
                                                formControlName="phone"
-                                               [ngClass]="{'is-invalid': !phoneNumbersFormArray.controls[i].get('phone').valid}" />
+                                               [ngClass]="{
+                                                   'form-control': true,
+                                                   'is-invalid': !phoneNumbersFormArray.controls[i].get('phone').valid }" />
                                         <span *ngIf="phoneNumbersFormArray.controls[i].get('phone').errors?.maxlength"
                                               class="invalid-feedback">
-                                            {{validationMessages.phone.maxlength}}
+                                            {{ validationMessages.phone.maxlength }}
                                         </span>
                                     </div>
                                 </div>
@@ -191,11 +188,11 @@
                                        style="font-size: 18px;"></i></a></span>
                         </div>
 
-                        <!-- <div class="form-group">
+                        <div class="form-group">
                             <div formArrayName="emailAddresses"
-                                 *ngFor="let emailAddress of emailAddressesArray.controls; let i=index">
+                                 *ngFor="let group of emailAddressesFormArray.controls; let i=index">
                                 <label attr.for="{{ 'emailId' + i }}"
-                                       *ngIf="i===0">E-mail</label>
+                                       *ngIf="i===0">E-mail <abbr>(max. 3)</abbr></label>
                                 <div [formGroupName]="i"
                                      class="mb-2">
                                     <div class="input-group">
@@ -206,23 +203,29 @@
                                         </span>
                                         <input id="{{ 'emailId' + i }}"
                                                type="text"
-                                               class="form-control"
                                                formControlName="email"
-                                               [ngClass]="{'is-invalid': displayMessage.email}" />
-                                        <span class="invalid-feedback">
-                                            {{displayMessage.email}}
+                                               [ngClass]="{
+                                                   'form-control': true,
+                                                   'is-invalid': !emailAddressesFormArray.controls[i].get('email').valid }" />
+                                        <span *ngIf="emailAddressesFormArray.controls[i].get('email').errors?.email"
+                                              class="invalid-feedback">
+                                            {{ validationMessages.email.email }}
+                                        </span>
+                                        <span *ngIf="emailAddressesFormArray.controls[i].get('email').errors?.maxlength"
+                                              class="invalid-feedback">
+                                            {{ validationMessages.email.maxlength }}
                                         </span>
                                     </div>
                                 </div>
                             </div>
-                        </div> -->
+                        </div>
 
-                        <!-- <div class="form-group">
+                        <div class="form-group">
                             <span class="float-right">
                                 <a [routerLink]=""
                                    title="E-mail adres verwijderen"
                                    style="text-decoration: none;"
-                                   (click)="removeEmailAddress()">
+                                   (click)="deleteEmailAddress()">
                                     <i class="icons icon-minus"
                                        style="font-size: 18px;"></i></a>
                                 &nbsp;
@@ -232,7 +235,7 @@
                                    (click)="addEmailAddress()">
                                     <i class="icons icon-plus"
                                        style="font-size: 18px;"></i></a></span>
-                        </div> -->
+                        </div>
 
                         <hr class="dotted small">
                         <div class="form-row">
