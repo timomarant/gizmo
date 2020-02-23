@@ -10,7 +10,7 @@
     <div class="col-lg-4 col-xl-3 mb-4 mb-xl-0">
         <section class="card">
             <div class="card-body">
-                <div class="thumb-info mb-3">                  
+                <div class="thumb-info mb-3">
                     <agm-map [latitude]="51.074760"
                              [longitude]="4.791020"
                              [zoom]="15">
@@ -88,9 +88,8 @@
                             <label for="nameId">Naam:<span style="color: red;">*</span></label>
                             <input id="nameId"
                                    type="text"
-                                   class="form-control"
                                    formControlName="name"
-                                   [ngClass]="{'is-invalid': displayMessage.name}">
+                                   [ngClass]="{'form-control': true, 'is-invalid': displayMessage.name}">
                             <span class="invalid-feedback">
                                 {{displayMessage.name}}
                             </span>
@@ -100,8 +99,8 @@
                             <div class="form-group col-md-3">
                                 <label for="countryId">Land</label>
                                 <select id="countryId"
-                                        class="form-control"                                        >
-                                    <option *ngFor="let item of countryList" [value]=item.code [selected]=item.code=='BE'>{{item.name}}</option>
+                                        class="form-control" disabled>
+                                    <option *ngFor="let item of countryList">{{item.name}}</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-2">
@@ -250,12 +249,14 @@
         </div>
     </div>
     <div class="col-xl-3">
-
+        <!-- <div class="alert alert-danger"
+             *ngIf="errorMessage">{{ errorMessage }}
+        </div> -->
     </div>
 </div>
-
+<!-- 
 <br>displayMessage: {{ displayMessage}}
 <br>dirty: {{ customerForm.dirty}}
 <br>touched: {{ customerForm.touched}}
 <br>valid: {{ customerForm.valid}}
-<br>value: {{ customerForm.value | json}}
+<br>value: {{ customerForm.value | json}} -->

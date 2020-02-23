@@ -30,7 +30,7 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     private validationMessages: { [key: string]: { [key: string]: string } };
 
     public customerForm: FormGroup;
-    public customerForEdit = new CustomerForEdit();
+    public customerForEdit: CustomerForEdit;
     public displayMessage: { [key: string]: string } = {};
     public primaryLabelOnMap: string;
     public secondaryLabelOnMap: string;
@@ -75,6 +75,7 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         }
 
         this.genericValidator = new GenericValidator(this.validationMessages);
+        this.customerForEdit = new CustomerForEdit();
     }
 
     ngOnInit() {
@@ -91,7 +92,9 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         this.sub = this.route.paramMap.subscribe(
             params => {
                 const id = +params.get('id');
-                this.getCustomer(id);
+                if (id > 0) {
+                    this.getCustomer(id);
+                }
             }
         );
     }
@@ -130,12 +133,11 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public saveCustomer(): void {
         console.log(this.customerForm);
-        const c = this.mapFormToCustomer();
-        console.log(c);
         if (this.customerForm.valid) {
             if (this.customerForm.dirty) {
                 const c = this.mapFormToCustomer();
-                if (c.id === 0) {
+                console.log(c);
+                if (!c.id) {
                     this.customerService.createCustomer(c)
                         .subscribe({
                             next: () => this.onSaveComplete(),
@@ -190,20 +192,23 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     private DisplayCustomer(customerForEdit: CustomerForEdit): void {
         if (this.customerForm) {
             this.customerForm.reset();
-        }        
+        }
         this.PatchForm(customerForEdit);
     }
 
     private PatchForm(customerForEdit: CustomerForEdit) {
+        
         this.customerForEdit = customerForEdit;
+        
         this.customerForm.patchValue({
-            name: this.customerForEdit.name,
-            address: this.customerForEdit.address,
-            postalCode: this.customerForEdit.postalCode,
-            city: this.customerForEdit.city
+            name: customerForEdit.name,
+            address: customerForEdit.address,
+            postalCode: customerForEdit.postalCode,
+            city: customerForEdit.city
         });
-        this.phoneNumbersFormArray.clear();
+
         if (this.customerForEdit.phoneOne) {
+            this.phoneNumbersFormArray.clear();
             this.phoneNumbersFormArray.push(this.buildPhoneNumbersGroup(this.customerForEdit.phoneOne));
         }
         if (this.customerForEdit.phoneTwo || this.customerForEdit.phoneThree) {
@@ -212,8 +217,9 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.customerForEdit.phoneThree) {
             this.phoneNumbersFormArray.push(this.buildPhoneNumbersGroup(this.customerForEdit.phoneThree));
         }
-        this.emailAddressesFormArray.clear();
+
         if (this.customerForEdit.emailOne) {
+            this.emailAddressesFormArray.clear();
             this.emailAddressesFormArray.push(this.buildEmailAdrressesGroup(this.customerForEdit.emailOne));
         }
         if (this.customerForEdit.emailTwo || this.customerForEdit.emailThree) {
@@ -240,15 +246,32 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         const c = { ...this.customerForEdit, ...this.customerForm.value }
 
         c.countryTwoLetterCode = 'BE';
+        c.phoneOne = null;
+        c.phoneTwo = null;
+        c.phoneThree = null;
+        c.emailOne = null;
+        c.emailTwo = null;
+        c.emailThree = null;
 
-        if (this.phoneNumbersFormArray.at(0)) c.phoneOne = this.getValueOrNull(this.phoneNumbersFormArray.at(0).get('phone').value);
-        if (this.phoneNumbersFormArray.at(1)) c.phoneTwo = this.getValueOrNull(this.phoneNumbersFormArray.at(1).get('phone').value);
-        if (this.phoneNumbersFormArray.at(2)) c.phoneThree = this.getValueOrNull(this.phoneNumbersFormArray.at(2).get('phone').value);
+        if (this.phoneNumbersFormArray.at(0)) {
+            c.phoneOne = this.getValueOrNull(this.phoneNumbersFormArray.at(0).get('phone').value);
+        }
+        if (this.phoneNumbersFormArray.at(1)) {
+            c.phoneTwo = this.getValueOrNull(this.phoneNumbersFormArray.at(1).get('phone').value);
+        }
+        if (this.phoneNumbersFormArray.at(2)) {
+            c.phoneThree = this.getValueOrNull(this.phoneNumbersFormArray.at(2).get('phone').value);
+        }
 
-        this.emailAddressesFormArray.clear();
-        if (this.emailAddressesFormArray.at(0)) c.emailOne = this.getValueOrNull(this.emailAddressesFormArray.at(0).get('email').value);
-        if (this.emailAddressesFormArray.at(1)) c.emailTwo = this.getValueOrNull(this.emailAddressesFormArray.at(1).get('email').value);
-        if (this.emailAddressesFormArray.at(2)) c.emailThree = this.getValueOrNull(this.emailAddressesFormArray.at(2).get('email').value);
+        if (this.emailAddressesFormArray.at(0)) {
+            c.emailOne = this.getValueOrNull(this.emailAddressesFormArray.at(0).get('email').value);
+        }
+        if (this.emailAddressesFormArray.at(1)) {
+            c.emailTwo = this.getValueOrNull(this.emailAddressesFormArray.at(1).get('email').value);
+        }
+        if (this.emailAddressesFormArray.at(2)) {
+            c.emailThree = this.getValueOrNull(this.emailAddressesFormArray.at(2).get('email').value);
+        }
 
         return c;
     }
