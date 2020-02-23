@@ -39,7 +39,7 @@
         "lint": "ng lint"
     },
     "devDependencies": {
-        "@angular-devkit/build-angular": "^0.803.23",
+        "@angular-devkit/build-angular": "^0.803.25",
         "@angular/cli": "^8.3.19",
         "@angular/common": "8.2.2",
         "@angular/compiler": "8.2.2",
@@ -63,7 +63,7 @@
         "conventional-changelog-cli": "2.0.21",
         "core-js": "3.1.4",
         "devtron": "^1.4.0",
-        "electron": "^7.1.1",
+        "electron": "^8.0.1",
         "electron-builder": "21.2.0",
         "electron-reload": "1.5.0",
         "jasmine-core": "3.4.0",
