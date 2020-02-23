@@ -41,3 +41,7 @@ a.close-href:hover{
 .social-icons-list>a{
     margin-right: 5px;
 }
+
+abbr{
+    font-size: small;
+}

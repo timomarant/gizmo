@@ -9,6 +9,7 @@ import { debounceTime } from 'rxjs/internal/operators/debounceTime';
 import { GenericValidator } from '../../../shared/generic-validator';
 import { CustomerService } from '../customer.service';
 import { CustomerForEdit } from '../customer-for-edit';
+import countries from '../../../files/countries.json';
 
 @Component({
     selector: 'app-customer-edit',
@@ -21,6 +22,8 @@ import { CustomerForEdit } from '../customer-for-edit';
 })
 export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
+
+    public countryList: { name: string, code: string }[] = countries;
 
     private sub: Subscription;
     private genericValidator: GenericValidator;
@@ -38,9 +41,9 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         return <FormArray>this.customerForm.get('phoneNumbers');
     }
 
-    // get emailAddressesFormArray(): FormArray {
-    //     return <FormArray>this.customerForm.get('emailAddresses');
-    // }
+    get emailAddressesFormArray(): FormArray {
+        return <FormArray>this.customerForm.get('emailAddresses');
+    }
 
     constructor(
         private fb: FormBuilder,
@@ -80,8 +83,8 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
             address: ['', [Validators.maxLength(100)]],
             city: ['', [Validators.maxLength(100)]],
             postalCode: ['', [Validators.maxLength(10)]],
-            phoneNumbers: this.fb.array([this.buildPhoneNumbersGroup(null)])
-            // emailAddressesFormArray: this.fb.array([this.buildEmailAdrresses()])
+            phoneNumbers: this.fb.array([this.buildPhoneNumbersGroup(null)]),
+            emailAddresses: this.fb.array([this.buildEmailAdrressesGroup(null)])
         });
 
         // Read the customer Id from the route parameter
@@ -166,50 +169,58 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public addEmailAddress(): void {
-        // if (this.emailAddressesFormArray.length === 3) return;
-        // this.emailAddressesFormArray.push(this.buildEmailAdrresses());
+        if (this.emailAddressesFormArray.length === 3) return;
+        this.emailAddressesFormArray.push(this.buildEmailAdrressesGroup(null));
+    }
+
+    public deleteEmailAddress(): void {
+        if (this.emailAddressesFormArray.length === 1) return;
+        this.emailAddressesFormArray.removeAt(this.emailAddressesFormArray.length - 1);
+        this.emailAddressesFormArray.markAsDirty();
     }
 
     private buildPhoneNumbersGroup(value: string): FormGroup {
-        if (value) {
-            return this.fb.group({ phone: [value, [Validators.maxLength(20)]] });
-        }
-        else {
-            return this.fb.group({ phone: [null, [Validators.maxLength(20)]] });
-        }
+        return this.fb.group({ phone: [this.getValueOrNull(value), [Validators.maxLength(20)]] });
     }
 
-    // private buildEmailAdrresses(): FormGroup {
-    //     return this.fb.group({
-    //         email: ['', [Validators.email, Validators.maxLength(100)]]
-    //     });
-    // }
+    private buildEmailAdrressesGroup(value: string): FormGroup {
+        return this.fb.group({ email: [this.getValueOrNull(value), [Validators.email, Validators.maxLength(100)]] });
+    }
 
     private DisplayCustomer(customerForEdit: CustomerForEdit): void {
         if (this.customerForm) {
-            this.phoneNumbersFormArray.clear();
             this.customerForm.reset();
-        }
-
-        this.customerForEdit = customerForEdit;
-        this.PatchForm();
+        }        
+        this.PatchForm(customerForEdit);
     }
 
-    private PatchForm() {
+    private PatchForm(customerForEdit: CustomerForEdit) {
+        this.customerForEdit = customerForEdit;
         this.customerForm.patchValue({
             name: this.customerForEdit.name,
             address: this.customerForEdit.address,
             postalCode: this.customerForEdit.postalCode,
             city: this.customerForEdit.city
         });
+        this.phoneNumbersFormArray.clear();
         if (this.customerForEdit.phoneOne) {
             this.phoneNumbersFormArray.push(this.buildPhoneNumbersGroup(this.customerForEdit.phoneOne));
         }
-        if (this.customerForEdit.phoneTwo) {
+        if (this.customerForEdit.phoneTwo || this.customerForEdit.phoneThree) {
             this.phoneNumbersFormArray.push(this.buildPhoneNumbersGroup(this.customerForEdit.phoneTwo));
         }
         if (this.customerForEdit.phoneThree) {
             this.phoneNumbersFormArray.push(this.buildPhoneNumbersGroup(this.customerForEdit.phoneThree));
+        }
+        this.emailAddressesFormArray.clear();
+        if (this.customerForEdit.emailOne) {
+            this.emailAddressesFormArray.push(this.buildEmailAdrressesGroup(this.customerForEdit.emailOne));
+        }
+        if (this.customerForEdit.emailTwo || this.customerForEdit.emailThree) {
+            this.emailAddressesFormArray.push(this.buildEmailAdrressesGroup(this.customerForEdit.emailTwo));
+        }
+        if (this.customerForEdit.emailThree) {
+            this.emailAddressesFormArray.push(this.buildEmailAdrressesGroup(this.customerForEdit.emailThree));
         }
     }
 
@@ -230,13 +241,14 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
         c.countryTwoLetterCode = 'BE';
 
-        if (this.phoneNumbersFormArray.at(0))  c.phoneOne = this.getValueOrNull(this.phoneNumbersFormArray.at(0).get('phone').value);
+        if (this.phoneNumbersFormArray.at(0)) c.phoneOne = this.getValueOrNull(this.phoneNumbersFormArray.at(0).get('phone').value);
         if (this.phoneNumbersFormArray.at(1)) c.phoneTwo = this.getValueOrNull(this.phoneNumbersFormArray.at(1).get('phone').value);
         if (this.phoneNumbersFormArray.at(2)) c.phoneThree = this.getValueOrNull(this.phoneNumbersFormArray.at(2).get('phone').value);
 
-        // if (this.emailAddressesFormArray.at(0)) c.emailOne = this.emailAddressesFormArray.at(0).get('email').value;
-        // if (this.emailAddressesFormArray.at(1)) c.emailTwo = this.emailAddressesFormArray.at(1).get('email').value;
-        // if (this.emailAddressesFormArray.at(2)) c.emailThree = this.emailAddressesFormArray.at(2).get('email').value;
+        this.emailAddressesFormArray.clear();
+        if (this.emailAddressesFormArray.at(0)) c.emailOne = this.getValueOrNull(this.emailAddressesFormArray.at(0).get('email').value);
+        if (this.emailAddressesFormArray.at(1)) c.emailTwo = this.getValueOrNull(this.emailAddressesFormArray.at(1).get('email').value);
+        if (this.emailAddressesFormArray.at(2)) c.emailThree = this.getValueOrNull(this.emailAddressesFormArray.at(2).get('email').value);
 
         return c;
     }
