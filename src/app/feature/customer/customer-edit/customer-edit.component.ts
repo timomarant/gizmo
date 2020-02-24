@@ -59,19 +59,19 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
             },
             address: {
                 maxlength: 'De maximumlengte is 100.',
-                pattern: 'Naam bevat ongeldige tekens.',
+                pattern: 'Adres bevat ongeldige tekens.',
             },
             postalCode: {
                 maxlength: 'De maximumlengte is 10.',
-                pattern: 'Naam bevat ongeldige tekens.',
+                pattern: 'Postcode bevat ongeldige tekens.',
             },
             city: {
                 maxlength: 'De maximumlengte is 50.',
-                pattern: 'Naam bevat ongeldige tekens.',
+                pattern: 'Gemeente bevat ongeldige tekens.',
             },
             phone: {
                 maxlength: 'De maximumlengte is 15.',
-                pattern: 'Naam bevat ongeldige tekens.'
+                pattern: 'Telefoon bevat ongeldige tekens.'
             },
             email: {
                 email: 'Vul alstublieft een geldig e-mail adres in.',
