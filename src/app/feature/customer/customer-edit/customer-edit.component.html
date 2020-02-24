@@ -88,6 +88,7 @@
                             <label for="nameId">Naam:<span style="color: red;">*</span></label>
                             <input id="nameId"
                                    type="text"
+                                   maxlength="50"
                                    formControlName="name"
                                    [ngClass]="{'form-control': true, 'is-invalid': displayMessage.name}">
                             <span class="invalid-feedback">
@@ -99,7 +100,8 @@
                             <div class="form-group col-md-3">
                                 <label for="countryId">Land</label>
                                 <select id="countryId"
-                                        class="form-control" disabled>
+                                        class="form-control"
+                                        disabled>
                                     <option *ngFor="let item of countryList">{{item.name}}</option>
                                 </select>
                             </div>
@@ -107,10 +109,9 @@
                                 <label for="postalCodeId">Postcode</label>
                                 <input id="postalCodeId"
                                        type="text"
-                                       class="form-control"
-                                       style="resize: none;"
+                                       maxlength="10"
                                        formControlName="postalCode"
-                                       [ngClass]="{'is-invalid': displayMessage.postalCode}" />
+                                       [ngClass]="{'form-control': true, 'is-invalid': displayMessage.postalCode}" />
                                 <span class="invalid-feedback">
                                     {{displayMessage.postalCode}}
                                 </span>
@@ -119,10 +120,9 @@
                                 <label for="cityId">Gemeente</label>
                                 <input id="cityId"
                                        type="text"
-                                       class="form-control"
-                                       style="resize: none;"
+                                       maxlength="50"
                                        formControlName="city"
-                                       [ngClass]="{'is-invalid': displayMessage.city}" />
+                                       [ngClass]="{'form-control': true, 'is-invalid': displayMessage.city}" />
                                 <span class="invalid-feedback">
                                     {{displayMessage.city}}
                                 </span>
@@ -132,12 +132,11 @@
                         <div class="form-group">
                             <label for="addressId">Adres</label>
                             <textarea id="addressId"
-                                      type="text"
-                                      class="form-control"
+                                      rows="3"
+                                      maxlength="100"
                                       style="resize: none;"
                                       formControlName="address"
-                                      [ngClass]="{'is-invalid': displayMessage.address}">
-                                    </textarea>
+                                      [ngClass]="{'form-control': true, 'is-invalid': displayMessage.address}"></textarea>
                             <span class="invalid-feedback">
                                 {{displayMessage.address}}
                             </span>
@@ -158,6 +157,7 @@
                                         </span>
                                         <input id="{{ 'phone' + i }}"
                                                type="text"
+                                               maxlength="15"
                                                formControlName="phone"
                                                [ngClass]="{
                                                    'form-control': true,
@@ -165,6 +165,10 @@
                                         <span *ngIf="phoneNumbersFormArray.controls[i].get('phone').errors?.maxlength"
                                               class="invalid-feedback">
                                             {{ validationMessages.phone.maxlength }}
+                                        </span>
+                                        <span *ngIf="phoneNumbersFormArray.controls[i].get('phone').errors?.pattern"
+                                              class="invalid-feedback">
+                                            {{ validationMessages.phone.pattern }}
                                         </span>
                                     </div>
                                 </div>
