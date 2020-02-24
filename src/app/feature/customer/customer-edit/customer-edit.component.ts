@@ -54,22 +54,27 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         this.validationMessages = {
             name: {
                 required: 'Vul alstublieft uw naam in.',
+                pattern: 'Naam bevat ongeldige tekens.',
                 maxlength: 'De maximumlengte is 50.'
             },
             address: {
-                maxlength: 'De maximumlengte is 100.'
+                maxlength: 'De maximumlengte is 100.',
+                pattern: 'Naam bevat ongeldige tekens.',
             },
             postalCode: {
-                maxlength: 'De maximumlengte is 10.'
+                maxlength: 'De maximumlengte is 10.',
+                pattern: 'Naam bevat ongeldige tekens.',
             },
             city: {
-                maxlength: 'De maximumlengte is 100.'
+                maxlength: 'De maximumlengte is 50.',
+                pattern: 'Naam bevat ongeldige tekens.',
             },
             phone: {
-                maxlength: 'De maximumlengte is 20.'
+                maxlength: 'De maximumlengte is 15.',
+                pattern: 'Naam bevat ongeldige tekens.'
             },
             email: {
-                email: 'Vul alstublieft een geldig e-mail adres.',
+                email: 'Vul alstublieft een geldig e-mail adres in.',
                 maxlength: 'De maximumlengte is 100.'
             }
         }
@@ -79,11 +84,12 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnInit() {
+        let validCharsRegExp = new RegExp('^[a-zA-Z0-9\\s.-]+$');
         this.customerForm = this.fb.group({
-            name: ['', [Validators.required, Validators.maxLength(50)]],
-            address: ['', [Validators.maxLength(100)]],
-            city: ['', [Validators.maxLength(100)]],
-            postalCode: ['', [Validators.maxLength(10)]],
+            name: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(validCharsRegExp)]],
+            address: ['', [Validators.maxLength(100), Validators.pattern(validCharsRegExp)]],
+            city: ['', [Validators.maxLength(50), Validators.pattern(validCharsRegExp)]],
+            postalCode: ['', [Validators.maxLength(10), Validators.pattern(validCharsRegExp)]],
             phoneNumbers: this.fb.array([this.buildPhoneNumbersGroup(null)]),
             emailAddresses: this.fb.array([this.buildEmailAdrressesGroup(null)])
         });
@@ -108,7 +114,7 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         // Merge the blur event observable with the valueChanges observable
         // so we only need to subscribe once.
         merge(this.customerForm.valueChanges, ...controlBlurs).pipe(
-            debounceTime(500)
+            debounceTime(300)
         ).subscribe(value => {
             this.displayMessage = this.genericValidator.processMessages(this.customerForm);
         });
@@ -182,7 +188,8 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private buildPhoneNumbersGroup(value: string): FormGroup {
-        return this.fb.group({ phone: [this.getValueOrNull(value), [Validators.maxLength(20)]] });
+        let phoneNumberRegExp = new RegExp("^[0-9\\'\\s\\(\\).-]+$");
+        return this.fb.group({ phone: [this.getValueOrNull(value), [Validators.maxLength(20), Validators.pattern(phoneNumberRegExp)]] });
     }
 
     private buildEmailAdrressesGroup(value: string): FormGroup {

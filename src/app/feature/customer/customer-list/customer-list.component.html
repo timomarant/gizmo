@@ -50,7 +50,7 @@
                                     <a [routerLink]="['/customer/', customer.id, 'edit']"
                                        class="on-default edit-row" title="Bewerk"><i class="fas fa-pencil-alt"></i></a>
                                        &nbsp;
-                                    <a (click)="deleteCustomers(customer.id)"
+                                    <a [routerLink]="" (click)="deleteCustomers(customer.id)"
                                        class="on-default edit-row" title="Verwijder"><i class="fas fa-trash-alt"></i></a>
                                 </td>
                             </tr>
