@@ -1,9 +1,7 @@
 export interface ICustomerForList {
   id: number;
   name: string;
-  address?: string; 
-  country?: string; 
-  city?: string; 
+  vatNumber: string; 
   postalCode?: string; 
   phone?: string; 
   email?: string; 

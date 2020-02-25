@@ -1,22 +1,16 @@
 <div class="row">
     <div class="col">
         <section class="card">
-            <div class="card-body"
-                 style="display: block;">
+            <div class="card-body" style="display: block;">
                 <div class="row mb-5">
-                    <div class="col-md-4"><button type="button"
-                                [routerLink]="['/customer/0/edit']"
-                                class="mb-1 mt-1 mr-1 btn btn-primary">Nieuwe klant</button></div>
+                    <div class="col-md-4"><button type="button" [routerLink]="['/customer/0/edit']"
+                            class="mb-1 mt-1 mr-1 btn btn-primary">Nieuwe klant</button></div>
                     <div class="col-md-4">
                         <div class="input-group">
-                            <input type="text"
-                                   class="form-control"
-                                   name="q"
-                                   id="q"
-                                   placeholder="Zoek op naam, telefoon of e-mail adres">
+                            <input type="text" class="form-control" name="q" id="q"
+                                placeholder="Zoek op naam, telefoon of e-mail adres">
                             <span class="input-group-append">
-                                <button class="btn btn-default"
-                                        type="submit"><i class="fas fa-search"></i></button>
+                                <button class="btn btn-default" type="submit"><i class="fas fa-search"></i></button>
                             </span>
                         </div>
                     </div>
@@ -25,65 +19,57 @@
                     </div>
                 </div>
                 <div class="dataTables_wrapper">
-                    <table class="table table-responsive-md table-hover mb-0"
-                           style="table-layout: fixed;"
-                           *ngIf='customers'>
+                    <table class="table table-responsive-md table-hover mb-0" style="table-layout: fixed;"
+                        *ngIf='customers'>
                         <thead>
                             <tr>
-                                <th class="text-center"
-                                    style="width: 50px;"></th>
+                                <th class="text-center" style="width: 50px;"></th>
                                 <th class="text">Naam</th>
-                                <th class="text ">Telefoon</th>
+                                <th class="text">Ondernemingsnummer</th>
+                                <th class="text">Telefoon</th>
                                 <th class="text">E-mail</th>
-                                <th class="text-center"
-                                    style="width: 100px;">Acties</th>
+                                <th class="text-center" style="width: 100px;">Acties</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor='let customer of customers'>
-                                <td data-title=""
-                                    class="text-center"><i class="el el-star-empty"></i></td>
+                                <td data-title="" class="text-center"><i class="el el-star-empty"></i></td>
                                 <td class="text">{{ customer.name }}</td>
+                                <td class="text">{{ customer.vatNumber }}</td>
                                 <td class="text ">{{ customer.phone }}</td>
                                 <td class="text">{{ customer.email }}</td>
                                 <td class="text-center">
-                                    <a [routerLink]="['/customer/', customer.id, 'edit']"
-                                       class="on-default edit-row" title="Bewerk"><i class="fas fa-pencil-alt"></i></a>
-                                       &nbsp;
+                                    <a [routerLink]="['/customer/', customer.id, 'edit']" class="on-default edit-row"
+                                        title="Bewerk"><i class="fas fa-pencil-alt"></i></a>
+                                    &nbsp;
                                     <a [routerLink]="" (click)="deleteCustomers(customer.id)"
-                                       class="on-default edit-row" title="Verwijder"><i class="fas fa-trash-alt"></i></a>
+                                        class="on-default edit-row" title="Verwijder"><i
+                                            class="fas fa-trash-alt"></i></a>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                     <div class="dataTables_paginate paging_simple_numbers">
-                        <ul *ngIf="pager.pages && pager.pages.length"
-                            class="pagination">
+                        <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
                             <li [ngClass]="{disabled:pager.currentPage === 1}"
                                 class="paginate_button page-item previous">
-                                <a (click)="displayCustomers(1)"
-                                   class="page-link">First</a>
+                                <a (click)="displayCustomers(1)" class="page-link">First</a>
                             </li>
                             <li [ngClass]="{disabled:pager.currentPage === 1}"
                                 class="paginate_button page-item previous">
-                                <a (click)="displayCustomers(pager.currentPage - 1)"
-                                   class="page-link">Previous</a>
+                                <a (click)="displayCustomers(pager.currentPage - 1)" class="page-link">Previous</a>
                             </li>
-                            <li *ngFor="let page of pager.pages"
-                                class="paginate_button page-item "
+                            <li *ngFor="let page of pager.pages" class="paginate_button page-item "
                                 [ngClass]="{active:pager.currentPage === page}">
-                                <a (click)="displayCustomers(page)"
-                                   class="page-link">{{page}}</a>
+                                <a (click)="displayCustomers(page)" class="page-link">{{page}}</a>
                             </li>
                             <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}"
                                 class="paginate_button page-item next">
-                                <a (click)="displayCustomers(pager.currentPage + 1)"
-                                   class="page-link">Next</a>
+                                <a (click)="displayCustomers(pager.currentPage + 1)" class="page-link">Next</a>
                             </li>
                             <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}"
                                 class="paginate_button page-item next">
-                                <a (click)="displayCustomers(pager.totalPages)"
-                                   class="page-link">Last</a>
+                                <a (click)="displayCustomers(pager.totalPages)" class="page-link">Last</a>
                             </li>
                         </ul>
                     </div>
