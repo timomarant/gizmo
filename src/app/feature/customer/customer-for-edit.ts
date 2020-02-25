@@ -5,6 +5,7 @@ export class CustomerForEdit {
   countryTwoLetterCode?: string; 
   postalCode?: string;   
   city?: string;  
+  vatNumber?: string; 
   phoneOne?: string; 
   phoneTwo?: string; 
   phoneThree?: string; 

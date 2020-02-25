@@ -57,6 +57,10 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
                 pattern: 'Naam bevat ongeldige tekens.',
                 maxlength: 'De maximumlengte is 50.'
             },
+            vatNumber: {               
+                pattern: 'Ondernemingsnummer bevat ongeldige tekens.',
+                maxlength: 'De maximumlengte is 15.'
+            },
             address: {
                 maxlength: 'De maximumlengte is 100.',
                 pattern: 'Adres bevat ongeldige tekens.',
@@ -87,6 +91,7 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         let validCharsRegExp = new RegExp('^[a-zA-Z0-9\\s.-]+$');
         this.customerForm = this.fb.group({
             name: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(validCharsRegExp)]],
+            vatNumber: ['', [Validators.maxLength(15), Validators.pattern(validCharsRegExp)]],
             address: ['', [Validators.maxLength(100), Validators.pattern(validCharsRegExp)]],
             city: ['', [Validators.maxLength(50), Validators.pattern(validCharsRegExp)]],
             postalCode: ['', [Validators.maxLength(10), Validators.pattern(validCharsRegExp)]],
@@ -209,6 +214,7 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         
         this.customerForm.patchValue({
             name: customerForEdit.name,
+            vatNumber: customerForEdit.vatNumber,
             address: customerForEdit.address,
             postalCode: customerForEdit.postalCode,
             city: customerForEdit.city
