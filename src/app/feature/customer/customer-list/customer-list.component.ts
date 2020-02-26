@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren, ElementRef } from '@angular/core';
+import { FormBuilder, FormControlName, FormGroup } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { PagerService } from '../../../shared/services/pagerservice';
 import { IPagination } from '../../../shared/pagination';
 import { CustomerService } from '../customer.service';
@@ -10,24 +13,45 @@ import { CustomerForEdit } from '../customer-for-edit';
     templateUrl: './customer-list.component.html'
 })
 export class CustomerListComponent implements OnInit {
+    @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
 
     public customers: ICustomerForList[];
     public pagination: IPagination;
     public pager: any = {};
     public pagedItems: any[];
     public errorMessage: string;
+    public searchForm: FormGroup;
+    private searchTerm: string;
+
+    public userQuestion: string;
+    userQuestionUpdate = new Subject<string>();
 
     constructor(
+        private fb: FormBuilder,
         private customerService: CustomerService,
-        private pagerService: PagerService,
-    ) { }
+        private pagerService: PagerService) {
+            this.searchTerm = null;
+            this.userQuestionUpdate.pipe(
+                debounceTime(400),
+                distinctUntilChanged())
+                .subscribe(value => {
+                    this.searchTerm = value;
+                    this.getCustomers(1, value);
+                });
+    }
 
     ngOnInit() {
         this.displayCustomers(1);
+        this.searchForm = this.fb.group({userQuestion: ['', ]});
+    }
+
+    public searchCustomers(): void {
+        this.searchTerm = this.searchForm.get('userQuestion').value;
+        this.getCustomers(1, this.searchTerm);
     }
 
     public displayCustomers(page: number) {
-        this.getCustomers(page);
+        this.getCustomers(page, this.searchTerm);
     }
 
     public deleteCustomers(id: number) {
@@ -43,8 +67,8 @@ export class CustomerListComponent implements OnInit {
         });
     }
 
-    private getCustomers(page: number): void {
-        this.customerService.getCustomers(page).subscribe({
+    private getCustomers(page: number, searchTerm: string): void {
+        this.customerService.getCustomers(page, searchTerm).subscribe({
             next: resp => {
                 this.customers = resp.body;
                 this.pagination = JSON.parse(resp.headers.get('X-Pagination'));

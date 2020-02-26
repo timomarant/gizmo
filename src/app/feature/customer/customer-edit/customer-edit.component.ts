@@ -88,7 +88,7 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnInit() {
-        let validCharsRegExp = new RegExp('^[a-zA-Z0-9\\s.-]+$');
+        let validCharsRegExp = new RegExp('^[a-zA-Z0-9\\s.,-]+$');
         this.customerForm = this.fb.group({
             name: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(validCharsRegExp)]],
             vatNumber: ['', [Validators.maxLength(15), Validators.pattern(validCharsRegExp)]],

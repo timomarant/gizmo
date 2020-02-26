@@ -36,7 +36,7 @@ export class PersonListComponent implements OnInit {
   }
 
   private getCustomers(page: number): void {
-    this.customerService.getCustomers(page).subscribe({
+    this.customerService.getCustomers(page, null).subscribe({
       next: resp => {
         this.customers = resp.body;
         this.pagination = JSON.parse(resp.headers.get('X-Pagination'));
