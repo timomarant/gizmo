@@ -9,7 +9,7 @@ import { PersonDetailModel } from '../person-detail.model';
 import { GenericValidator } from '../../../shared/generic-validator';
 import { fromEvent } from 'rxjs/internal/observable/fromEvent';
 import { merge } from 'rxjs/internal/observable/merge';
-import { CustomerService } from '../../customer/customer.service';
+import { CustomerService } from '../../../core/services/customer.service';
 
 @Component({
     templateUrl: './person-edit.component.html',

@@ -4,9 +4,9 @@ import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { PagerService } from '../../../shared/services/pagerservice';
 import { IPagination } from '../../../shared/pagination';
-import { CustomerService } from '../customer.service';
-import { ICustomerForList } from '../customer-for-list';
-import { CustomerForEdit } from '../customer-for-edit';
+import { CustomerService } from '../../../core/services/customer.service';
+import { ICustomerForList } from '../models/customer-for-list';
+import { CustomerForEdit } from '../models/customer-for-edit';
 
 @Component({
     selector: 'app-customer-list',
@@ -74,7 +74,7 @@ export class CustomerListComponent implements OnInit {
                 this.pagination = JSON.parse(resp.headers.get('X-Pagination'));
                 if (this.pagination) {
                     // get pager object from service
-                    this.pager = this.pagerService.getPager(this.pagination.totalCount, page);
+                    this.pager = this.pagerService.getPager(this.pagination.totalCount, page, this.pagination.pageSize);
                     // get current page of items
                     this.pagedItems = this.customers.slice(this.pager.startIndex, this.pager.endIndex + 1);
                 }

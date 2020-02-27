@@ -3,8 +3,8 @@ import { IPersonListModel } from '../person-list.model';
 import { IPagination } from '../../../shared/pagination';
 import { PersonService } from '../person.service';
 import { PagerService } from '../../../shared/services/pagerservice';
-import { CustomerService } from '../../customer/customer.service';
-import { ICustomerForList } from '../../customer/customer-for-list';
+import { CustomerService } from '../../../core/services/customer.service';
+import { ICustomerForList } from '../../customer/models/customer-for-list';
 
 @Component({
   selector: 'app-person-list',

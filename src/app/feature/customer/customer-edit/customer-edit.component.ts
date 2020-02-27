@@ -7,8 +7,8 @@ import { fromEvent } from 'rxjs/internal/observable/fromEvent';
 import { merge } from 'rxjs/internal/observable/merge';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
 import { GenericValidator } from '../../../shared/generic-validator';
-import { CustomerService } from '../customer.service';
-import { CustomerForEdit } from '../customer-for-edit';
+import { CustomerService } from '../../../core/services/customer.service';
+import { CustomerForEdit } from '../models/customer-for-edit';
 import countries from '../../../files/countries.json';
 
 @Component({

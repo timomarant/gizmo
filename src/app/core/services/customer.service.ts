@@ -2,12 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
-import { ICustomerForList } from './customer-for-list';
-import { CustomerForEdit } from './customer-for-edit';
+import { ICustomerForList } from '../../feature/customer/models/customer-for-list';
+import { CustomerForEdit } from '../../feature/customer/models/customer-for-edit';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class CustomerService {
     //private customersUrl = 'https://gizmodevelopmentapi.azurewebsites.net/api/customers';
     private customersUrl = 'https://gizmodevelopmentapi.azurewebsites.net/api/customers';
