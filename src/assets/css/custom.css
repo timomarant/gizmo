@@ -45,3 +45,21 @@ a.close-href:hover{
 abbr{
     font-size: small;
 }
+
+.innerWrapperHeader{    
+    background-color: #1d2127;
+    min-height: 100px;
+}
+
+html.has-tab-navigation .innerWrapperHeader {
+    padding-top: 0px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    background-color: #1d2127;
+}
+
+.headerFixed{
+    position: fixed;
+    z-index: 1020;
+}

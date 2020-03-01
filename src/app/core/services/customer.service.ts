@@ -19,7 +19,7 @@ export class CustomerService {
         if (pageNumber !== undefined && pageNumber !== null) {
             params = params.set('PageNumber', <any>pageNumber);
         }
-        params = params.set('PageSize', <any>50);
+        params = params.set('PageSize', <any>20);
         if (searchTerm !== undefined && searchTerm !== null) {
             params = params.set('SearchTerm', <any>searchTerm);
         }       

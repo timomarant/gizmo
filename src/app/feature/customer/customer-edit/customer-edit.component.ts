@@ -34,6 +34,7 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     public displayMessage: { [key: string]: string } = {};
     public primaryLabelOnMap: string;
     public secondaryLabelOnMap: string;
+    public title: string;
     public titleOnMap: string;
     public errorMessage: string;
 
@@ -104,7 +105,11 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
             params => {
                 const id = +params.get('id');
                 if (id > 0) {
+                    this.title = 'Bewerk klant';
                     this.getCustomer(id);
+                }
+                else {
+                    this.title = 'Nieuwe klant';
                 }
             }
         );
