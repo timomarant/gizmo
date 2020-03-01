@@ -18,7 +18,7 @@
                                     type="submit"><i class="fas fa-search"></i></button>
                         </span>
                     </div>
-                    <span class="help-block">Zoek op naam, telefoon of e-mail adres.</span>
+                    <span class="help-block">Zoek op naam, telefoonnummer of e-mail adres.</span>
                 </form>
             </div>
             <div class="col-md-4"><button type="button"
@@ -52,7 +52,8 @@
                         <td class="text-center">
                             <a [routerLink]="['/customer/', customer.id, 'edit']"
                                class="on-default edit-row"
-                               title="Bewerk"><i class="fas fa-pencil-alt"></i></a>
+                               title="Bewerk"
+                               ><i class="fas fa-pencil-alt"></i></a>
                             &nbsp;
                             <a [routerLink]=""
                                (click)="deleteCustomers(customer.id)"

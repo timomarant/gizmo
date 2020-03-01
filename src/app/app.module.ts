@@ -21,6 +21,7 @@ import { HomeModule } from './feature/home/home.module';
 import { InvoiceModule } from './feature/invoice/invoice.module';
 import { SettingsModule } from './feature/settings/settings.module';
 import { AppComponent } from './app.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -50,7 +51,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    NgbModule
   ],  
   bootstrap: [AppComponent]
 })

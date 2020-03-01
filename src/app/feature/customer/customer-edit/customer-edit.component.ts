@@ -92,10 +92,10 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         let validCharsRegExp = new RegExp('^[a-zA-Z0-9\\s\\(\\).,-]+$');
         this.customerForm = this.fb.group({
             name: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(validCharsRegExp)]],
-            vatNumber: ['', [Validators.maxLength(15), Validators.pattern(validCharsRegExp)]],
-            address: ['', [Validators.maxLength(100), Validators.pattern(validCharsRegExp)]],
-            city: ['', [Validators.maxLength(50), Validators.pattern(validCharsRegExp)]],
-            postalCode: ['', [Validators.maxLength(10), Validators.pattern(validCharsRegExp)]],
+            vatNumber: [null, [Validators.maxLength(15), Validators.pattern(validCharsRegExp)]],
+            address: [null, [Validators.maxLength(100), Validators.pattern(validCharsRegExp)]],
+            city: [null, [Validators.maxLength(50), Validators.pattern(validCharsRegExp)]],
+            postalCode: [null, [Validators.maxLength(10), Validators.pattern(validCharsRegExp)]],
             phoneNumbers: this.fb.array([this.buildPhoneNumbersGroup(null)]),
             emailAddresses: this.fb.array([this.buildEmailAdrressesGroup(null)])
         });
