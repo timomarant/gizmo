@@ -47,7 +47,7 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        if (this.searchElementRef.nativeElement) {
+        if (this.searchElementRef) {
             this.searchElementRef.nativeElement.focus();
         }
     }
