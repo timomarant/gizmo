@@ -8,9 +8,10 @@
                       [formGroup]="searchForm">
                     <div class="input-group">
                         <input type="text"
-                               [(ngModel)]="userQuestion"
                                formControlName="userQuestion"
                                id="userQuestion"
+                               #searchElement
+                               [(ngModel)]="userQuestion"
                                (ngModelChange)="this.userQuestionUpdate.next($event)"
                                class="form-control">
                         <span class="input-group-append">
@@ -28,7 +29,7 @@
         <div class="dataTables_wrapper">
             <table class="table table-responsive-md table-hover mb-0"
                    style="table-layout: fixed;"
-                   *ngIf='customers'>
+                   *ngIf='customers?.length'>
                 <thead>
                     <tr>
                         <th class="text-center"
@@ -44,21 +45,29 @@
                 <tbody>
                     <tr *ngFor='let customer of customers'>
                         <td data-title=""
-                            class="text-center"><i class="el el-star-empty"></i></td>
+                            class="text-center">
+                            <ngb-rating [(rate)]="selected" [starTemplate]="t" [resettable]="true" max="1"></ngb-rating>
+                            <!-- <i class="el el-star-empty"></i> -->
+                        
+                        </td>
                         <td class="text">{{ customer.name }}</td>
                         <!-- <td class="text">{{ customer.address }}</td> -->
                         <td class="text ">{{ customer.phone }}</td>
                         <td class="text">{{ customer.email }}</td>
-                        <td class="text-center">
+                        <td class="text-center">                          
                             <a [routerLink]="['/customer/', customer.id, 'edit']"
                                class="on-default edit-row"
-                               title="Bewerk"
+                               placement="top" 
+                               ngbTooltip="Bewerk"
+                               tooltipClass="my-custom-tooltip"
                                ><i class="fas fa-pencil-alt"></i></a>
                             &nbsp;
                             <a [routerLink]=""
                                (click)="deleteCustomers(customer.id)"
-                               class="on-default edit-row"
-                               title="Verwijder"><i class="fas fa-trash-alt"></i></a>
+                               placement="top" 
+                               ngbTooltip="Verwijder"
+                               tooltipClass="my-custom-tooltip"
+                               class="on-default edit-row"><i class="fas fa-trash-alt"></i></a>
                         </td>
                     </tr>
                 </tbody>

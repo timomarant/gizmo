@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChildren, ElementRef } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { FormBuilder, FormControlName, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -12,8 +12,9 @@ import { CustomerForEdit } from '../models/customer-for-edit';
     selector: 'app-customer-list',
     templateUrl: './customer-list.component.html'
 })
-export class CustomerListComponent implements OnInit {
-    @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
+export class CustomerListComponent implements OnInit, AfterViewInit {
+
+    @ViewChild('searchElement', { static: false }) searchElementRef: ElementRef;          
 
     public customers: ICustomerForList[];
     public pagination: IPagination;
@@ -30,19 +31,25 @@ export class CustomerListComponent implements OnInit {
         private fb: FormBuilder,
         private customerService: CustomerService,
         private pagerService: PagerService) {
-            this.searchTerm = null;
-            this.userQuestionUpdate.pipe(
-                debounceTime(400),
-                distinctUntilChanged())
-                .subscribe(value => {
-                    this.searchTerm = value;
-                    this.getCustomers(1, value);
-                });
+        this.searchTerm = null;
+        this.userQuestionUpdate.pipe(
+            debounceTime(400),
+            distinctUntilChanged())
+            .subscribe(value => {
+                this.searchTerm = value;
+                this.getCustomers(1, value);
+            });
     }
 
     ngOnInit() {
         this.displayCustomers(1);
-        this.searchForm = this.fb.group({userQuestion: ['', ]});
+        this.searchForm = this.fb.group({ userQuestion: ['',] });
+    }
+
+    ngAfterViewInit(): void {
+        if (this.searchElementRef.nativeElement) {
+            this.searchElementRef.nativeElement.focus();
+        }
     }
 
     public searchCustomers(): void {
