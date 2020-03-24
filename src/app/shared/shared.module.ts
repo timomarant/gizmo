@@ -5,11 +5,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PageNotFoundComponent } from './components/';
 import { WebviewDirective } from './directives/';
+import { SearchComponent } from './components/search/search.component';
 
 @NgModule({
     declarations: [
         WebviewDirective,
-        PageNotFoundComponent
+        PageNotFoundComponent,
+        SearchComponent
     ],
     imports: [
         CommonModule,
@@ -21,10 +23,11 @@ import { WebviewDirective } from './directives/';
     exports: [
         CommonModule,
         TranslateModule,
-        WebviewDirective,
         FormsModule,
         ReactiveFormsModule,
-        NgbModule
+        NgbModule,
+        WebviewDirective,
+        SearchComponent
     ]
 })
 export class SharedModule { }

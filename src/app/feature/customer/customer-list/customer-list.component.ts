@@ -1,60 +1,41 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, ViewChildren } from '@angular/core';
-import { FormBuilder, FormControlName, FormGroup } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { PagerService } from '../../../shared/services/pagerservice';
 import { IPagination } from '../../../shared/pagination';
 import { CustomerService } from '../../../core/services/customer.service';
 import { ICustomerForList } from '../models/customer-for-list';
 import { CustomerForEdit } from '../models/customer-for-edit';
+import { SearchComponent } from '../../../shared/components/search/search.component';
 
 @Component({
     selector: 'app-customer-list',
     templateUrl: './customer-list.component.html'
 })
-export class CustomerListComponent implements OnInit, AfterViewInit {
-
-    @ViewChild('searchElement', { static: false }) searchElementRef: ElementRef;          
-
+export class CustomerListComponent implements OnInit, AfterViewInit {   
+    @ViewChild(SearchComponent, { static: false }) searchComponent: SearchComponent;
     public customers: ICustomerForList[];
     public pagination: IPagination;
     public pager: any = {};
     public pagedItems: any[];
     public errorMessage: string;
-    public searchForm: FormGroup;
+    public helpTextString: string;
     private searchTerm: string;
 
-    public userQuestion: string;
-    userQuestionUpdate = new Subject<string>();
-
     constructor(
-        private fb: FormBuilder,
         private customerService: CustomerService,
         private pagerService: PagerService) {
-        this.searchTerm = null;
-        this.userQuestionUpdate.pipe(
-            debounceTime(400),
-            distinctUntilChanged())
-            .subscribe(value => {
-                this.searchTerm = value;
-                this.getCustomers(1, value);
-            });
     }
 
     ngOnInit() {
         this.displayCustomers(1);
-        this.searchForm = this.fb.group({ userQuestion: ['',] });
     }
 
     ngAfterViewInit(): void {
-        if (this.searchElementRef) {
-            this.searchElementRef.nativeElement.focus();
-        }
+        this.helpTextString = 'Zoek op naam, telefoonnummer of e-mail adres.';
+        this.searchTerm = this.searchComponent.searchTerm;
     }
 
-    public searchCustomers(): void {
-        this.searchTerm = this.searchForm.get('userQuestion').value;
-        this.getCustomers(1, this.searchTerm);
+    public onValueChange(value: string): void {
+        this.getCustomers(1, value);
     }
 
     public displayCustomers(page: number) {

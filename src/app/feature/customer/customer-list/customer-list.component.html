@@ -3,28 +3,15 @@
          style="display: block;">
         <div class="row mb-5 mt-2">
             <div class="col-md-4 offset-4">
-                <form novalidate
-                      (ngSubmit)="searchCustomers()"
-                      [formGroup]="searchForm">
-                    <div class="input-group">
-                        <input type="text"
-                               formControlName="userQuestion"
-                               id="userQuestion"
-                               #searchElement
-                               [(ngModel)]="userQuestion"
-                               (ngModelChange)="this.userQuestionUpdate.next($event)"
-                               class="form-control">
-                        <span class="input-group-append">
-                            <button class="btn btn-default"
-                                    type="submit"><i class="fas fa-search"></i></button>
-                        </span>
-                    </div>
-                    <span class="help-block">Zoek op naam, telefoonnummer of e-mail adres.</span>
-                </form>
+                <app-search #searchComponent
+                            [helpText]="helpTextString"
+                            [hitCount]="this.pagination.totalCount"
+                            (valueChange)='onValueChange($event)'>
+                </app-search>
             </div>
             <div class="col-md-4"><button type="button"
-                [routerLink]="['/customer/0/edit']"
-                class="btn btn-primary float-right">Nieuwe klant</button></div>
+                        [routerLink]="['/customer/0/edit']"
+                        class="btn btn-primary float-right">Nieuwe klant</button></div>
         </div>
         <div class="dataTables_wrapper">
             <table class="table table-responsive-md table-hover mb-0"
@@ -46,25 +33,27 @@
                     <tr *ngFor='let customer of customers'>
                         <td data-title=""
                             class="text-center">
-                            <ngb-rating [(rate)]="selected" [starTemplate]="t" [resettable]="true" max="1"></ngb-rating>
+                            <ngb-rating [(rate)]="selected"
+                                        [starTemplate]="t"
+                                        [resettable]="true"
+                                        max="1"></ngb-rating>
                             <!-- <i class="el el-star-empty"></i> -->
-                        
+
                         </td>
                         <td class="text">{{ customer.name }}</td>
                         <!-- <td class="text">{{ customer.address }}</td> -->
                         <td class="text ">{{ customer.phone }}</td>
                         <td class="text">{{ customer.email }}</td>
-                        <td class="text-center">                          
+                        <td class="text-center">
                             <a [routerLink]="['/customer/', customer.id, 'edit']"
                                class="on-default edit-row"
-                               placement="top" 
+                               placement="top"
                                ngbTooltip="Bewerk"
-                               tooltipClass="my-custom-tooltip"
-                               ><i class="fas fa-pencil-alt"></i></a>
+                               tooltipClass="my-custom-tooltip"><i class="fas fa-pencil-alt"></i></a>
                             &nbsp;
                             <a [routerLink]=""
                                (click)="deleteCustomers(customer.id)"
-                               placement="top" 
+                               placement="top"
                                ngbTooltip="Verwijder"
                                tooltipClass="my-custom-tooltip"
                                class="on-default edit-row"><i class="fas fa-trash-alt"></i></a>

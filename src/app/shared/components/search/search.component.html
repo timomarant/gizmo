@@ -1,0 +1,19 @@
+<form novalidate
+      (ngSubmit)="onFormSubmit()"
+      [formGroup]="searchForm">
+    <div class="input-group">
+        <input type="text"
+               formControlName="userQuestion"
+               id="userQuestion"
+               #searchElement
+               [(ngModel)]="userQuestion"
+               (ngModelChange)="this.userQuestionUpdate.next($event)"
+               class="form-control">
+        <span class="input-group-append">
+            <button class="btn btn-default"
+                    type="submit"><i class="fas fa-search"></i></button>
+        </span>
+    </div>
+    <span class="help-block"
+          *ngIf="helpText">{{ helpText }} - {{ hitMessage }}</span>
+</form>
