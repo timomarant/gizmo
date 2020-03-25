@@ -15,8 +15,7 @@ export class SearchComponent implements OnInit, OnChanges, AfterViewInit {
     @Output() valueChange: EventEmitter<string> = new EventEmitter<string>();
     public searchForm: FormGroup;
     public hitMessage: string;
-
-    private userQuestionUpdate = new Subject<string>();
+    public userQuestionUpdate = new Subject<string>();
 
     private _searchTerm: string;
     get searchTerm(): string {
