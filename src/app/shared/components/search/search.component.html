@@ -2,11 +2,10 @@
       (ngSubmit)="onFormSubmit()"
       [formGroup]="searchForm">
     <div class="input-group">
-        <input type="text"
-               formControlName="userQuestion"
-               id="userQuestion"
+        <input id="userQuestion"
                #searchElement
-               [(ngModel)]="userQuestion"
+               type="text"
+               formControlName="userQuestion"
                (ngModelChange)="this.userQuestionUpdate.next($event)"
                class="form-control">
         <span class="input-group-append">
