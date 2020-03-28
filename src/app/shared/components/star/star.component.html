@@ -1,5 +1,6 @@
 <a *ngIf="isSelected"
    (click)="toggleSelected()"
+   class="cur-pointer"
    placement="top"
    ngbTooltip="Favoriet"
    tooltipClass="my-custom-tooltip"><i class="fas fa-star"
@@ -7,6 +8,7 @@
 
 <a *ngIf="!isSelected"
    (click)="toggleSelected()"
+   class="cur-pointer"
    placement="top"
    ngbTooltip="Geen favoriet"
    tooltipClass="my-custom-tooltip"><i class="el el-star-empty"></i></a>

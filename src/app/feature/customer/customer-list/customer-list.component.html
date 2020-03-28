@@ -36,12 +36,12 @@
                                       [modelId]="customer.id"
                                       (valueChange)='onStarComponentValueChange($event)'></app-star>
                         </td>
-                        <td class="text">{{ customer.name }}</td>
-                        <td class="text ">{{ customer.phone }}</td>
-                        <td class="text">{{ customer.email }}</td>
+                        <td class="text outline-none cur-pointer" [routerLink]="['/customer/', customer.id, 'edit']">{{ customer.name }}</td>
+                        <td class="text outline-none cur-pointer" [routerLink]="['/customer/', customer.id, 'edit']">{{ customer.phone }}</td>
+                        <td class="text outline-none cur-pointer" [routerLink]="['/customer/', customer.id, 'edit']">{{ customer.email }}</td>
                         <td class="text-center">
                             <a [routerLink]="['/customer/', customer.id, 'edit']"
-                               class="on-default edit-row"
+                               class="cur-pointer"
                                placement="top"
                                ngbTooltip="Bewerk"
                                tooltipClass="my-custom-tooltip"><i class="fas fa-pencil-alt"></i></a>
@@ -51,7 +51,7 @@
                                placement="top"
                                ngbTooltip="Verwijder"
                                tooltipClass="my-custom-tooltip"
-                               class="on-default edit-row"><i class="fas fa-trash-alt"></i></a>
+                               class="cur-pointer"><i class="fas fa-trash-alt"></i></a>
                         </td>
                     </tr>
                 </tbody>
