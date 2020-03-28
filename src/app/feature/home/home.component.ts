@@ -9,11 +9,13 @@ import { IPagination } from '../../shared/pagination';
 export class HomeComponent implements OnInit {
 
     public pagination: IPagination;
-    public totalCustoners: string;
+    public totalCustomers: string;
+    public recentCustomers: string;
+    public favouriteCustomers: string;
     public errorMessage: string;
 
     constructor(private customerService: CustomerService) {
-        this.totalCustoners = "...";
+        this.totalCustomers = "...";
      }
 
     ngOnInit() {
@@ -24,8 +26,10 @@ export class HomeComponent implements OnInit {
         this.customerService.getCustomers(1, '').subscribe({
             next: resp => {
                 this.pagination = JSON.parse(resp.headers.get('X-Pagination'));
+                this.recentCustomers = resp.headers.get('X-Recent-Count');
+                this.favouriteCustomers = resp.headers.get('X-Favourite-Count');
                 if (this.pagination) {
-                   this.totalCustoners = this.pagination.totalCount.toString();
+                   this.totalCustomers = this.pagination.totalCount.toString();
                 }
             },
             error: err => this.errorMessage = err

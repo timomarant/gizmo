@@ -12,9 +12,15 @@
                     <div class="summary">
                         <h4 class="title">Aantal klanten</h4>
                         <div class="info">
-                            <strong class="amount">{{ totalCustoners }}</strong>
-                            <br><span class="text-primary">(<a routerLink="/customer/list">14 nieuwe</a>, <a
-                                   routerLink="/customer/list">12 favorieten</a>)</span>
+                            <strong class="amount">{{ totalCustomers }}</strong>
+                            <br>
+                            <span class="text-primary"
+                                  *ngIf="recentCustomers && favouriteCustomers">
+                                (
+                                <a routerLink="/customer/list">{{ recentCustomers }} nieuwe</a>,
+                                <a routerLink="/customer/list">{{ favouriteCustomers }} favorieten</a>
+                                )
+                            </span>
                         </div>
                     </div>
                     <div class="summary-footer">

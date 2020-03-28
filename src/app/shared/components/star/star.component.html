@@ -1,14 +1,12 @@
 <a *ngIf="isSelected"
    (click)="toggleSelected()"
-   class="on-default edit-row"
    placement="top"
-   ngbTooltip="Verwijderen uit favorieten"
+   ngbTooltip="Favoriet"
    tooltipClass="my-custom-tooltip"><i class="fas fa-star"
        style="color: #ffcc33;"></i></a>
 
 <a *ngIf="!isSelected"
    (click)="toggleSelected()"
-   class="on-default edit-row"
    placement="top"
-   ngbTooltip="Toevoegen aan favorieten"
+   ngbTooltip="Geen favoriet"
    tooltipClass="my-custom-tooltip"><i class="el el-star-empty"></i></a>
