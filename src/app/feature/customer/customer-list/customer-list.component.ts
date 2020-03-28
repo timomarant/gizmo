@@ -5,24 +5,28 @@ import { CustomerService } from '../../../core/services/customer.service';
 import { ICustomerForList } from '../models/customer-for-list';
 import { CustomerForEdit } from '../models/customer-for-edit';
 import { SearchComponent } from '../../../shared/components/search/search.component';
+import { StarComponent } from '../../../shared/components/star/star.component';
 
 @Component({
     selector: 'app-customer-list',
     templateUrl: './customer-list.component.html'
 })
-export class CustomerListComponent implements OnInit, AfterViewInit {   
+export class CustomerListComponent implements OnInit, AfterViewInit {
     @ViewChild(SearchComponent, { static: false }) searchComponent: SearchComponent;
+    @ViewChild(StarComponent, { static: false }) starComponent: StarComponent;
     public customers: ICustomerForList[];
     public pagination: IPagination;
     public pager: any = {};
     public pagedItems: any[];
     public errorMessage: string;
-    public helpTextString: string;
+    public searchComponentHelpText: string;
+    public starComponentIsSelected: boolean;
     private searchTerm: string;
 
     constructor(
         private customerService: CustomerService,
         private pagerService: PagerService) {
+        this.searchComponentHelpText = 'Zoek op naam, telefoonnummer of e-mail adres';
     }
 
     ngOnInit() {
@@ -30,12 +34,15 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        this.helpTextString = 'Zoek op naam, telefoonnummer of e-mail adres.';
         this.searchTerm = this.searchComponent.searchTerm;
     }
 
-    public onValueChange(value: string): void {
-        this.getCustomers(1, value);
+    public onSearchComponentValueChange(searchTerm: string): void {
+        this.getCustomers(1, searchTerm);
+    }
+
+    public onStarComponentValueChange(event: any): void {        
+        this.customerService.setCustomerFavourite(event.modelId, event.isSelected);
     }
 
     public displayCustomers(page: number) {

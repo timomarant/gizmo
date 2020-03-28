@@ -4,4 +4,5 @@ export interface ICustomerForList {
   address?: string; 
   phone?: string; 
   email?: string; 
+  isFavourite: boolean;
 }

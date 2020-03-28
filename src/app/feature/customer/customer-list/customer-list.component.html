@@ -4,9 +4,9 @@
         <div class="row mb-5 mt-2">
             <div class="col-md-4 offset-4">
                 <app-search #searchComponent
-                            [helpText]="helpTextString"
-                            [hitCount]="this.pagination.totalCount"
-                            (valueChange)='onValueChange($event)'>
+                            [helpText]="this.searchComponentHelpText"
+                            [hitCount]="this.pagination?.totalCount"
+                            (valueChange)='onSearchComponentValueChange($event)'>
                 </app-search>
             </div>
             <div class="col-md-4"><button type="button"
@@ -22,7 +22,6 @@
                         <th class="text-center"
                             style="width: 50px;"></th>
                         <th class="text">Klant</th>
-                        <!-- <th class="text">Adres</th> -->
                         <th class="text">Telefoon</th>
                         <th class="text">E-mail</th>
                         <th class="text-center"
@@ -33,15 +32,11 @@
                     <tr *ngFor='let customer of customers'>
                         <td data-title=""
                             class="text-center">
-                            <ngb-rating [(rate)]="selected"
-                                        [starTemplate]="t"
-                                        [resettable]="true"
-                                        max="1"></ngb-rating>
-                            <!-- <i class="el el-star-empty"></i> -->
-
+                            <app-star [isSelected]="customer.isFavourite"
+                                      [modelId]="customer.id"
+                                      (valueChange)='onStarComponentValueChange($event)'></app-star>
                         </td>
                         <td class="text">{{ customer.name }}</td>
-                        <!-- <td class="text">{{ customer.address }}</td> -->
                         <td class="text ">{{ customer.phone }}</td>
                         <td class="text">{{ customer.email }}</td>
                         <td class="text-center">

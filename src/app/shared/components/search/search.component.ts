@@ -26,7 +26,7 @@ export class SearchComponent implements OnInit, OnChanges, AfterViewInit {
         this.valueChange.emit(value);
     }
 
-    constructor(private fb: FormBuilder, ) {
+    constructor(private fb: FormBuilder) {
         this.searchTerm = null;
         this.userQuestionUpdate.pipe(
             debounceTime(400),

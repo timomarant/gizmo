@@ -6,12 +6,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PageNotFoundComponent } from './components/';
 import { WebviewDirective } from './directives/';
 import { SearchComponent } from './components/search/search.component';
+import { StarComponent } from './components/star/star.component';
 
 @NgModule({
     declarations: [
         WebviewDirective,
         PageNotFoundComponent,
-        SearchComponent
+        SearchComponent,
+        StarComponent
     ],
     imports: [
         CommonModule,
@@ -27,7 +29,8 @@ import { SearchComponent } from './components/search/search.component';
         ReactiveFormsModule,
         NgbModule,
         WebviewDirective,
-        SearchComponent
+        SearchComponent,
+        StarComponent
     ]
 })
 export class SharedModule { }

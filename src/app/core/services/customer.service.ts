@@ -7,7 +7,7 @@ import { CustomerForEdit } from '../../feature/customer/models/customer-for-edit
 
 @Injectable()
 export class CustomerService {
-    //private customersUrl = 'https://gizmodevelopmentapi.azurewebsites.net/api/customers';
+    //private customersUrl = 'https://localhost:44352/api/customers';
     private customersUrl = 'https://gizmodevelopmentapi.azurewebsites.net/api/customers';
 
     constructor(
@@ -22,7 +22,7 @@ export class CustomerService {
         params = params.set('PageSize', <any>20);
         if (searchTerm !== undefined && searchTerm !== null) {
             params = params.set('SearchTerm', <any>searchTerm);
-        }       
+        }
 
         return this.http.get<ICustomerForList[]>(this.customersUrl, { params, observe: 'response' }).pipe(
             tap(data => console.log('getCustomers: ' + JSON.stringify(data))),
@@ -46,9 +46,24 @@ export class CustomerService {
         const url = `${this.customersUrl}/${customerForEdit.id}`;
         return this.http.put<CustomerForEdit>(url, customerForEdit, { headers })
             .pipe(
-                tap(() => console.log('updateProduct: ' + customerForEdit.id)),
+                tap(() => console.log('updateCustomer: ' + customerForEdit.id)),
                 // Return the CustomerForEdit on an update
                 map(() => customerForEdit),
+                catchError(this.handleError)
+            );
+    }
+
+    public setCustomerFavourite(customerId: number, isFavourite: boolean) :void{
+        const patchDocument = [{ "op": "replace", "path": "/isFavourite", "value": isFavourite }];
+        this.partiallyUpdateCustomer(customerId, patchDocument).subscribe();
+    }
+
+    private partiallyUpdateCustomer(customerId: number, patchDocument: any): Observable<any> {
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        const url = `${this.customersUrl}/${customerId}`;
+        return this.http.patch<any>(url, patchDocument, { headers })
+            .pipe(
+                tap(() => console.log('partiallyUpdateCustomer: ' + customerId)),
                 catchError(this.handleError)
             );
     }
@@ -58,12 +73,13 @@ export class CustomerService {
         customerForEdit.id = null;
         return this.http.post<CustomerForEdit>(this.customersUrl, customerForEdit, { headers })
             .pipe(
-                tap(data => console.log('createProduct: ' + JSON.stringify(data))),
+                tap(data => console.log('createCustomer: ' + JSON.stringify(data))),
                 catchError(this.handleError)
             );
     }
 
-    private handleError(err) {
+    private handleError(err: any) {
+        console.log(err);
         // in a real world app, we may send the server to some remote logging infrastructure
         // instead of just logging it to the console
         let errorMessage: string;
@@ -93,6 +109,7 @@ export class CustomerService {
             emailOne: null,
             emailTwo: null,
             emailThree: null,
+            isFavourite: false,
             isDeleted: false
         };
     }

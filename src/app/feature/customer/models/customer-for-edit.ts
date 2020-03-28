@@ -12,5 +12,6 @@ export class CustomerForEdit {
   emailOne?: string; 
   emailTwo?: string; 
   emailThree?: string; 
+  isFavourite: boolean;
   isDeleted: boolean;
 }
