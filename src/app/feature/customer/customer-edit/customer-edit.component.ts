@@ -235,7 +235,6 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.customerForEdit.phoneThree) {
             this.phoneNumbersFormArray.push(this.buildPhoneNumbersGroup(this.customerForEdit.phoneThree));
         }
-
         if (this.customerForEdit.emailOne) {
             this.emailAddressesFormArray.clear();
             this.emailAddressesFormArray.push(this.buildEmailAdrressesGroup(this.customerForEdit.emailOne));
@@ -250,7 +249,16 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private getCustomer(id: number): void {
         this.customerService.getCustomer(id).subscribe({
-            next: (customerForEdit: CustomerForEdit) => this.DisplayCustomer(customerForEdit),
+            next: (customerForEdit: CustomerForEdit) => {
+                this.title = customerForEdit.name;
+                if(customerForEdit.phoneOne){
+                    this.primaryLabelOnMap = customerForEdit.phoneOne;
+                }
+                if(customerForEdit.emailOne){
+                    this.secondaryLabelOnMap = customerForEdit.emailOne;
+                }
+                this.DisplayCustomer(customerForEdit)
+            },
             error: err => this.errorMessage = err
         });
     }
