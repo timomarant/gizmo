@@ -7,8 +7,8 @@ import { CustomerForEdit } from '../../feature/customer/models/customer-for-edit
 
 @Injectable()
 export class CustomerService {
-    private customersUrl = 'https://localhost:44352/api/customers';
-    //private customersUrl = 'https://gizmodevelopmentapi.azurewebsites.net/api/customers';
+    //private customersUrl = 'https://localhost:44352/api/customers';
+    private customersUrl = 'https://gizmodevelopmentapi.azurewebsites.net/api/customers';
 
     constructor(
         private http: HttpClient
