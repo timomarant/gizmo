@@ -7,14 +7,14 @@ import { CustomerForEdit } from '../../feature/customer/models/customer-for-edit
 
 @Injectable()
 export class CustomerService {
-    //private customersUrl = 'https://localhost:44352/api/customers';
-    private customersUrl = 'https://gizmodevelopmentapi.azurewebsites.net/api/customers';
+    private customersUrl = 'https://localhost:44352/api/customers';
+    //private customersUrl = 'https://gizmodevelopmentapi.azurewebsites.net/api/customers';
 
     constructor(
         private http: HttpClient
     ) { }
 
-    public getCustomers(pageNumber: number, searchTerm: string): Observable<HttpResponse<ICustomerForList[]>> {
+    public getCustomers(pageNumber: number, searchTerm?: string, isFavourite?: boolean, isRecent?: boolean): Observable<HttpResponse<ICustomerForList[]>> {
         let params = new HttpParams();
         if (pageNumber !== undefined && pageNumber !== null) {
             params = params.set('PageNumber', <any>pageNumber);
@@ -23,9 +23,15 @@ export class CustomerService {
         if (searchTerm !== undefined && searchTerm !== null) {
             params = params.set('SearchTerm', <any>searchTerm);
         }
+        if (isFavourite !== undefined && isFavourite !== null) {
+            params = params.set('IsFavourite', <any>isFavourite);
+        }
+        if (isRecent !== undefined && isRecent !== null) {
+            params = params.set('IsRecent', <any>isRecent);
+        }
 
         return this.http.get<ICustomerForList[]>(this.customersUrl, { params, observe: 'response' }).pipe(
-            tap(data => console.log('getCustomers: ' + JSON.stringify(data))),
+            //tap(data => console.log('getCustomers: ' + JSON.stringify(data))),
             catchError(this.handleError));
     }
 

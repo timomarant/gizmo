@@ -296,7 +296,15 @@
                                 <li>
                                     <a routerLink="/customer/list"
                                        class="nav-link">
-                                        <i class="fas fa-list"></i><span style="margin-left: 5px;"></span> Overzicht
+                                        <i class="fas fa-list mr-2"></i>Alle
+                                    </a>
+                                </li>
+                                <li>
+                                    <a routerLink="/customer/list"
+                                       [queryParams]="{ isFavourite: true }"
+                                       class="nav-link">
+                                        <i class="fas fa-star mr-2"
+                                           style="color: #ffcc33;"></i>Favorieten
                                     </a>
                                 </li>
                                 <!-- <li>

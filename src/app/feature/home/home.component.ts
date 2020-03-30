@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
     }
 
     initCustomers() {
-        this.customerService.getCustomers(1, '').subscribe({
+        this.customerService.getCustomers(1).subscribe({
             next: resp => {
                 this.pagination = JSON.parse(resp.headers.get('X-Pagination'));
                 this.recentCustomers = resp.headers.get('X-Recent-Count');
@@ -35,5 +35,4 @@ export class HomeComponent implements OnInit {
             error: err => this.errorMessage = err
         });
     }
-
 }

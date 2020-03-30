@@ -15,11 +15,8 @@
                             <strong class="amount">{{ totalCustomers }}</strong>
                             <br>
                             <span class="text-primary"
-                                  *ngIf="recentCustomers && favouriteCustomers">
-                                (
-                                <a routerLink="/customer/list">{{ recentCustomers }} nieuwe</a>,
-                                <a routerLink="/customer/list">{{ favouriteCustomers }} favorieten</a>
-                                )
+                                  *ngIf="recentCustomers && favouriteCustomers">(<a routerLink="/customer/list"
+                                   [queryParams]="{ isFavourite: true }">{{ favouriteCustomers }} favorieten</a>)
                             </span>
                         </div>
                     </div>

@@ -63,28 +63,28 @@
                     <li [ngClass]="{disabled:pager.currentPage === 1}"
                         class="paginate_button page-item previous">
                         <a (click)="displayCustomers(1)"
-                           class="page-link">First</a>
+                           class="page-link cur-pointer">First</a>
                     </li>
                     <li [ngClass]="{disabled:pager.currentPage === 1}"
                         class="paginate_button page-item previous">
                         <a (click)="displayCustomers(pager.currentPage - 1)"
-                           class="page-link">Previous</a>
+                           class="page-link cur-pointer">Previous</a>
                     </li>
                     <li *ngFor="let page of pager.pages"
                         class="paginate_button page-item "
                         [ngClass]="{active:pager.currentPage === page}">
                         <a (click)="displayCustomers(page)"
-                           class="page-link">{{page}}</a>
+                           class="page-link cur-pointer">{{page}}</a>
                     </li>
                     <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}"
                         class="paginate_button page-item next">
                         <a (click)="displayCustomers(pager.currentPage + 1)"
-                           class="page-link">Next</a>
+                           class="page-link cur-pointer">Next</a>
                     </li>
                     <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}"
                         class="paginate_button page-item next">
                         <a (click)="displayCustomers(pager.totalPages)"
-                           class="page-link">Last</a>
+                           class="page-link cur-pointer">Last</a>
                     </li>
                 </ul>
             </div>

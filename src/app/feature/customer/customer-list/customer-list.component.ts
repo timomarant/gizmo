@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { PagerService } from '../../../shared/services/pagerservice';
 import { IPagination } from '../../../shared/pagination';
 import { CustomerService } from '../../../core/services/customer.service';
@@ -6,12 +6,14 @@ import { ICustomerForList } from '../models/customer-for-list';
 import { CustomerForEdit } from '../models/customer-for-edit';
 import { SearchComponent } from '../../../shared/components/search/search.component';
 import { StarComponent } from '../../../shared/components/star/star.component';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-customer-list',
     templateUrl: './customer-list.component.html'
 })
-export class CustomerListComponent implements OnInit, AfterViewInit {
+export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(SearchComponent, { static: false }) searchComponent: SearchComponent;
     @ViewChild(StarComponent, { static: false }) starComponent: StarComponent;
     public customers: ICustomerForList[];
@@ -21,32 +23,46 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
     public errorMessage: string;
     public searchComponentHelpText: string;
     public starComponentIsSelected: boolean;
+
     private searchTerm: string;
+    private isFavourite: boolean;
+    private sub: Subscription;
 
     constructor(
         private customerService: CustomerService,
-        private pagerService: PagerService) {
+        private pagerService: PagerService,
+        private router: Router,
+        private route: ActivatedRoute) {
         this.searchComponentHelpText = 'Zoek op naam, telefoonnummer of e-mail adres';
     }
 
     ngOnInit() {
-        this.displayCustomers(1);
+        this.sub = this.route
+            .queryParams
+            .subscribe(params => {
+                this.isFavourite = params['isFavourite'] || false;  // Defaults to false if no query param provided.
+                this.displayCustomers(1, this.isFavourite);
+            });
     }
 
     ngAfterViewInit(): void {
         this.searchTerm = this.searchComponent.searchTerm;
     }
 
+    ngOnDestroy() {
+        this.sub.unsubscribe();
+    }
+
     public onSearchComponentValueChange(searchTerm: string): void {
         this.getCustomers(1, searchTerm);
     }
 
-    public onStarComponentValueChange(event: any): void {        
+    public onStarComponentValueChange(event: any): void {
         this.customerService.setCustomerFavourite(event.modelId, event.isSelected);
     }
 
-    public displayCustomers(page: number) {
-        this.getCustomers(page, this.searchTerm);
+    public displayCustomers(page: number, isFavourite?: boolean) {
+        this.getCustomers(page, this.searchTerm, isFavourite);
     }
 
     public deleteCustomers(id: number) {
@@ -62,8 +78,8 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
         });
     }
 
-    private getCustomers(page: number, searchTerm: string): void {
-        this.customerService.getCustomers(page, searchTerm).subscribe({
+    private getCustomers(page: number, searchTerm: string, isFavourite?: boolean): void {
+        this.customerService.getCustomers(page, searchTerm, isFavourite).subscribe({
             next: resp => {
                 this.customers = resp.body;
                 this.pagination = JSON.parse(resp.headers.get('X-Pagination'));
