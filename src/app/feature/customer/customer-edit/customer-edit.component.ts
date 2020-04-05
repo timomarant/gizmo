@@ -13,12 +13,7 @@ import countries from '../../../files/countries.json';
 
 @Component({
     selector: 'app-customer-edit',
-    templateUrl: './customer-edit.component.html',
-    styles: [`
-    agm-map {
-      height: 400px;
-    }
-  `]
+    templateUrl: './customer-edit.component.html'
 })
 export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];

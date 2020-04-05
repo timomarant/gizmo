@@ -67,3 +67,25 @@ html.has-tab-navigation .innerWrapperHeader {
 .my-custom-tooltip .tooltip-inner{
     background-color: #1d2127;
 }
+
+agm-map {
+    height: 400px;
+}
+
+.alert{
+    border-radius: 0;
+    margin-bottom: 0;
+}
+
+.alert-dismissible .close{
+    outline: none;
+}
+
+p{
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+html.has-tab-navigation .content-body {
+    border-radius: unset;
+}

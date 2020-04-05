@@ -6,6 +6,7 @@
                 <app-search #searchComponent
                             [helpText]="this.searchComponentHelpText"
                             [hitCount]="this.pagination?.totalCount"
+                            [searchTerm]="this.searchTerm"
                             (valueChange)='onSearchComponentValueChange($event)'>
                 </app-search>
             </div>

@@ -6,12 +6,18 @@ import { ElectronService } from './core/services';
 import { TranslateService } from '@ngx-translate/core';
 import { AppConfig } from '../environments/environment';
 import { Router, NavigationEnd } from '@angular/router';
+import { Subject } from 'rxjs/internal/Subject';
+import { debounceTime } from 'rxjs/internal/operators/debounceTime';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
+    private _success = new Subject<string>();
+
+    public successMessage: string;
+
     constructor(
         public electronService: ElectronService,
         private translate: TranslateService,
@@ -32,7 +38,7 @@ export class AppComponent implements OnInit {
 
         this.title.setTitle(`Verelst Software ${VERSION.full}`);
     }
-    
+
     ngOnInit(): void {
         this.router.events.subscribe((evt) => {
             if (!(evt instanceof NavigationEnd)) {
@@ -40,5 +46,14 @@ export class AppComponent implements OnInit {
             }
             window.scrollTo(0, 0)
         });
+
+        this._success.subscribe(message => this.successMessage = message);
+        this._success.pipe(
+            debounceTime(5000)
+        ).subscribe(() => this.successMessage = '');
+
+
+        this._success.next('Success');
     }
+
 }

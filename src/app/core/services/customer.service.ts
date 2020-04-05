@@ -14,7 +14,7 @@ export class CustomerService {
         private http: HttpClient
     ) { }
 
-    public getCustomers(pageNumber: number, searchTerm?: string, isFavourite?: boolean, isRecent?: boolean): Observable<HttpResponse<ICustomerForList[]>> {
+    public getCustomers(pageNumber: number, searchTerm?: string, filter?: string, isRecent?: boolean): Observable<HttpResponse<ICustomerForList[]>> {
         let params = new HttpParams();
         if (pageNumber !== undefined && pageNumber !== null) {
             params = params.set('PageNumber', <any>pageNumber);
@@ -23,8 +23,8 @@ export class CustomerService {
         if (searchTerm !== undefined && searchTerm !== null) {
             params = params.set('SearchTerm', <any>searchTerm);
         }
-        if (isFavourite !== undefined && isFavourite !== null) {
-            params = params.set('IsFavourite', <any>isFavourite);
+        if (filter !== undefined && filter !== null) {
+            params = params.set('IsFavourite', <any>(filter === 'favourite'));
         }
         if (isRecent !== undefined && isRecent !== null) {
             params = params.set('IsRecent', <any>isRecent);

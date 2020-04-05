@@ -295,13 +295,14 @@
                             <ul class="dropdown-menu">
                                 <li>
                                     <a routerLink="/customer/list"
+                                       [queryParams]="{ filter: 'all' }"
                                        class="nav-link">
                                         <i class="fas fa-list mr-2"></i>Alle
                                     </a>
                                 </li>
                                 <li>
                                     <a routerLink="/customer/list"
-                                       [queryParams]="{ isFavourite: true }"
+                                       [queryParams]="{ filter: 'favourite' }"
                                        class="nav-link">
                                         <i class="fas fa-star mr-2"
                                            style="color: #ffcc33;"></i>Favorieten
@@ -342,9 +343,13 @@
         <!-- <div style="padding-right: 15px; padding-left: 15px;height: 20px;"><div style="background-color: #eee;">&nbsp;</div></div>  -->
     </header>
     <!-- end: header -->
-
     <div class="inner-wrapper"
-         style="margin-top: 70px;">
+         style="margin-top: 79px;">
+        <p class="outline-none">
+            <ngb-alert *ngIf="successMessage"
+                       type="success"
+                       (close)="successMessage=''">{{ successMessage }}</ngb-alert>
+        </p>
         <!-- start: page -->
         <router-outlet></router-outlet>
         <!-- end: page -->

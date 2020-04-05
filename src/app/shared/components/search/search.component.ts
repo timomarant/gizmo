@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Input, AfterViewInit, OnChanges, SimpleChanges, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, AfterViewInit, OnChanges, SimpleChanges, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Subject } from 'rxjs/internal/Subject';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
@@ -8,7 +8,7 @@ import { distinctUntilChanged } from 'rxjs/internal/operators/distinctUntilChang
     selector: 'app-search',
     templateUrl: './search.component.html'
 })
-export class SearchComponent implements OnInit, OnChanges, AfterViewInit {
+export class SearchComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
     @ViewChild('searchElement', { static: false }) searchElementRef: ElementRef;
     @Input() helpText: string;
     @Input() hitCount: number;
@@ -19,25 +19,29 @@ export class SearchComponent implements OnInit, OnChanges, AfterViewInit {
 
     private _searchTerm: string;
     get searchTerm(): string {
-        return this._searchTerm;
+        return this._searchTerm || '';
     }
-    set searchTerm(value: string) {
-        this._searchTerm = value;
-        this.valueChange.emit(value);
+    @Input() set searchTerm(value: string) {
+        if (this._searchTerm != value) {
+            this._searchTerm = value;
+            if (this.searchForm) {
+                this.searchForm.get('userQuestion').setValue(value);
+            }
+        }
     }
 
     constructor(private fb: FormBuilder) {
-        this.searchTerm = null;
         this.userQuestionUpdate.pipe(
             debounceTime(400),
             distinctUntilChanged())
             .subscribe(value => {
                 this.searchTerm = value;
+                this.valueChange.emit(value);
             });
     }
 
     ngOnInit() {
-        this.searchForm = this.fb.group({ userQuestion: ['',] });
+        this.searchForm = this.fb.group({ userQuestion: [this.searchTerm,] });
     }
 
     ngAfterViewInit(): void {
@@ -54,7 +58,12 @@ export class SearchComponent implements OnInit, OnChanges, AfterViewInit {
         }
     }
 
+    ngOnDestroy() {
+        this.userQuestionUpdate.unsubscribe();
+    }
+
     public onFormSubmit(): void {
         this.searchTerm = this.searchForm.get('userQuestion').value;
+        this.valueChange.emit(this.searchTerm);
     }
 }
