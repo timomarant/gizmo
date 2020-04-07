@@ -6,10 +6,10 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { Observable } from 'rxjs/internal/Observable';
 
 import { PersonDetailModel } from '../person-detail.model';
-import { GenericValidator } from '../../../shared/generic-validator';
+import { GenericValidator } from '../../../shared/models/generic-validator';
 import { fromEvent } from 'rxjs/internal/observable/fromEvent';
 import { merge } from 'rxjs/internal/observable/merge';
-import { CustomerService } from '../../../core/services/customer.service';
+import { CustomerService } from '../../../core/services';
 
 @Component({
     templateUrl: './person-edit.component.html',

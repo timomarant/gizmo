@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CustomerService } from '../../core/services/customer.service';
-import { IPagination } from '../../shared/pagination';
+import { IPagination } from '../../shared/models/pagination';
+import { CustomerService } from '../../core/services';
 
 @Component({
     selector: 'app-home',

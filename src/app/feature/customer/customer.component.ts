@@ -1,17 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { CustomerService } from '../../core/services/customer.service';
-import { PagerService } from '../../shared/services/pagerservice';
 
 @Component({
-  selector: 'app-customer',
-  templateUrl: './customer.component.html',
-  providers: [ CustomerService, PagerService]
+    selector: 'app-customer',
+    templateUrl: './customer.component.html'
 })
 export class CustomerComponent implements OnInit {
 
-  constructor() { }
+    constructor() { }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
 }

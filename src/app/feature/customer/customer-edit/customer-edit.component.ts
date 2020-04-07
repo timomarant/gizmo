@@ -6,10 +6,11 @@ import { Observable } from 'rxjs/internal/Observable';
 import { fromEvent } from 'rxjs/internal/observable/fromEvent';
 import { merge } from 'rxjs/internal/observable/merge';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
-import { GenericValidator } from '../../../shared/generic-validator';
-import { CustomerService } from '../../../core/services/customer.service';
+import { GenericValidator } from '../../../shared/models/generic-validator';
 import { CustomerForEdit } from '../models/customer-for-edit';
 import countries from '../../../files/countries.json';
+import { NotificationService } from '../../../core/services';
+import { CustomerService } from '../../../core/services/customer/customer.service';
 
 @Component({
     selector: 'app-customer-edit',
@@ -45,7 +46,8 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
-        private customerService: CustomerService
+        private customerService: CustomerService,
+        private notificationService: NotificationService
     ) {
         this.validationMessages = {
             name: {
@@ -53,7 +55,7 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
                 pattern: 'Naam bevat ongeldige tekens.',
                 maxlength: 'De maximumlengte is 50.'
             },
-            vatNumber: {               
+            vatNumber: {
                 pattern: 'Ondernemingsnummer bevat ongeldige tekens.',
                 maxlength: 'De maximumlengte is 15.'
             },
@@ -209,9 +211,9 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private PatchForm(customerForEdit: CustomerForEdit) {
-        
+
         this.customerForEdit = customerForEdit;
-        
+
         this.customerForm.patchValue({
             name: customerForEdit.name,
             vatNumber: customerForEdit.vatNumber,
@@ -246,21 +248,22 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         this.customerService.getCustomer(id).subscribe({
             next: (customerForEdit: CustomerForEdit) => {
                 this.title = customerForEdit.name;
-                if(customerForEdit.phoneOne){
+                if (customerForEdit.phoneOne) {
                     this.primaryLabelOnMap = customerForEdit.phoneOne;
                 }
-                if(customerForEdit.emailOne){
+                if (customerForEdit.emailOne) {
                     this.secondaryLabelOnMap = customerForEdit.emailOne;
                 }
                 this.DisplayCustomer(customerForEdit)
             },
-            error: err => this.errorMessage = err
+            error: err => this.notificationService.danger(err.message)
         });
     }
 
     private onSaveComplete(): void {
-        this.customerForm.reset();
-        this.router.navigate(['/customer/list']);
+        this.notificationService.success('Klant bewaard.');
+        //this.customerForm.reset();
+        //this.router.navigate(['/customer/list']);
     }
 
     private mapFormToCustomer(): CustomerForEdit {

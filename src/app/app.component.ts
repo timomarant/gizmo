@@ -1,26 +1,25 @@
-declare const jQuery: any;
-
 import { Component, Version, VERSION, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ElectronService } from './core/services';
 import { TranslateService } from '@ngx-translate/core';
-import { AppConfig } from '../environments/environment';
 import { Router, NavigationEnd } from '@angular/router';
-import { Subject } from 'rxjs/internal/Subject';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
+import { AppConfig } from '../environments/environment';
+import { ElectronService } from './core/services';
+import { NotificationService } from './core/services';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-    private _success = new Subject<string>();
-
-    public successMessage: string;
+    successMessage: string;
+    infoMessage: string;
+    dangerMessage: string;
 
     constructor(
         public electronService: ElectronService,
         private translate: TranslateService,
+        private notificionService: NotificationService,
         private title: Title,
         private router: Router
     ) {
@@ -39,6 +38,14 @@ export class AppComponent implements OnInit {
         this.title.setTitle(`Verelst Software ${VERSION.full}`);
     }
 
+    get marginTop(): number {
+        if (this.successMessage || this.infoMessage || this.dangerMessage) {
+            return 129;
+        } else {
+            return 79;
+        }
+    }
+
     ngOnInit(): void {
         this.router.events.subscribe((evt) => {
             if (!(evt instanceof NavigationEnd)) {
@@ -47,13 +54,15 @@ export class AppComponent implements OnInit {
             window.scrollTo(0, 0)
         });
 
-        this._success.subscribe(message => this.successMessage = message);
-        this._success.pipe(
-            debounceTime(5000)
-        ).subscribe(() => this.successMessage = '');
+        //success
+        this.notificionService.successMessageChanges$.subscribe(msg => this.successMessage = msg);
+        this.notificionService.successMessageChanges$.pipe(debounceTime(2000)).subscribe(() => this.successMessage = '');
+        
+        //info
+        this.notificionService.infoMessageChanges$.subscribe(msg => this.infoMessage = msg);
+        this.notificionService.infoMessageChanges$.pipe(debounceTime(5000)).subscribe(() => this.infoMessage = '');
 
-
-        this._success.next('Success');
+        //error
+        this.notificionService.dangerMessageChanges$.subscribe(msg => this.dangerMessage = msg);
     }
-
 }

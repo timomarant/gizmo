@@ -22,7 +22,8 @@
                     </div>
                     <div class="summary-footer">
                         <a class="text-muted text-uppercase"
-                           routerLink="/customer/list">(Bekijk)</a>
+                           routerLink="/customer/list"
+                           [queryParams]="{ filter: 'all' }">(Bekijk)</a>
                     </div>
                 </div>
             </div>

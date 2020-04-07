@@ -12,7 +12,7 @@
             </div>
             <div class="col-md-4"><button type="button"
                         [routerLink]="['/customer/0/edit']"
-                        class="btn btn-primary float-right">Nieuwe klant</button></div>
+                        class="btn btn-primary btn-xl float-right">Nieuwe klant</button></div>
         </div>
         <div class="dataTables_wrapper">
             <table class="table table-responsive-md table-hover mb-0"
@@ -37,9 +37,12 @@
                                       [modelId]="customer.id"
                                       (valueChange)='onStarComponentValueChange($event)'></app-star>
                         </td>
-                        <td class="text outline-none cur-pointer" [routerLink]="['/customer/', customer.id, 'edit']">{{ customer.name }}</td>
-                        <td class="text outline-none cur-pointer" [routerLink]="['/customer/', customer.id, 'edit']">{{ customer.phone }}</td>
-                        <td class="text outline-none cur-pointer" [routerLink]="['/customer/', customer.id, 'edit']">{{ customer.email }}</td>
+                        <td class="text outline-none cur-pointer"
+                            [routerLink]="['/customer/', customer.id, 'edit']">{{ customer.name }}</td>
+                        <td class="text outline-none cur-pointer"
+                            [routerLink]="['/customer/', customer.id, 'edit']">{{ customer.phone }}</td>
+                        <td class="text outline-none cur-pointer"
+                            [routerLink]="['/customer/', customer.id, 'edit']">{{ customer.email }}</td>
                         <td class="text-center">
                             <a [routerLink]="['/customer/', customer.id, 'edit']"
                                class="cur-pointer"

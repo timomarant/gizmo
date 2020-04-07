@@ -340,16 +340,23 @@
                 </nav>
             </div>
         </div>
-        <!-- <div style="padding-right: 15px; padding-left: 15px;height: 20px;"><div style="background-color: #eee;">&nbsp;</div></div>  -->
+        <p class="outline-none"
+           style="padding-right: 15px; padding-left: 15px;">
+            <ngb-alert *ngIf="successMessage"
+                       type="success"
+                       [dismissible]="false"
+                       (close)="successMessage=''">{{ successMessage }}</ngb-alert>
+            <ngb-alert *ngIf="infoMessage"
+                       type="info"
+                       (close)="infoMessage=''">{{ infoMessage }}</ngb-alert>
+            <ngb-alert *ngIf="dangerMessage"
+                       type="danger"
+                       (close)="dangerMessage=''">{{ dangerMessage }}</ngb-alert>
+        </p>
     </header>
     <!-- end: header -->
     <div class="inner-wrapper"
-         style="margin-top: 79px;">
-        <p class="outline-none">
-            <ngb-alert *ngIf="successMessage"
-                       type="success"
-                       (close)="successMessage=''">{{ successMessage }}</ngb-alert>
-        </p>
+         [style.marginTop.px]="this.marginTop">
         <!-- start: page -->
         <router-outlet></router-outlet>
         <!-- end: page -->

@@ -1,14 +1,21 @@
-import { AfterViewInit, Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewChild
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PagerService } from '../../../shared/services/pagerservice';
-import { IPagination } from '../../../shared/pagination';
-import { CustomerService } from '../../../core/services/customer.service';
+import { PagerService } from '../../../core/services/pager/pager.service';
+import { IPagination } from '../../../shared/models/pagination';
 import { ICustomerForList } from '../models/customer-for-list';
 import { CustomerForEdit } from '../models/customer-for-edit';
 import { SearchComponent } from '../../../shared/components/search/search.component';
 import { StarComponent } from '../../../shared/components/star/star.component';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { CustomerParameterService } from '../customer-parameter.service';
+import { NotificationService } from '../../../core/services';
+import { CustomerService } from '../../../core/services/customer/customer.service';
 
 @Component({
     selector: 'app-customer-list',
@@ -52,6 +59,7 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
         private customerService: CustomerService,
         private pagerService: PagerService,
         private customerParameterService: CustomerParameterService,
+        private notificationService: NotificationService,
         private route: ActivatedRoute) {
         this.searchComponentHelpText = 'Zoek op naam, telefoonnummer of e-mail adres';
     }
@@ -61,8 +69,9 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
             .queryParams
             .subscribe(params => {
                 if (params['filter']) {
-                    this.filter = params['filter'] || 'all';
+                    this.filter = params['filter'] || 'all';                    
                 }
+                this.currentPageNumer = 1;
                 this.getCustomers();
             });
     }
@@ -94,17 +103,21 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
             next: (customerForEdit: CustomerForEdit) => {
                 customerForEdit.isDeleted = true;
                 this.customerService.updateCustomer(customerForEdit).subscribe({
-                    next: () => this.displayCustomers(1),
-                    error: err => this.errorMessage = err
+                    next: () => {
+                        this.displayCustomers(1);
+                        this.notificationService.info(`${customerForEdit.name} is verwijderd.`);
+                        //this.notificationService.info("${customerForEdit.name} is verwijderd. <strong>Ongedaan maken.</strong>");
+                    },
+                    error: err => this.notificationService.danger(err.message)
                 })
             },
-            error: err => this.errorMessage = err
+            error: err => this.notificationService.danger(err.message)
         });
     }
 
-    private getCustomers(): void {
+    private getCustomers(): void {             
         this.customerService.getCustomers(this.currentPageNumer, this.searchTerm, this.filter).subscribe({
-            next: resp => {
+            next: resp => {                
                 this.customers = resp.body;
                 this.pagination = JSON.parse(resp.headers.get('X-Pagination'));
                 if (this.pagination) {
@@ -114,7 +127,7 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.pagedItems = this.customers.slice(this.pager.startIndex, this.pager.endIndex + 1);
                 }
             },
-            error: err => this.errorMessage = err
+            error: err => this.notificationService.danger(err.message)
         });
     }
 }
