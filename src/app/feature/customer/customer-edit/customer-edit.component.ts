@@ -6,11 +6,11 @@ import { Observable } from 'rxjs/internal/Observable';
 import { fromEvent } from 'rxjs/internal/observable/fromEvent';
 import { merge } from 'rxjs/internal/observable/merge';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
+import { distinctUntilChanged } from 'rxjs/internal/operators/distinctUntilChanged';
+import { map } from 'rxjs/internal/operators/map';
 import { GenericValidator } from '../../../shared/models/generic-validator';
 import { CustomerForEdit } from '../models/customer-for-edit';
-import countries from '../../../files/countries.json';
-import { NotificationService } from '../../../core/services';
-import { CustomerService } from '../../../core/services/customer/customer.service';
+import { CustomerService, NotificationService, CountryService, MunicipalityService, ToastService } from '../../../core/services';
 
 @Component({
     selector: 'app-customer-edit',
@@ -18,8 +18,6 @@ import { CustomerService } from '../../../core/services/customer/customer.servic
 })
 export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
-
-    public countryList: { name: string, code: string }[] = countries;
 
     private sub: Subscription;
     private genericValidator: GenericValidator;
@@ -32,7 +30,14 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     public secondaryLabelOnMap: string;
     public title: string;
     public titleOnMap: string;
-    public errorMessage: string;
+    public countryList: { name: string, code: string }[];
+    public municipalityList: { displayName: string, postalCode: string, latitude: number, longitude: number }[];
+    public latitude: number = 51.074760;
+    public longitude: number = 4.791020;
+
+    public model: { displayName: string, postalCode: string };
+
+    public postcodesAsArray = new Array();
 
     get phoneNumbersFormArray(): FormArray {
         return <FormArray>this.customerForm.get('phoneNumbers');
@@ -42,16 +47,43 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         return <FormArray>this.customerForm.get('emailAddresses');
     }
 
+    gemeentes = (text$: Observable<string>) =>
+        text$.pipe(
+            debounceTime(200),
+            distinctUntilChanged(),
+            map(term => term.length < 2
+                ? []
+                : this.municipalityList
+                    .filter(v => v.displayName.toLowerCase().startsWith(term.toLowerCase()))
+                    .slice(0, 10)
+                    .map(item => item.displayName))
+        )
+
+    postcodes = (text$: Observable<string>) =>
+        text$.pipe(
+            debounceTime(200),
+            distinctUntilChanged(),
+            map(term => term.length < 1
+                ? []
+                : this.municipalityList
+                    .filter(v => v.postalCode.startsWith(term))
+                    .slice(0, 10)
+                    .map(item => item.postalCode))
+        )
+
     constructor(
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
         private customerService: CustomerService,
-        private notificationService: NotificationService
+        private countryService: CountryService,
+        private municipalityService: MunicipalityService,
+        private notificationService: NotificationService,
+        private toastService: ToastService
     ) {
         this.validationMessages = {
             name: {
-                required: 'Vul alstublieft uw naam in.',
+                required: 'Vul alstublieft een naam in.',
                 pattern: 'Naam bevat ongeldige tekens.',
                 maxlength: 'De maximumlengte is 50.'
             },
@@ -86,7 +118,10 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnInit() {
-        let validCharsRegExp = new RegExp('^[a-zA-Z0-9\\s\\(\\).,-]+$');
+        this.countryList = this.countryService.getCountries();
+        this.municipalityList = this.municipalityService.getMunicipalities('be');
+
+        let validCharsRegExp = new RegExp('^[a-zA-Z0-9\\s\\(\\).,/-]+$');
         this.customerForm = this.fb.group({
             name: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(validCharsRegExp)]],
             vatNumber: [null, [Validators.maxLength(15), Validators.pattern(validCharsRegExp)]],
@@ -144,31 +179,34 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         this.sub.unsubscribe();
     }
 
+    public onMunicipalitySelected($event: any): void {
+        var displayName = $event.item;
+        var selectedMunicipality = this.municipalityList.find(item => item.displayName == displayName);
+
+        this.customerForm.controls['postalCode'].setValue(selectedMunicipality.postalCode);
+
+        // if (this.customerForEdit.postalCode !== selectedMunicipality.postalCode)
+        //     this.customerForEdit.control();
+
+        this.latitude = selectedMunicipality.latitude;
+        this.longitude = selectedMunicipality.longitude;
+        console.log('-- lat ' + selectedMunicipality.latitude);
+        console.log('-- lng ' + selectedMunicipality.longitude);
+    }
+
     public saveCustomer(): void {
         console.log(this.customerForm);
         if (this.customerForm.valid) {
             if (this.customerForm.dirty) {
                 const c = this.mapFormToCustomer();
-                console.log(c);
                 if (!c.id) {
-                    this.customerService.createCustomer(c)
-                        .subscribe({
-                            next: () => this.onSaveComplete(),
-                            error: err => this.errorMessage = err
-                        });
+                    this.customerService.createCustomer(c).subscribe({ next: () => this.onSaveComplete() });
                 } else {
-                    this.customerService.updateCustomer(c)
-                        .subscribe({
-                            next: () => this.onSaveComplete(),
-                            error: err => this.errorMessage = err
-                        });
+                    this.customerService.updateCustomer(c).subscribe({ next: () => this.onSaveComplete() });
                 }
-            } else {
-                this.onSaveComplete()
             }
-
         } else {
-            this.errorMessage = 'Please correct the validation errors.'
+            this.notificationService.info('Controleer of alle verplichte velden ingevuld zijn.');
         }
     }
 
@@ -255,15 +293,14 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.secondaryLabelOnMap = customerForEdit.emailOne;
                 }
                 this.DisplayCustomer(customerForEdit)
-            },
-            error: err => this.notificationService.danger(err.message)
+            }
         });
     }
 
-    private onSaveComplete(): void {
-        this.notificationService.success('Klant bewaard.');
-        //this.customerForm.reset();
-        //this.router.navigate(['/customer/list']);
+    private onSaveComplete(): void {      
+        this.toastService.show('Klant is successvol bewaard.');
+        this.customerForm.markAsPristine();
+        this.customerForm.markAsUntouched();
     }
 
     private mapFormToCustomer(): CustomerForEdit {
@@ -276,6 +313,8 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         c.emailOne = null;
         c.emailTwo = null;
         c.emailThree = null;
+
+        c.address = this.getValueOrNull(this.customerForm.get('address').value)
 
         if (this.phoneNumbersFormArray.at(0)) {
             c.phoneOne = this.getValueOrNull(this.phoneNumbersFormArray.at(0).get('phone').value);

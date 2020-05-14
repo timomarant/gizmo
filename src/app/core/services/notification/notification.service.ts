@@ -1,9 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Subject } from "rxjs/internal/Subject";
 
-@Injectable({ 
-    providedIn: 'root' 
-})
+@Injectable({ providedIn: 'root' })
 export class NotificationService {
     private successMessage = new Subject<string>();
     private infoMessage = new Subject<string>();

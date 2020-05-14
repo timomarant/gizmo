@@ -31,7 +31,7 @@ export class HttpErrorResponseInterceptor implements HttpInterceptor {
 
                     Sentry.captureException(error);
 
-                    return throwError(friendlyError);
+                    return throwError(error);
                 }
                 else {
                     // client-side error                       

@@ -1,11 +1,10 @@
-import { Component, Version, VERSION, OnInit } from '@angular/core';
+import { Component, Version, VERSION, OnInit, TemplateRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
 import { AppConfig } from '../environments/environment';
-import { ElectronService } from './core/services';
-import { NotificationService } from './core/services';
+import { ElectronService, NotificationService, ToastService } from './core/services';
 
 @Component({
     selector: 'app-root',
@@ -19,7 +18,8 @@ export class AppComponent implements OnInit {
     constructor(
         public electronService: ElectronService,
         private translate: TranslateService,
-        private notificionService: NotificationService,
+        private notificationService: NotificationService,
+        private toastService: ToastService,
         private title: Title,
         private router: Router
     ) {
@@ -46,6 +46,8 @@ export class AppComponent implements OnInit {
         }
     }
 
+    isTemplate(toast) { return toast.textOrTpl instanceof TemplateRef; }
+
     ngOnInit(): void {
         this.router.events.subscribe((evt) => {
             if (!(evt instanceof NavigationEnd)) {
@@ -54,15 +56,16 @@ export class AppComponent implements OnInit {
             window.scrollTo(0, 0)
         });
 
+        //this.toastService.show
         //success
-        this.notificionService.successMessageChanges$.subscribe(msg => this.successMessage = msg);
-        this.notificionService.successMessageChanges$.pipe(debounceTime(2000)).subscribe(() => this.successMessage = '');
+        //this.notificionService.successMessageChanges$.subscribe(msg => this.successMessage = msg);
+        //this.notificionService.successMessageChanges$.pipe(debounceTime(2000)).subscribe(() => this.successMessage = '');
         
         //info
-        this.notificionService.infoMessageChanges$.subscribe(msg => this.infoMessage = msg);
-        this.notificionService.infoMessageChanges$.pipe(debounceTime(5000)).subscribe(() => this.infoMessage = '');
+        // this.notificationService.infoMessageChanges$.subscribe(msg => this.infoMessage = msg);
+        // this.notificationService.infoMessageChanges$.pipe(debounceTime(5000)).subscribe(() => this.infoMessage = '');
 
         //error
-        this.notificionService.dangerMessageChanges$.subscribe(msg => this.dangerMessage = msg);
+        this.notificationService.dangerMessageChanges$.subscribe(msg => this.dangerMessage = msg);
     }
 }

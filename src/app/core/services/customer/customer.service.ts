@@ -50,6 +50,7 @@ export class CustomerService {
     }
 
     updateCustomer(customerForEdit: CustomerForEdit): Observable<CustomerForEdit> {
+        console.log(customerForEdit)
         return this.http.put<CustomerForEdit>(this.actionUrl + customerForEdit.id, customerForEdit).pipe(map(() => customerForEdit));
     }
 

@@ -2,8 +2,8 @@ import 'reflect-metadata';
 import '../polyfills';
 
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { NgModule, ErrorHandler } from '@angular/core';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -17,11 +17,22 @@ import { HomeModule } from './feature/home/home.module';
 import { InvoiceModule } from './feature/invoice/invoice.module';
 import { SettingsModule } from './feature/settings/settings.module';
 import { AppComponent } from './app.component';
+import * as Sentry from '@sentry/browser';
+import { ErrorService, AddHeaderInterceptor, HttpErrorResponseInterceptor, LogResponseInterceptor, SentryErrorHandler } from './core/services';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
+
+Sentry.init({
+    dsn: "https://466c648c8584475ab3a8293a91ae228b@o374410.ingest.sentry.io/5192411"
+});
+
+Sentry.configureScope((scope) => {
+   //scope.setUser({ 'email': 'timo.marant@gmail.com' });
+});
+
 
 @NgModule({
     declarations: [AppComponent],
@@ -47,6 +58,12 @@ export function HttpLoaderFactory(http: HttpClient) {
                 deps: [HttpClient]
             }
         })
+    ],
+    providers: [       
+        { provide: ErrorHandler, useClass: SentryErrorHandler },
+        { provide: HTTP_INTERCEPTORS, useClass: AddHeaderInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: HttpErrorResponseInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: LogResponseInterceptor, multi: true }
     ],
     bootstrap: [AppComponent]
 })

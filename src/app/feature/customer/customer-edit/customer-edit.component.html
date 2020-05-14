@@ -1,7 +1,8 @@
 <section class="card">
     <header class="card-header">
         <div class="card-actions">
-            <a routerLink="/customer/list" class="close-href"><i class="lni-close"></i></a>
+            <a routerLink="/customer/list"
+               class="close-href"><i class="lni-close"></i></a>
         </div>
         <h2 class="card-title">{{ title }}</h2>
         <!-- <p class="card-subtitle">Set the size of the modal using a CSS class.</p> -->
@@ -13,21 +14,22 @@
                 <section class="card card-featured card-featured-primary">
                     <div class="card-body">
                         <div class="thumb-info mb-3">
-                            <agm-map [latitude]="51.074760"
-                                     [longitude]="4.791020"
-                                     [zoom]="15">
-                                <agm-marker [opacity]="1"
-                                            [latitude]="51.074760"
-                                            [longitude]="4.791020"
+                            <agm-map [latitude]="this.latitude"
+                                     [longitude]="this.longitude"
+                                     [zoom]="14">
+                                <agm-marker [opacity]="0"
+                                            [latitude]="this.latitude"
+                                            [longitude]="this.longitude"
                                             [markerDraggable]="false"></agm-marker>
                             </agm-map>
                             <div class="thumb-info-title"
                                  *ngIf="primaryLabelOnMap || secondaryLabelOnMap">
-                                <span class="thumb-info-inner"><i class="fas fa-phone mr-3"></i>{{ primaryLabelOnMap }}</span>
+                                <span class="thumb-info-inner"><i
+                                       class="fas fa-phone mr-3"></i>{{ primaryLabelOnMap }}</span>
                                 <span class="thumb-info-type">{{ secondaryLabelOnMap }}</span>
                             </div>
                         </div>
-                      <!--  <hr class="dotted short">
+                        <!--  <hr class="dotted short">
                          <h5 class="mb-2 mt-3">Over</h5>
                         <p class="text-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam quis vulputate
                             quam. Interdum et malesuada</p>
@@ -85,7 +87,7 @@
                                   (ngSubmit)="saveCustomer()"
                                   [formGroup]="customerForm"
                                   class="p-3">
-        
+
                                 <div class="form-row">
                                     <div class="form-group col-md-9">
                                         <label for="nameId">Naam:<span style="color: red;">*</span></label>
@@ -107,7 +109,7 @@
                                         </select>
                                     </div>
                                 </div>
-        
+
                                 <div class="form-row">
                                     <div class="form-group col-md-2">
                                         <label for="postalCodeId">Postcode</label>
@@ -115,7 +117,8 @@
                                                type="text"
                                                maxlength="10"
                                                formControlName="postalCode"
-                                               [ngClass]="{'form-control': true, 'is-invalid': displayMessage.postalCode}" />
+                                               [ngClass]="{'form-control': true, 'is-invalid': displayMessage.postalCode}"
+                                               [ngbTypeahead]="postcodes" />
                                         <span class="invalid-feedback">
                                             {{displayMessage.postalCode}}
                                         </span>
@@ -126,13 +129,15 @@
                                                type="text"
                                                maxlength="50"
                                                formControlName="city"
-                                               [ngClass]="{'form-control': true, 'is-invalid': displayMessage.city}" />
+                                               [ngClass]="{'form-control': true, 'is-invalid': displayMessage.city}"
+                                               [ngbTypeahead]="gemeentes"
+                                               (selectItem)="onMunicipalitySelected($event)" />
                                         <span class="invalid-feedback">
                                             {{displayMessage.city}}
                                         </span>
                                     </div>
                                 </div>
-        
+
                                 <div class="form-group">
                                     <label for="addressId">Adres</label>
                                     <textarea id="addressId"
@@ -145,7 +150,7 @@
                                         {{displayMessage.address}}
                                     </span>
                                 </div>
-        
+
                                 <div class="form-group"
                                      style="margin-bottom: 30px;">
                                     <label for="vatNumberId">Ondernemingsnummer:</label>
@@ -165,7 +170,7 @@
                                         </span>
                                     </div>
                                 </div>
-        
+
                                 <div class="form-group">
                                     <div formArrayName="phoneNumbers"
                                          *ngFor="let group of phoneNumbersFormArray.controls; let i=index">
@@ -198,7 +203,7 @@
                                         </div>
                                     </div>
                                 </div>
-        
+
                                 <div class="form-group"
                                      style="margin: 0;">
                                     <span class="float-right">
@@ -215,7 +220,7 @@
                                            (click)="addPhoneNumber()"><i class="icons icon-plus"
                                                style="font-size: 18px;"></i></a></span>
                                 </div>
-        
+
                                 <div class="form-group">
                                     <div formArrayName="emailAddresses"
                                          *ngFor="let group of emailAddressesFormArray.controls; let i=index">
@@ -247,7 +252,7 @@
                                         </div>
                                     </div>
                                 </div>
-        
+
                                 <div class="form-group"
                                      style="margin: 0;">
                                     <span class="float-right">
@@ -265,7 +270,7 @@
                                             <i class="icons icon-plus"
                                                style="font-size: 18px;"></i></a></span>
                                 </div>
-        
+
                                 <hr class="dotted small">
                                 <div class="form-row">
                                     <div class="col-md-12 text-right mt-3">
