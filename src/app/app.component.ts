@@ -17,9 +17,9 @@ export class AppComponent implements OnInit {
 
     constructor(
         public electronService: ElectronService,
+        public toastService: ToastService,
         private translate: TranslateService,
         private notificationService: NotificationService,
-        private toastService: ToastService,
         private title: Title,
         private router: Router
     ) {
