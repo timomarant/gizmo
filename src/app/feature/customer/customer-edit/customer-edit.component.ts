@@ -10,7 +10,7 @@ import { distinctUntilChanged } from 'rxjs/internal/operators/distinctUntilChang
 import { map } from 'rxjs/internal/operators/map';
 import { GenericValidator } from '../../../shared/models/generic-validator';
 import { CustomerForEdit } from '../models/customer-for-edit';
-import { CustomerService, NotificationService, CountryService, MunicipalityService, ToastService } from '../../../core/services';
+import { CustomerService, CountryService, MunicipalityService, ToastService } from '../../../core/services';
 
 @Component({
     selector: 'app-customer-edit',
@@ -78,7 +78,6 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         private customerService: CustomerService,
         private countryService: CountryService,
         private municipalityService: MunicipalityService,
-        private notificationService: NotificationService,
         private toastService: ToastService
     ) {
         this.validationMessages = {
@@ -206,7 +205,7 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
                 }
             }
         } else {
-            this.notificationService.info('Controleer of alle verplichte velden ingevuld zijn.');
+            this.toastService.show('Controleer of alle verplichte velden ingevuld zijn.');
         }
     }
 
