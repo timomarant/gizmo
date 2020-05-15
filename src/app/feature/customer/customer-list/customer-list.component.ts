@@ -14,6 +14,8 @@ import { StarComponent } from '../../../shared/components/star/star.component';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { CustomerParameterService } from '../customer-parameter.service';
 import { CustomerService, NotificationService, PagerService } from '../../../core/services';
+import { Observable } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
     selector: 'app-customer-list',
@@ -88,7 +90,11 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public onStarComponentValueChange(event: any): void {
-        this.customerService.setCustomerFavourite(event.modelId, event.isSelected);
+        this.customerService.setCustomerFavourite(event.modelId, event.isSelected).subscribe({
+            next: () => {
+                this.getCustomers();
+            }
+        });
     }
 
     public displayCustomers(page: number) {
@@ -114,7 +120,6 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
         this.customerService.getCustomers(this.currentPageNumer, this.searchTerm, this.filter).subscribe({
             next: resp => {
                 this.customers = resp.body;
-
                 if (this.customers.length > 0) {
                     this.pagination = JSON.parse(resp.headers.get('X-Pagination'));
                     if (this.pagination) {
@@ -126,8 +131,6 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
                 } else {
                     this.notificationService.info('Geen gevonden.');
                 }
-
-
             }
         });
     }

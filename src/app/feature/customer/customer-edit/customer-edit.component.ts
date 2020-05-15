@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChildren, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChildren, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControlName, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
@@ -18,6 +18,7 @@ import { CustomerService, CountryService, MunicipalityService, ToastService } fr
 })
 export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
+    @ViewChild('nameElement', { static: false }) nameElementRef: ElementRef;
 
     private sub: Subscription;
     private genericValidator: GenericValidator;
@@ -172,6 +173,11 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         //     this.secondaryLabelOnMap = phoneGroup.get('phoneOne').value.substring(0, 20);
         // }
         //});
+        if(this.title = 'Nieuwe klant'){ 
+            if (this.nameElementRef) {
+                this.nameElementRef.nativeElement.focus();
+            }
+        }
     }
 
     ngOnDestroy(): void {
@@ -204,9 +210,7 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.customerService.updateCustomer(c).subscribe({ next: () => this.onSaveComplete() });
                 }
             }
-        } else {
-            this.toastService.show('Controleer of alle verplichte velden ingevuld zijn.');
-        }
+        } 
     }
 
     public addPhoneNumber(): void {

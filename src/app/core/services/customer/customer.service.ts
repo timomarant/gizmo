@@ -54,9 +54,9 @@ export class CustomerService {
         return this.http.put<CustomerForEdit>(this.actionUrl + customerForEdit.id, customerForEdit).pipe(map(() => customerForEdit));
     }
 
-    setCustomerFavourite(customerId: number, isFavourite: boolean): void {
+    setCustomerFavourite(customerId: number, isFavourite: boolean): Observable<any> {
         const patchDocument = [{ "op": "replace", "path": "/isFavourite", "value": isFavourite }];
-        this.partiallyUpdateCustomer(customerId, patchDocument).subscribe();
+        return this.partiallyUpdateCustomer(customerId, patchDocument);
     }
 
     private partiallyUpdateCustomer(customerId: number, patchDocument: any): Observable<any> {
