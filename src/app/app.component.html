@@ -10,9 +10,8 @@
                          [ngIfElse]="text">
                 <ng-template [ngTemplateOutlet]="toast.textOrTpl"></ng-template>
             </ng-template>
-
             <ng-template #text>{{ toast.textOrTpl }}</ng-template>
-        </ngb-toast>
+        </ngb-toast> 
         <div class="logo-container">
             <a href=""
                class="logo">
@@ -291,10 +290,10 @@
                                 <i class="fas fa-home"></i>Dashboard
                             </a>
                             <ul class="dropdown-menu">
-                                <li><span class="nav-ling">&nbsp;</span>  
+                                <li><span class="nav-ling">&nbsp;</span>
                                     <a routerLink="/home"
                                        class="nav-link">&nbsp;
-                                    </a> 
+                                    </a>
                                 </li>
                             </ul>
                         </li>
@@ -372,5 +371,4 @@
         <router-outlet></router-outlet>
         <!-- end: page -->
     </div>
-
 </section>
