@@ -126,3 +126,10 @@ a.close-href:hover .lni-close {
     padding-left: 10px;
     padding-bottom: 10px;
 }
+
+.toast-body {
+    text-align: center;
+    padding: .25rem;
+    color: #212529;
+    background-color: #ffffff;
+}
