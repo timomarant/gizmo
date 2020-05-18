@@ -11,11 +11,25 @@ import { distinctUntilChanged } from 'rxjs/internal/operators/distinctUntilChang
 export class SearchComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
     @ViewChild('searchElement', { static: false }) searchElementRef: ElementRef;
     @Input() helpText: string;
-    @Input() hitCount: number;
     @Output() valueChange: EventEmitter<string> = new EventEmitter<string>();
     public searchForm: FormGroup;
     public hitMessage: string;
     public userQuestionUpdate = new Subject<string>();
+
+    private _hitCount: number;
+    get hitCount(): number {
+        return this._hitCount || 0;
+    }
+    @Input() set hitCount(value: number) {
+        if (this._hitCount != value) {
+            this._hitCount = value;
+            if (value === 0) {
+                this.hitMessage = 'Geen gevonden.';
+            } else {
+                this.hitMessage = value + ' gevonden.';
+            }
+        }
+    }
 
     private _searchTerm: string;
     get searchTerm(): string {

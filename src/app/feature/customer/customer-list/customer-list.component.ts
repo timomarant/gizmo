@@ -13,9 +13,7 @@ import { SearchComponent } from '../../../shared/components/search/search.compon
 import { StarComponent } from '../../../shared/components/star/star.component';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { CustomerParameterService } from '../customer-parameter.service';
-import { CustomerService, NotificationService, PagerService } from '../../../core/services';
-import { Observable } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { CustomerService, PagerService, ToastService } from '../../../core/services';
 
 @Component({
     selector: 'app-customer-list',
@@ -59,7 +57,7 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
         private customerService: CustomerService,
         private pagerService: PagerService,
         private customerParameterService: CustomerParameterService,
-        private notificationService: NotificationService,
+        private toastService: ToastService,
         private route: ActivatedRoute) {
         this.searchComponentHelpText = 'Zoek op naam, telefoonnummer of e-mail adres';
     }
@@ -109,7 +107,7 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.customerService.updateCustomer(customerForEdit).subscribe({
                     next: () => {
                         this.displayCustomers(1);
-                        this.notificationService.info(`${customerForEdit.name} is verwijderd.`);
+                        this.toastService.show(`${customerForEdit.name} is verwijderd.`);
                     }
                 })
             }
@@ -123,13 +121,14 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
                 if (this.customers.length > 0) {
                     this.pagination = JSON.parse(resp.headers.get('X-Pagination'));
                     if (this.pagination) {
+                        this.searchComponent.hitCount = this.pagination.totalCount;
                         // get pager object from service
                         this.pager = this.pagerService.getPager(this.pagination.totalCount, this.currentPageNumer, this.pagination.pageSize);
                         // get current page of items
                         this.pagedItems = this.customers.slice(this.pager.startIndex, this.pager.endIndex + 1);
                     }
                 } else {
-                    this.notificationService.info('Geen gevonden.');
+                    this.searchComponent.hitCount = 0;
                 }
             }
         });
