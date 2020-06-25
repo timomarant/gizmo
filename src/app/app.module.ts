@@ -33,7 +33,6 @@ Sentry.configureScope((scope) => {
    //scope.setUser({ 'email': 'timo.marant@gmail.com' });
 });
 
-
 @NgModule({
     declarations: [AppComponent],
     imports: [
@@ -42,7 +41,7 @@ Sentry.configureScope((scope) => {
         CoreModule,
         SharedModule,
         AgmCoreModule.forRoot({
-            apiKey: 'AIzaSyBmDecHs1UWI64oUe8kVIvnUYTwfrsFX0E'
+            apiKey: ''
         }),
         HomeModule,
         CalculationModule,
@@ -59,7 +58,7 @@ Sentry.configureScope((scope) => {
             }
         })
     ],
-    providers: [       
+    providers: [
         { provide: ErrorHandler, useClass: SentryErrorHandler },
         { provide: HTTP_INTERCEPTORS, useClass: AddHeaderInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: HttpErrorResponseInterceptor, multi: true },
