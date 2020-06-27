@@ -83,7 +83,7 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public onSearchComponentValueChange(searchTerm: string): void {
-        this.searchTerm = searchTerm
+        this.searchTerm = searchTerm;
         this.getCustomers();
     }
 

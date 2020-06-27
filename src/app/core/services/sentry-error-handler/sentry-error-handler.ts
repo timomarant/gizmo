@@ -1,8 +1,8 @@
-import { Injectable, ErrorHandler } from "@angular/core";
+import { Injectable, ErrorHandler } from '@angular/core';
 import * as Sentry from '@sentry/browser';
-import { FriendlyError } from "../../../shared/models/friendly-error";
-import { HttpErrorResponse } from "@angular/common/http";
-import { NotificationService } from "../notification/notification.service";
+import { FriendlyError } from '../../../shared/models/friendly-error';
+import { HttpErrorResponse } from '@angular/common/http';
+import { NotificationService } from '../notification/notification.service';
 
 @Injectable({
     providedIn: 'root'
@@ -20,7 +20,7 @@ export class SentryErrorHandler implements ErrorHandler {
             console.log('-- HttpErrorResponse: ' + error.status);
         }
         else {
-            console.error("-- An error occurred here");
+            console.error('-- An error occurred here');
         }
 
         // const eventId = Sentry.captureException(error.originalError || error);

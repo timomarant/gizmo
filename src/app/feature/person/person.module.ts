@@ -11,9 +11,9 @@ import { PersonImportComponent } from './person-import/person-import.component';
 @NgModule({
   declarations:
   [
-    PersonComponent, 
-    PersonListComponent, 
-    PersonDetailComponent, 
+    PersonComponent,
+    PersonListComponent,
+    PersonDetailComponent,
     PersonEditComponent,
     PersonImportComponent
   ],

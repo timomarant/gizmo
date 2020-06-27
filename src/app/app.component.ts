@@ -30,7 +30,6 @@ export class AppComponent implements OnInit {
     if (electronService.isElectron) {
       console.log(process.env);
       console.log('Mode electron');
-      console.log('DIRENAME:',__dirname);
       console.log('Electron ipcRenderer', electronService.ipcRenderer);
       console.log('NodeJS childProcess', electronService.childProcess);
 
@@ -41,20 +40,25 @@ export class AppComponent implements OnInit {
         this.title.setTitle(`Verelst Software ${arg.version}`);
       });
 
+      electronService.ipcRenderer.on('message', (event, arg) => {
+        console.log('Message from updater:', arg);
+        this.updateMessage = arg;
+      });
+
       // Check for updates
-      electronService.ipcRenderer.on('update_available', () => {
-        electronService.ipcRenderer.removeAllListeners('update_available');
-        this.updateMessage = 'A new update is available. Downloading now...';
-        //message.innerText = 'A new update is available. Downloading now...';
-        //notification.classList.remove('hidden');
-      });
-      electronService.ipcRenderer.on('update_downloaded', () => {
-        electronService.ipcRenderer.removeAllListeners('update_downloaded');
-        this.updateMessage = 'Update Downloaded. It will be installed on restart. Restart now?';
-        //message.innerText = 'Update Downloaded. It will be installed on restart. Restart now?';
-        //restartButton.classList.remove('hidden');
-        //notification.classList.remove('hidden');
-      });
+      // electronService.ipcRenderer.on('update_available', () => {
+      //   electronService.ipcRenderer.removeAllListeners('update_available');
+      //   this.updateMessage = 'A new update is available. Downloading now...';
+      //   //message.innerText = 'A new update is available. Downloading now...';
+      //   //notification.classList.remove('hidden');
+      // });
+      // electronService.ipcRenderer.on('update_downloaded', () => {
+      //   electronService.ipcRenderer.removeAllListeners('update_downloaded');
+      //   this.updateMessage = 'Update Downloaded. It will be installed on restart. Restart now?';
+      //   //message.innerText = 'Update Downloaded. It will be installed on restart. Restart now?';
+      //   //restartButton.classList.remove('hidden');
+      //   //notification.classList.remove('hidden');
+      // });
 
     } else {
       console.log('Mode web');

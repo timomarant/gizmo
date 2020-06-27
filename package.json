@@ -42,8 +42,8 @@
     "e2e": "npm run build:prod && mocha --timeout 300000 --require ts-node/register e2e/**/*.spec.ts",
     "version": "conventional-changelog -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md",
     "lint": "ng lint",
-    "pack": "electron-builder",
-    "github-publish": "electron-builder build --win --publish always"
+    "builder-build": "electron-builder build --win --publish never",
+    "builder-publish-to-github": "electron-builder build --win --publish always"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.803.25",

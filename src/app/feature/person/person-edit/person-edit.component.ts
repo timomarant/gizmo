@@ -110,7 +110,7 @@ export class PersonEditComponent implements OnInit, AfterViewInit, OnDestroy {
         this.sub.unsubscribe();
     }
 
-    //     private getProduct(id: number): void{
+    // private getProduct(id: number): void{
     // this.customerService.getCustomer(id)
-    //     }
+    // }
 }

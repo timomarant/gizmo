@@ -1,5 +1,5 @@
-export class FriendlyError{
-    status: number;
-    message: string;
-    friendlyMessage: string;
+export class FriendlyError {
+  status: number;
+  message: string;
+  friendlyMessage: string;
 }

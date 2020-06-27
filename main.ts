@@ -3,6 +3,12 @@ import * as path from 'path';
 import * as url from 'url';
 
 const { autoUpdater } = require('electron-updater');
+const log = require('electron-log');
+
+// configure logging
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = 'info';
+log.info('App starting...');
 
 let win, serve;
 const args = process.argv.slice(1);
@@ -49,48 +55,74 @@ function createWindow() {
     win = null;
   });
 
-  win.once('ready-to-show', () => {
-    autoUpdater.checkForUpdatesAndNotify();
-  });
+  // trigger autoupdate check
+  autoUpdater.checkForUpdates();
+
+  // win.once('ready-to-show', () => {
+  //   autoUpdater.checkForUpdatesAndNotify();
+  // });
 }
 
-try {
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
+app.on('ready', createWindow);
 
-  // This method will be called when Electron has finished
-  // initialization and is ready to create browser windows.
-  // Some APIs can only be used after this event occurs.
-  app.on('ready', createWindow);
+// Quit when all windows are closed.
+app.on('window-all-closed', () => {
+  // On OS X it is common for applications and their menu bar
+  // to stay active until the user quits explicitly with Cmd + Q
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
+});
 
-  // Quit when all windows are closed.
-  app.on('window-all-closed', () => {
-    // On OS X it is common for applications and their menu bar
-    // to stay active until the user quits explicitly with Cmd + Q
-    if (process.platform !== 'darwin') {
-      app.quit();
-    }
-  });
+app.on('activate', () => {
+  // On OS X it's common to re-create a window in the app when the
+  // dock icon is clicked and there are no other windows open.
+  if (win === null) {
+    createWindow();
+  }
+});
 
-  app.on('activate', () => {
-    // On OS X it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (win === null) {
-      createWindow();
-    }
-  });
+ipcMain.on('app_version', (event) => {
+  event.sender.send('app_version', { version: app.getVersion() });
+});
 
-  ipcMain.on('app_version', (event) => {
-    event.sender.send('app_version', { version: app.getVersion() });
-  });
+//-------------------------------------------------------------------
+// Auto updates
+//-------------------------------------------------------------------
+const sendStatusToWindow = (text) => {
+  log.info(text);
+  if (win) {
+    win.webContents.send('message', text);
+  }
+};
 
-  autoUpdater.on('update-available', () => {
-    win.webContents.send('update_available');
-  });
+autoUpdater.on('checking-for-update', () => {
+  sendStatusToWindow('Checking for update...');
+});
+autoUpdater.on('update-available', info => {
+  sendStatusToWindow('Update available.');
+});
+autoUpdater.on('update-not-available', info => {
+  sendStatusToWindow('Update not available.');
+});
+autoUpdater.on('error', err => {
+  sendStatusToWindow(`Error in auto-updater: ${err.toString()}`);
+});
+autoUpdater.on('download-progress', progressObj => {
+  sendStatusToWindow(
+    `Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}% (${progressObj.transferred} + '/' + ${progressObj.total} + )`
+  );
+});
+autoUpdater.on('update-downloaded', info => {
+  sendStatusToWindow('Update downloaded; will install now');
+});
 
-  autoUpdater.on('update-downloaded', () => {
-    win.webContents.send('update_downloaded');
-  });
-
-} catch (e) {
-  // Catch Error
-  // throw e;
-}
+autoUpdater.on('update-downloaded', info => {
+  // Wait 5 seconds, then quit and install
+  // In your application, you don't need to wait 500 ms.
+  // You could call autoUpdater.quitAndInstall(); immediately
+  autoUpdater.quitAndInstall();
+});

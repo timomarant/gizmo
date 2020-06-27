@@ -26,30 +26,30 @@ export class PersonListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    //this.setPage(1);
+    // this.setPage(1);
     this.displayCustomers(1);
   }
 
   public displayCustomers(page: number) {
     console.log('setPage');
-  //  this.getCustomers(page);
+    // this.getCustomers(page);
   }
 
-//   private getCustomers(page: number): void {
-//     this.customerService.getCustomers(page, null).subscribe({
-//       next: resp => {
-//         this.customers = resp.body;
-//         this.pagination = JSON.parse(resp.headers.get('X-Pagination'));
-//         if (this.pagination) {
-//           // get pager object from service
-//           this.pager = this.pagerService.getPager(this.pagination.totalCount, page);
-//           // get current page of items
-//           this.pagedItems = this.customers.slice(this.pager.startIndex, this.pager.endIndex + 1);
-//         }
-//       },
-//       error: err => this.errorMessage = err
-//     });
-//   }
+  //   private getCustomers(page: number): void {
+  //     this.customerService.getCustomers(page, null).subscribe({
+  //       next: resp => {
+  //         this.customers = resp.body;
+  //         this.pagination = JSON.parse(resp.headers.get('X-Pagination'));
+  //         if (this.pagination) {
+  //           // get pager object from service
+  //           this.pager = this.pagerService.getPager(this.pagination.totalCount, page);
+  //           // get current page of items
+  //           this.pagedItems = this.customers.slice(this.pager.startIndex, this.pager.endIndex + 1);
+  //         }
+  //       },
+  //       error: err => this.errorMessage = err
+  //     });
+  //   }
 
   // public setPage(page: number) {
   //   console.log('setPage');
