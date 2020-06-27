@@ -11,7 +11,7 @@
                 <ng-template [ngTemplateOutlet]="toast.textOrTpl"></ng-template>
             </ng-template>
             <ng-template #text>{{ toast.textOrTpl }}</ng-template>
-        </ngb-toast> 
+        </ngb-toast>
         <div class="logo-container">
             <a href=""
                class="logo">
@@ -83,7 +83,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </div> 
+                    </div>
                 </li>-->
                 <li>
                     <!-- <a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
@@ -365,10 +365,10 @@
         </p>
     </header>
     <!-- end: header -->
-    <div class="inner-wrapper"
-         [style.marginTop.px]="this.marginTop">
+    <div class="inner-wrapper" style="margin-top: 79px;">
         <!-- start: page -->
         <router-outlet></router-outlet>
         <!-- end: page -->
     </div>
 </section>
+<p>{{ updateMessage }}</p>

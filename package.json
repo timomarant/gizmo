@@ -1,11 +1,15 @@
 {
-    "name": "angular-electron",
-    "version": "6.1.0",
+    "name": "verelst-software",
+    "version": "1.0.0",
     "description": "Angular 8 with Electron (Typescript + SASS + Hot Reload)",
-    "homepage": "https://github.com/maximegris/angular-electron",
+    "homepage": "https://github.com/timomarant/gizmo",
+    "repository": {
+      "type" : "git",
+      "url" : "https://github.com/timomarant/gizmo.git"
+    },
     "author": {
-        "name": "Maxime GRIS",
-        "email": "maxime.gris@gmail.com"
+        "name": "Timo Marant",
+        "email": "timo.marant@gmail.com"
     },
     "keywords": [
         "angular",
@@ -15,14 +19,14 @@
         "sass"
     ],
     "main": "main.js",
-    "private": true,
+    "private": false,
     "scripts": {
         "postinstall": "npm run postinstall:electron && electron-builder install-app-deps",
         "postinstall:web": "node postinstall-web",
         "postinstall:electron": "node postinstall",
         "ng": "ng",
         "start": "npm run postinstall:electron && npm-run-all -p ng:serve electron:serve",
-        "build": "npm run postinstall:electron && npm run electron:serve-tsc && ng build",
+        "build_org": "npm run postinstall:electron && npm run electron:serve-tsc && ng build",
         "build:dev": "npm run build -- -c dev",
         "build:prod": "npm run build -- -c production",
         "ng:serve": "ng serve",
@@ -36,7 +40,9 @@
         "test": "npm run postinstall:web && ng test",
         "e2e": "npm run build:prod && mocha --timeout 300000 --require ts-node/register e2e/**/*.spec.ts",
         "version": "conventional-changelog -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md",
-        "lint": "ng lint"
+        "lint": "ng lint",
+        "build": "electron-builder build --win --publish never",
+        "deploy": "electron-builder build --win --publish always"
     },
     "devDependencies": {
         "@angular-devkit/build-angular": "^0.803.25",
@@ -62,8 +68,8 @@
         "conventional-changelog-cli": "2.0.21",
         "core-js": "3.1.4",
         "devtron": "^1.4.0",
-        "electron": "^8.0.1",
-        "electron-builder": "21.2.0",
+        "electron": "^8.3.4",
+        "electron-builder": "^21.2.0",
         "electron-reload": "1.5.0",
         "jasmine-core": "3.4.0",
         "jasmine-spec-reporter": "4.2.1",
@@ -92,7 +98,7 @@
         "@sentry/browser": "^5.15.4",
         "bootstrap": "^4.3.1",
         "datatables.net-bs4": "^1.10.20",
-        "dotenv": "^8.2.0",
+        "electron-updater": "^4.3.1",
         "jquery": "^3.4.1",
         "jquery-ui-dist": "^1.12.1"
     }

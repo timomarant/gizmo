@@ -1,6 +1,8 @@
-import { app, BrowserWindow, screen } from 'electron';
+import { app, BrowserWindow, screen, ipcMain  } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+
+const { autoUpdater } = require('electron-updater');
 
 let win, serve;
 const args = process.argv.slice(1);
@@ -47,6 +49,9 @@ function createWindow() {
     win = null;
   });
 
+  win.once('ready-to-show', () => {
+    autoUpdater.checkForUpdatesAndNotify();
+  });
 }
 
 try {
@@ -71,6 +76,18 @@ try {
     if (win === null) {
       createWindow();
     }
+  });
+
+  ipcMain.on('app_version', (event) => {
+    event.sender.send('app_version', { version: app.getVersion() });
+  });
+
+  autoUpdater.on('update-available', () => {
+    win.webContents.send('update_available');
+  });
+
+  autoUpdater.on('update-downloaded', () => {
+    win.webContents.send('update_downloaded');
   });
 
 } catch (e) {

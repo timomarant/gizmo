@@ -7,65 +7,80 @@ import { AppConfig } from '../environments/environment';
 import { ElectronService, NotificationService, ToastService } from './core/services';
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html'
+  selector: 'app-root',
+  templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-    successMessage: string;
-    infoMessage: string;
-    dangerMessage: string;
+  public successMessage: string;
+  public infoMessage: string;
+  public dangerMessage: string;
+  public updateMessage: string;
 
-    constructor(
-        public electronService: ElectronService,
-        public toastService: ToastService,
-        private translate: TranslateService,
-        private notificationService: NotificationService,
-        private title: Title,
-        private router: Router
-    ) {
-        translate.setDefaultLang('en');
-        console.log('AppConfig', AppConfig);
+  constructor(
+    public electronService: ElectronService,
+    public toastService: ToastService,
+    private translate: TranslateService,
+    private notificationService: NotificationService,
+    private title: Title,
+    private router: Router
+  ) {
+    translate.setDefaultLang('nl');
+    this.updateMessage = 'test update';
 
-        if (electronService.isElectron) {
-            console.log(process.env);
-            console.log('Mode electron');
-            console.log('Electron ipcRenderer', electronService.ipcRenderer);
-            console.log('NodeJS childProcess', electronService.childProcess);
-        } else {
-            console.log('Mode web');
-        }
+    if (electronService.isElectron) {
+      console.log(process.env);
+      console.log('Mode electron');
+      console.log('Electron ipcRenderer', electronService.ipcRenderer);
+      console.log('NodeJS childProcess', electronService.childProcess);
 
-        this.title.setTitle(`Verelst Software ${VERSION.full}`);
+      // Set app version in title
+      electronService.ipcRenderer.send('app_version');
+      electronService.ipcRenderer.on('app_version', (event, arg) => {
+        electronService.ipcRenderer.removeAllListeners('app_version');
+        this.title.setTitle(`Verelst Software ${arg.version}`);
+      });
+
+      // Check for updates
+      electronService.ipcRenderer.on('update_available', () => {
+        electronService.ipcRenderer.removeAllListeners('update_available');
+        this.updateMessage = 'A new update is available. Downloading now...';
+        //message.innerText = 'A new update is available. Downloading now...';
+        //notification.classList.remove('hidden');
+      });
+      electronService.ipcRenderer.on('update_downloaded', () => {
+        electronService.ipcRenderer.removeAllListeners('update_downloaded');
+        this.updateMessage = 'Update Downloaded. It will be installed on restart. Restart now?';
+        //message.innerText = 'Update Downloaded. It will be installed on restart. Restart now?';
+        //restartButton.classList.remove('hidden');
+        //notification.classList.remove('hidden');
+      });
+
+    } else {
+      console.log('Mode web');
+      this.title.setTitle(`Verelst Software ${VERSION.full}`);
     }
+  }
 
-    get marginTop(): number {
-        if (this.successMessage || this.infoMessage || this.dangerMessage) {
-            return 129;
-        } else {
-            return 79;
-        }
-    }
+  isTemplate(toast) { return toast.textOrTpl instanceof TemplateRef; }
 
-    isTemplate(toast) { return toast.textOrTpl instanceof TemplateRef; }
+  ngOnInit(): void {
+    this.router.events.subscribe((evt) => {
+      if (!(evt instanceof NavigationEnd)) {
+        return;
+      }
+      window.scrollTo(0, 0)
+    });
 
-    ngOnInit(): void {
-        this.router.events.subscribe((evt) => {
-            if (!(evt instanceof NavigationEnd)) {
-                return;
-            }
-            window.scrollTo(0, 0)
-        });
+    //this.toastService.show
+    //success
+    //this.notificionService.successMessageChanges$.subscribe(msg => this.successMessage = msg);
+    //this.notificionService.successMessageChanges$.pipe(debounceTime(2000)).subscribe(() => this.successMessage = '');
 
-        //this.toastService.show
-        //success
-        //this.notificionService.successMessageChanges$.subscribe(msg => this.successMessage = msg);
-        //this.notificionService.successMessageChanges$.pipe(debounceTime(2000)).subscribe(() => this.successMessage = '');
-        
-        //info
-        // this.notificationService.infoMessageChanges$.subscribe(msg => this.infoMessage = msg);
-        // this.notificationService.infoMessageChanges$.pipe(debounceTime(5000)).subscribe(() => this.infoMessage = '');
+    //info
+    // this.notificationService.infoMessageChanges$.subscribe(msg => this.infoMessage = msg);
+    // this.notificationService.infoMessageChanges$.pipe(debounceTime(5000)).subscribe(() => this.infoMessage = '');
 
-        //error
-        this.notificationService.dangerMessageChanges$.subscribe(msg => this.dangerMessage = msg);
-    }
+    //error
+    this.notificationService.dangerMessageChanges$.subscribe(msg => this.dangerMessage = msg);
+  }
 }
