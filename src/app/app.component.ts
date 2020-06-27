@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
     if (electronService.isElectron) {
       console.log(process.env);
       console.log('Mode electron');
+      console.log('DIRENAME:',__dirname);
       console.log('Electron ipcRenderer', electronService.ipcRenderer);
       console.log('NodeJS childProcess', electronService.childProcess);
 
