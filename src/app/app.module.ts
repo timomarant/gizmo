@@ -18,52 +18,58 @@ import { InvoiceModule } from './feature/invoice/invoice.module';
 import { SettingsModule } from './feature/settings/settings.module';
 import { AppComponent } from './app.component';
 import * as Sentry from '@sentry/browser';
-import { ErrorService, AddHeaderInterceptor, HttpErrorResponseInterceptor, LogResponseInterceptor, SentryErrorHandler } from './core/services';
+import {
+  ErrorService,
+  AddHeaderInterceptor,
+  HttpErrorResponseInterceptor,
+  LogResponseInterceptor,
+  SentryErrorHandler
+} from './core/services';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
-    return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 Sentry.init({
-    dsn: "https://466c648c8584475ab3a8293a91ae228b@o374410.ingest.sentry.io/5192411"
+  dsn: 'https://466c648c8584475ab3a8293a91ae228b@o374410.ingest.sentry.io/5192411'
 });
 
 Sentry.configureScope((scope) => {
-   //scope.setUser({ 'email': 'timo.marant@gmail.com' });
+  // scope.setUser({ 'email': 'timo.marant@gmail.com' });
 });
 
 @NgModule({
-    declarations: [AppComponent],
-    imports: [
-        BrowserModule,
-        HttpClientModule,
-        CoreModule,
-        SharedModule,
-        AgmCoreModule.forRoot({
-            apiKey: ''
-        }),
-        HomeModule,
-        CalculationModule,
-        CustomerModule,
-        InvoiceModule,
-        PersonModule,
-        SettingsModule,
-        AppRoutingModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient]
-            }
-        })
-    ],
-    providers: [
-        { provide: ErrorHandler, useClass: SentryErrorHandler },
-        { provide: HTTP_INTERCEPTORS, useClass: AddHeaderInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: HttpErrorResponseInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: LogResponseInterceptor, multi: true }
-    ],
-    bootstrap: [AppComponent]
+  declarations: [AppComponent],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    CoreModule,
+    SharedModule,
+    AgmCoreModule.forRoot({
+      apiKey: ''
+    }),
+    HomeModule,
+    CalculationModule,
+    CustomerModule,
+    InvoiceModule,
+    PersonModule,
+    SettingsModule,
+    AppRoutingModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
+  ],
+  providers: [
+    { provide: ErrorHandler, useClass: SentryErrorHandler },
+    { provide: HTTP_INTERCEPTORS, useClass: AddHeaderInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorResponseInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LogResponseInterceptor, multi: true }
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

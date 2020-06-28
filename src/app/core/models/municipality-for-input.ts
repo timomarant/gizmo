@@ -1,3 +1,3 @@
-export interface IMunicipalityForInput{
-    name: string
+export interface IMunicipalityForInput  {
+  name: string;
 }

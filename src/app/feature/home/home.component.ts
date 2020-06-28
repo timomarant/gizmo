@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
     public errorMessage: string;
 
     constructor(private customerService: CustomerService) {
-        this.totalCustomers = "...";
+        this.totalCustomers = '...';
      }
 
     ngOnInit() {

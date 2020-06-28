@@ -73,19 +73,19 @@ export class AppComponent implements OnInit {
       if (!(evt instanceof NavigationEnd)) {
         return;
       }
-      window.scrollTo(0, 0)
+      window.scrollTo(0, 0);
     });
 
-    //this.toastService.show
-    //success
-    //this.notificionService.successMessageChanges$.subscribe(msg => this.successMessage = msg);
-    //this.notificionService.successMessageChanges$.pipe(debounceTime(2000)).subscribe(() => this.successMessage = '');
+    //  this.toastService.show
+    //  success
+    //  this.notificionService.successMessageChanges$.subscribe(msg => this.successMessage = msg);
+    //  this.notificionService.successMessageChanges$.pipe(debounceTime(2000)).subscribe(() => this.successMessage = '');
 
-    //info
+    // info
     // this.notificationService.infoMessageChanges$.subscribe(msg => this.infoMessage = msg);
     // this.notificationService.infoMessageChanges$.pipe(debounceTime(5000)).subscribe(() => this.infoMessage = '');
 
-    //error
+    // error
     this.notificationService.dangerMessageChanges$.subscribe(msg => this.dangerMessage = msg);
   }
 }

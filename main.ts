@@ -89,9 +89,9 @@ ipcMain.on('app_version', (event) => {
   event.sender.send('app_version', { version: app.getVersion() });
 });
 
-//-------------------------------------------------------------------
+// -------------------------------------------------------------------
 // Auto updates
-//-------------------------------------------------------------------
+// -------------------------------------------------------------------
 const sendStatusToWindow = (text) => {
   log.info(text);
   if (win) {
@@ -113,7 +113,9 @@ autoUpdater.on('error', err => {
 });
 autoUpdater.on('download-progress', progressObj => {
   sendStatusToWindow(
-    `Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}% (${progressObj.transferred} + '/' + ${progressObj.total} + )`
+    `Download speed: ${progressObj.bytesPerSecond} -
+     Downloaded ${progressObj.percent}% (${progressObj.transferred} +
+      '/' + ${progressObj.total} + )`
   );
 });
 autoUpdater.on('update-downloaded', info => {

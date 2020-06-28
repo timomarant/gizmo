@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, ElementRef, ViewChildren } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControlName } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { debounceTime } from 'rxjs/operators'
+import { debounceTime } from 'rxjs/operators';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { Observable } from 'rxjs/internal/Observable';
 
@@ -63,7 +63,7 @@ export class PersonEditComponent implements OnInit, AfterViewInit, OnDestroy {
                 email: 'Vul alstublieft een geldig e-mail adres.',
                 maxlength: 'De maximumlengte is 100.'
             }
-        }
+        };
 
         this.genericValidator = new GenericValidator(this.validationMessages);
     }

@@ -22,7 +22,7 @@ const routes: Routes = [
       {
         path: ':id/edit',
         component: CustomerEditComponent
-      }     
+      }
     ]
   }
 ];

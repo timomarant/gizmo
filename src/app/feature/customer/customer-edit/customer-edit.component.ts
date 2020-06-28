@@ -33,8 +33,8 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
   public titleOnMap: string;
   public countryList: { name: string, code: string }[];
   public municipalityList: { displayName: string, postalCode: string, latitude: number, longitude: number }[];
-  public latitude: number = 51.074760;
-  public longitude: number = 4.791020;
+  public latitude: number;
+  public longitude: number;
 
   public model: { displayName: string, postalCode: string };
 
@@ -111,17 +111,19 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         email: 'Vul alstublieft een geldig e-mail adres in.',
         maxlength: 'De maximumlengte is 100.'
       }
-    }
+    };
 
     this.genericValidator = new GenericValidator(this.validationMessages);
     this.customerForEdit = new CustomerForEdit();
+    this.latitude = 51.074760;
+    this.longitude = 4.791020;
   }
 
   ngOnInit() {
     this.countryList = this.countryService.getCountries();
     this.municipalityList = this.municipalityService.getMunicipalities('be');
 
-    let validCharsRegExp = new RegExp('^[a-zA-Z0-9\\s\\(\\).,/-]+$');
+    const validCharsRegExp = new RegExp('^[a-zA-Z0-9\\s\\(\\).,/-]+$');
     this.customerForm = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(validCharsRegExp)]],
       vatNumber: [null, [Validators.maxLength(15), Validators.pattern(validCharsRegExp)]],
@@ -213,29 +215,29 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public addPhoneNumber(): void {
-    if (this.phoneNumbersFormArray.length === 3) return;
+    if (this.phoneNumbersFormArray.length === 3) { return; }
     this.phoneNumbersFormArray.push(this.buildPhoneNumbersGroup(null));
   }
 
   public deletePhoneNumber(): void {
-    if (this.phoneNumbersFormArray.length === 1) return;
+    if (this.phoneNumbersFormArray.length === 1) { return; }
     this.phoneNumbersFormArray.removeAt(this.phoneNumbersFormArray.length - 1);
     this.phoneNumbersFormArray.markAsDirty();
   }
 
   public addEmailAddress(): void {
-    if (this.emailAddressesFormArray.length === 3) return;
+    if (this.emailAddressesFormArray.length === 3) { return; }
     this.emailAddressesFormArray.push(this.buildEmailAdrressesGroup(null));
   }
 
   public deleteEmailAddress(): void {
-    if (this.emailAddressesFormArray.length === 1) return;
+    if (this.emailAddressesFormArray.length === 1) { return; }
     this.emailAddressesFormArray.removeAt(this.emailAddressesFormArray.length - 1);
     this.emailAddressesFormArray.markAsDirty();
   }
 
   private buildPhoneNumbersGroup(value: string): FormGroup {
-    const phoneNumberRegExp = new RegExp("^[0-9\\'\\s\\(\\).-]+$");
+    const phoneNumberRegExp = new RegExp(`^[0-9\\'\\s\\(\\).-]+$`);
     return this.fb.group({ phone: [this.getValueOrNull(value), [Validators.maxLength(20), Validators.pattern(phoneNumberRegExp)]] });
   }
 
@@ -342,9 +344,10 @@ export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private getValueOrNull(value: any): any {
-    if (value)
+    if (value) {
       return value;
-    else
+    } else {
       return null;
+    }
   }
 }

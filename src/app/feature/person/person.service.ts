@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpResponse, HttpParams, HttpHeaders } 
 
 import { Observable, throwError } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
-import { IPersonListModel } from "./person-list.model";
+import { IPersonListModel } from './person-list.model';
 
 @Injectable()
 export class PersonService {

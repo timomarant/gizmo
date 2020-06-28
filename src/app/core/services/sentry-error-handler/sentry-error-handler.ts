@@ -15,11 +15,9 @@ export class SentryErrorHandler implements ErrorHandler {
         if (error instanceof FriendlyError) {
             console.log('-- FriendlyError: ' + error.message);
             this.notificationService.danger(error.message);
-        }
-        else if (error instanceof HttpErrorResponse) {
+        } else if (error instanceof HttpErrorResponse) {
             console.log('-- HttpErrorResponse: ' + error.status);
-        }
-        else {
+        } else {
             console.error('-- An error occurred here');
         }
 

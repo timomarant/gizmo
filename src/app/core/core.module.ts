@@ -6,8 +6,7 @@ import { throwIfAlreayLoaded } from './module-import-guard';
     declarations: [],
     imports: [
         CommonModule
-    ],
-    
+    ]
 })
 export class CoreModule {
     constructor(@Optional() @SkipSelf() parentModule: CoreModule) {

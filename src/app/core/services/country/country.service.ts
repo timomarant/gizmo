@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { countries_eu } from './countries-eu';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class CountryService {
 
-    constructor( ) { }
+  constructor() { }
 
-    getCountries(){
-        return countries_eu;
-    }
- }
+  getCountries() {
+    return countries_eu;
+  }
+}

@@ -109,7 +109,7 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
                         this.displayCustomers(1);
                         this.toastService.show(`${customerForEdit.name} is verwijderd.`);
                     }
-                })
+                });
             }
         });
     }
@@ -123,7 +123,10 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
                     if (this.pagination) {
                         this.searchComponent.hitCount = this.pagination.totalCount;
                         // get pager object from service
-                        this.pager = this.pagerService.getPager(this.pagination.totalCount, this.currentPageNumer, this.pagination.pageSize);
+                        this.pager = this.pagerService.getPager(
+                          this.pagination.totalCount,
+                          this.currentPageNumer,
+                          this.pagination.pageSize);
                         // get current page of items
                         this.pagedItems = this.customers.slice(this.pager.startIndex, this.pager.endIndex + 1);
                     }
