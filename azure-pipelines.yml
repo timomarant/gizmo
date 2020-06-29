@@ -9,9 +9,9 @@ resources:
     type: github
     endpoint: 'GitHub connection 1'
     name: timomarant/gizmo
-  - repository: MyAzureReposGitRepository
+  - repository: Gizmo.App
     type: git
-    name: MyProject/MyAzureReposGitRepo
+    name: Gizmo/Gizmo.App
 
 trigger:
 - master
