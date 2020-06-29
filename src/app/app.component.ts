@@ -25,7 +25,6 @@ export class AppComponent implements OnInit {
     private router: Router
   ) {
     translate.setDefaultLang('nl');
-    this.updateMessage = 'test update';
 
     if (electronService.isElectron) {
       console.log(process.env);
@@ -37,7 +36,7 @@ export class AppComponent implements OnInit {
       electronService.ipcRenderer.send('app_version');
       electronService.ipcRenderer.on('app_version', (event, arg) => {
         electronService.ipcRenderer.removeAllListeners('app_version');
-        this.title.setTitle(`Verelst Software ${arg.version}`);
+        this.title.setTitle(`Gizmo ${arg.version}`);
       });
 
       electronService.ipcRenderer.on('message', (event, arg) => {
@@ -62,7 +61,7 @@ export class AppComponent implements OnInit {
 
     } else {
       console.log('Mode web');
-      this.title.setTitle(`Verelst Software ${VERSION.full}`);
+      this.title.setTitle(`Gizmo ${VERSION.full}`);
     }
   }
 

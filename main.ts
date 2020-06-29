@@ -2,7 +2,7 @@ import { app, BrowserWindow, screen, ipcMain } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
-const { autoUpdater } = require('electron-updater');
+const autoUpdater = require('electron-updater');
 const log = require('electron-log');
 
 // configure logging

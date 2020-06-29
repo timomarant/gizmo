@@ -18,6 +18,7 @@ import { InvoiceModule } from './feature/invoice/invoice.module';
 import { SettingsModule } from './feature/settings/settings.module';
 import { AppComponent } from './app.component';
 import * as Sentry from '@sentry/browser';
+import { AppConfig } from '../environments/environment';
 import {
   ErrorService,
   AddHeaderInterceptor,
@@ -47,7 +48,7 @@ Sentry.configureScope((scope) => {
     CoreModule,
     SharedModule,
     AgmCoreModule.forRoot({
-      apiKey: ''
+      apiKey: AppConfig.googleApiKey
     }),
     HomeModule,
     CalculationModule,

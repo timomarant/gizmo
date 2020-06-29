@@ -49,4 +49,6 @@ package-lock.json
 Thumbs.db
 
 # secrets
+/src/environments/environment.prod.ts
 electron-builder.yml
+.env
