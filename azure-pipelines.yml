@@ -48,20 +48,11 @@ steps:
     customCommand: 'install -D electron@latest'
 
 - task: Npm@1
-  displayName: 'Run electron:windows'
+  displayName: 'Run builder-publish-to-github'
   inputs:
     command: custom
     verbose: false
-    customCommand: 'run electron:windows'
-
-- task: ArchiveFiles@2
-  displayName: 'Archive files'
-  inputs:
-    rootFolderOrFile: release/
-    includeRootFolder: false
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: drop'
+    customCommand: 'run builder-publish-to-github'
 
 - task: GitHubRelease@1
   displayName: 'GitHub release (create)'
