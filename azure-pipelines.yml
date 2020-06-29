@@ -19,6 +19,9 @@ trigger:
 name: 'ubuntu-latest'
 
 steps:
+- checkout: gizmo
+- checkout: Gizmo.App
+
 - task: NodeTool@0
   displayName: 'Node available on machine'
   inputs:
