@@ -6,5 +6,6 @@
 export const AppConfig = {
   production: false,
   environment: 'DEV',
-  googleApiKey: ''
+  googleApiKey: '',
+  sentryDns: ''
 };

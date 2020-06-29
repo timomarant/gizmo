@@ -1,5 +1,6 @@
 export const AppConfig = {
   production: false,
   environment: 'LOCAL',
-  googleApiKey: ''
+  googleApiKey: '',
+  sentryDns: ''
 };

@@ -32,13 +32,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
-Sentry.init({
-  dsn: 'https://466c648c8584475ab3a8293a91ae228b@o374410.ingest.sentry.io/5192411'
-});
-
-Sentry.configureScope((scope) => {
-  // scope.setUser({ 'email': 'timo.marant@gmail.com' });
-});
+Sentry.init({ dsn: AppConfig.sentryDns });
 
 @NgModule({
   declarations: [AppComponent],
