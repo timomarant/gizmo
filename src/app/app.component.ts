@@ -14,7 +14,9 @@ export class AppComponent implements OnInit {
   public successMessage: string;
   public infoMessage: string;
   public dangerMessage: string;
-  public updateMessage: string;
+  public autoUpdateMessageOne: string;
+  public autoUpdateMessageTwo: string;
+  public updateDownloaded: boolean;
 
   constructor(
     public electronService: ElectronService,
@@ -24,10 +26,13 @@ export class AppComponent implements OnInit {
     private title: Title,
     private router: Router
   ) {
-    translate.setDefaultLang('nl');
+    translate.setDefaultLang('en');
+    this.updateDownloaded = false;
+
+    // this.autoUpdateMessageOne = 'Update gedownload.  De update wordt geïnstalleerd na herstart.'
+    // this.autoUpdateMessageTwo = 'Opnieuw opstarten?'
 
     if (electronService.isElectron) {
-      console.log(process.env);
       console.log('Mode electron');
       console.log('Electron ipcRenderer', electronService.ipcRenderer);
       console.log('NodeJS childProcess', electronService.childProcess);
@@ -39,25 +44,19 @@ export class AppComponent implements OnInit {
         this.title.setTitle(`Gizmo ${arg.version}`);
       });
 
-      electronService.ipcRenderer.on('message', (event, arg) => {
-        console.log('Message from updater:', arg);
-        this.updateMessage = arg;
+      // Check for new version
+      electronService.ipcRenderer.on('message', (event, message) => {
+        console.log('Message from updater:', message);
+        this.updateDownloaded = false;
+        if (message === 'update-available') {
+          this.autoUpdateMessageOne = 'Er is een nieuwe versie beschikbaar!'
+          this.autoUpdateMessageTwo = 'Bezig met downloaden...'
+        } else if (message === 'update-downloaded') {
+          this.autoUpdateMessageOne = 'Update gedownload.  De update wordt geïnstalleerd na herstart.'
+          this.autoUpdateMessageTwo = 'Opnieuw opstarten?'
+          this.updateDownloaded = true;
+        }
       });
-
-      // Check for updates
-      // electronService.ipcRenderer.on('update_available', () => {
-      //   electronService.ipcRenderer.removeAllListeners('update_available');
-      //   this.updateMessage = 'A new update is available. Downloading now...';
-      //   //message.innerText = 'A new update is available. Downloading now...';
-      //   //notification.classList.remove('hidden');
-      // });
-      // electronService.ipcRenderer.on('update_downloaded', () => {
-      //   electronService.ipcRenderer.removeAllListeners('update_downloaded');
-      //   this.updateMessage = 'Update Downloaded. It will be installed on restart. Restart now?';
-      //   //message.innerText = 'Update Downloaded. It will be installed on restart. Restart now?';
-      //   //restartButton.classList.remove('hidden');
-      //   //notification.classList.remove('hidden');
-      // });
 
     } else {
       console.log('Mode web');
@@ -81,10 +80,19 @@ export class AppComponent implements OnInit {
     //  this.notificionService.successMessageChanges$.pipe(debounceTime(2000)).subscribe(() => this.successMessage = '');
 
     // info
-    // this.notificationService.infoMessageChanges$.subscribe(msg => this.infoMessage = msg);
-    // this.notificationService.infoMessageChanges$.pipe(debounceTime(5000)).subscribe(() => this.infoMessage = '');
+    this.notificationService.infoMessageChanges$.subscribe(msg => this.infoMessage = msg);
+    this.notificationService.infoMessageChanges$.pipe(debounceTime(5000)).subscribe(() => this.infoMessage = '');
 
     // error
     this.notificationService.dangerMessageChanges$.subscribe(msg => this.dangerMessage = msg);
   }
+
+  public closeNotification(): void {
+    this.autoUpdateMessageOne = '';
+  }
+
+  public restartApp(): void {
+    this.electronService.ipcRenderer.send('restart_app');
+  }
+
 }

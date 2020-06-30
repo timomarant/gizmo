@@ -20,8 +20,5 @@ export class SentryErrorHandler implements ErrorHandler {
         } else {
             console.error('-- An error occurred here');
         }
-
-        // const eventId = Sentry.captureException(error.originalError || error);
-        // Sentry.showReportDialog({ eventId });
     }
 }

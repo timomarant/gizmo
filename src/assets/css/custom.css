@@ -1,5 +1,5 @@
 /* Add here all your CSS customizations */
-body {	
+body {
 	font-size: 16px;
 }
 
@@ -46,7 +46,7 @@ abbr{
     font-size: small;
 }
 
-.innerWrapperHeader{    
+.innerWrapperHeader{
     background-color: #1d2127;
     min-height: 100px;
 }
@@ -121,7 +121,7 @@ html.has-tab-navigation .content-body {
 }
 
 a.close-href:hover .lni-close {
-    background-color: #cc0033; 
+    background-color: #cc0033;
     color:#ffffff;
     padding-left: 10px;
     padding-bottom: 10px;
@@ -132,4 +132,20 @@ a.close-href:hover .lni-close {
     padding: .25rem;
     color: #212529;
     background-color: #ffffff;
+}
+
+#notification {
+  text-align: center;
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 330px;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.hidden {
+  display: none;
 }
