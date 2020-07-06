@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PersonService } from './person.service';
-import { PagerService } from '../../core/services/pager/pager.service';
+import { PagerService } from '../../core/services/pager.service';
 
 @Component({
   selector: 'app-person',

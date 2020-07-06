@@ -13,7 +13,7 @@ import { SearchComponent } from '../../../shared/components/search/search.compon
 import { StarComponent } from '../../../shared/components/star/star.component';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { CustomerParameterService } from '../customer-parameter.service';
-import { CustomerService, PagerService, ToastService } from '../../../core/services';
+import { CustomerService, PagerService, ToastService } from '../../../core';
 
 @Component({
     selector: 'app-customer-list',

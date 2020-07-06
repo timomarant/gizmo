@@ -9,7 +9,7 @@ import {
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs/internal/observable/throwError';
 import { Observable } from 'rxjs/internal/Observable';
-import { FriendlyError } from '../../../shared/models/friendly-error';
+import { FriendlyError } from '../../shared/models/friendly-error';
 import * as Sentry from '@sentry/browser';
 
 @Injectable({

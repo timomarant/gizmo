@@ -88,39 +88,24 @@ ipcMain.on('app_version', (event) => {
 // -------------------------------------------------------------------
 // Auto updates
 // -------------------------------------------------------------------
-const sendStatusToWindow = (text) => {
-  log.info(text);
-  if (mainWindow) {
-    mainWindow.webContents.send('message', text);
-  }
-};
-
-autoUpdater.on('checking-for-update', () => {
-  sendStatusToWindow('Checking for update...');
-});
 autoUpdater.on('update-available', info => {
-  sendStatusToWindow('Update available.');
-});
-autoUpdater.on('update-not-available', info => {
-  sendStatusToWindow('Update not available.');
-});
-autoUpdater.on('error', err => {
-  sendStatusToWindow(`Error in auto-updater: ${err.toString()}`);
-});
-autoUpdater.on('download-progress', progressObj => {
-  sendStatusToWindow(
-    `Download speed: ${progressObj.bytesPerSecond} -
-     Downloaded ${progressObj.percent}% (${progressObj.transferred} +
-      '/' + ${progressObj.total} + )`
-  );
-});
-autoUpdater.on('update-downloaded', info => {
-  sendStatusToWindow('Update downloaded; will install now');
+  mainWindow.webContents.send('update_available');
 });
 
+autoUpdater.on('error', err => {
+  // sendStatusToWindow(`Error in auto-updater: ${err.toString()}`);
+});
+// autoUpdater.on('download-progress', progressObj => {
+//   // sendStatusToWindow(
+//   //   `Download speed: ${progressObj.bytesPerSecond} -
+//   //    Downloaded ${progressObj.percent}% (${progressObj.transferred} +
+//   //     '/' + ${progressObj.total} + )`
+//   // );
+// });
 autoUpdater.on('update-downloaded', info => {
-  // Wait 5 seconds, then quit and install
-  // In your application, you don't need to wait 500 ms.
-  // You could call autoUpdater.quitAndInstall(); immediately
-  //autoUpdater.quitAndInstall();
+  mainWindow.webContents.send('update_downloaded');
+});
+
+ipcMain.on('restart_app', () => {
+  autoUpdater.quitAndInstall();
 });

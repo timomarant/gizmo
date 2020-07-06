@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { IPersonListModel } from '../person-list.model';
 import { IPagination } from '../../../shared/models/pagination';
 import { PersonService } from '../person.service';
-import { PagerService } from '../../../core/services/pager/pager.service';
+import { PagerService } from '../../../core/services/pager.service';
 import { ICustomerForList } from '../../customer/models/customer-for-list';
-import { CustomerService } from '../../../core/services';
+import { CustomerService } from '../../../core';
 
 @Component({
   selector: 'app-person-list',

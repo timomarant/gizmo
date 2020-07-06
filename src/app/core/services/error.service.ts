@@ -1,8 +1,8 @@
 import { Injectable, ErrorHandler, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { FriendlyError } from '../../../shared/models/friendly-error';
-import { NotificationService } from '../notification/notification.service';
+import { FriendlyError } from '../../shared/models/friendly-error';
+import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: 'root'

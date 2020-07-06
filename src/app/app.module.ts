@@ -25,7 +25,7 @@ import {
   HttpErrorResponseInterceptor,
   LogResponseInterceptor,
   SentryErrorHandler
-} from './core/services';
+} from './core';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {

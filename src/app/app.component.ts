@@ -1,36 +1,32 @@
-import { Component, Version, VERSION, OnInit, TemplateRef } from '@angular/core';
+import { Component, VERSION, OnInit, TemplateRef, ChangeDetectorRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
-import { AppConfig } from '../environments/environment';
-import { ElectronService, NotificationService, ToastService } from './core/services';
+import { ElectronService, NotificationService, ToastService } from './core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-  public successMessage: string;
-  public infoMessage: string;
-  public dangerMessage: string;
-  public autoUpdateMessageOne: string;
-  public autoUpdateMessageTwo: string;
-  public updateDownloaded: boolean;
+  successMessage: string;
+  infoMessage: string;
+  dangerMessage: string;
+  updateMessageOne: string;
+  updateMessageTwo: string;
+  updateDownloaded: boolean;
 
   constructor(
     public electronService: ElectronService,
     public toastService: ToastService,
-    private translate: TranslateService,
+    private translateService: TranslateService,
     private notificationService: NotificationService,
     private title: Title,
-    private router: Router
+    private router: Router,
+    private cd: ChangeDetectorRef
   ) {
-    translate.setDefaultLang('en');
-    this.updateDownloaded = false;
-
-    // this.autoUpdateMessageOne = 'Update gedownload.  De update wordt geïnstalleerd na herstart.'
-    // this.autoUpdateMessageTwo = 'Opnieuw opstarten?'
+    translateService.setDefaultLang('en');
 
     if (electronService.isElectron) {
       console.log('Mode electron');
@@ -44,18 +40,19 @@ export class AppComponent implements OnInit {
         this.title.setTitle(`Gizmo ${arg.version}`);
       });
 
-      // Check for new version
-      electronService.ipcRenderer.on('message', (event, message) => {
-        console.log('Message from updater:', message);
-        this.updateDownloaded = false;
-        if (message === 'update-available') {
-          this.autoUpdateMessageOne = 'Er is een nieuwe versie beschikbaar!'
-          this.autoUpdateMessageTwo = 'Bezig met downloaden...'
-        } else if (message === 'update-downloaded') {
-          this.autoUpdateMessageOne = 'Update gedownload.  De update wordt geïnstalleerd na herstart.'
-          this.autoUpdateMessageTwo = 'Opnieuw opstarten?'
-          this.updateDownloaded = true;
-        }
+      // Auto update
+      this.electronService.ipcRenderer.on('update_available', () => {
+        this.electronService.ipcRenderer.removeAllListeners('update_available');
+        this.updateMessageOne = 'Er is een nieuwe versie beschikbaar.';
+        this.updateMessageTwo = 'Bezig met downloaden...';
+        this.cd.detectChanges();
+      });
+      this.electronService.ipcRenderer.on('update_downloaded', () => {
+        this.electronService.ipcRenderer.removeAllListeners('update_downloaded');
+        this.updateMessageOne = 'Update gedownload.  De update wordt geïnstalleerd na herstart.';
+        this.updateMessageTwo = 'Opnieuw opstarten?';
+        this.updateDownloaded = true;
+        this.cd.detectChanges();
       });
 
     } else {
@@ -74,25 +71,23 @@ export class AppComponent implements OnInit {
       window.scrollTo(0, 0);
     });
 
-    //  this.toastService.show
     //  success
     //  this.notificionService.successMessageChanges$.subscribe(msg => this.successMessage = msg);
     //  this.notificionService.successMessageChanges$.pipe(debounceTime(2000)).subscribe(() => this.successMessage = '');
 
     // info
     this.notificationService.infoMessageChanges$.subscribe(msg => this.infoMessage = msg);
-    this.notificationService.infoMessageChanges$.pipe(debounceTime(5000)).subscribe(() => this.infoMessage = '');
+    // this.notificationService.infoMessageChanges$.pipe(debounceTime(5000)).subscribe(() => this.infoMessage = '');
 
     // error
     this.notificationService.dangerMessageChanges$.subscribe(msg => this.dangerMessage = msg);
   }
 
-  public closeNotification(): void {
-    this.autoUpdateMessageOne = '';
+  closeUpdateNotification() {
+    this.updateMessageOne = '';
   }
 
-  public restartApp(): void {
+  appRestart() {
     this.electronService.ipcRenderer.send('restart_app');
   }
-
 }

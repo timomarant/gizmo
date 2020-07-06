@@ -1,8 +1,8 @@
 {
   "linterOptions": {
     "exclude": [
-      "src/app/core/services/municipalities/municipalities-be.ts",
-      "src/app/core/services/country/countries-eu.ts"
+      "src/app/core/services/municipalities-be.ts",
+      "src/app/core/services/countries-eu.ts"
     ]
   },
   "rulesDirectory": [

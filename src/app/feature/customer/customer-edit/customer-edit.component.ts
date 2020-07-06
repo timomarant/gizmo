@@ -10,7 +10,7 @@ import { distinctUntilChanged } from 'rxjs/internal/operators/distinctUntilChang
 import { map } from 'rxjs/internal/operators/map';
 import { GenericValidator } from '../../../shared/models/generic-validator';
 import { CustomerForEdit } from '../models/customer-for-edit';
-import { CustomerService, CountryService, MunicipalityService, ToastService } from '../../../core/services';
+import { CustomerService, CountryService, MunicipalityService, ToastService } from '../../../core';
 
 @Component({
   selector: 'app-customer-edit',

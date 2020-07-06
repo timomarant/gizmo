@@ -134,7 +134,7 @@ a.close-href:hover .lni-close {
     background-color: #ffffff;
 }
 
-#notification {
+.notification {
   text-align: center;
   position: fixed;
   bottom: 20px;

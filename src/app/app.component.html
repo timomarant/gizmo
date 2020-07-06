@@ -15,7 +15,7 @@
     <div class="logo-container">
       <a href=""
          class="logo">
-        <!-- <img src="../assets/img/gizmo.png" width="75" height="35" alt="Porto Admin" /> -->
+        <!-- <img src="./assets/img/gizmo.png" width="75" height="35" alt="Porto Admin" /> -->
       </a>
       <div class="d-md-none toggle-menu"
            data-toggle="collapse"
@@ -102,7 +102,7 @@
                   <a href="#"
                      class="clearfix">
                     <figure class="image">
-                      <img src="../assets/img/!happy-face.png"
+                      <img src="./assets/img/!happy-face.png"
                            alt="Joseph Doe Junior"
                            class="rounded-circle" />
                     </figure>
@@ -114,7 +114,7 @@
                   <a href="#"
                      class="clearfix">
                     <figure class="image">
-                      <img src="../assets/img/!sample-user.jpg"
+                      <img src="./assets/img/!sample-user.jpg"
                            alt="Joseph Junior"
                            class="rounded-circle" />
                     </figure>
@@ -139,7 +139,7 @@
                   <a href="#"
                      class="clearfix">
                     <figure class="image">
-                      <img src="../assets/img/!sample-user.jpg"
+                      <img src="./assets/img/!sample-user.jpg"
                            alt="Joe Junior"
                            class="rounded-circle" />
                     </figure>
@@ -151,7 +151,7 @@
                   <a href="#"
                      class="clearfix">
                     <figure class="image">
-                      <img src="../assets/img/!sample-user.jpg"
+                      <img src="./assets/img/!sample-user.jpg"
                            alt="Joseph Junior"
                            class="rounded-circle" />
                     </figure>
@@ -238,7 +238,7 @@
         <a href="#"
            data-toggle="dropdown">
           <figure class="profile-picture">
-            <img src="../assets/img/!logged-user.jpg"
+            <img src="./assets/img/!logged-user.jpg"
                  alt="Joseph Doe"
                  class="rounded-circle"
                  data-lock-picture="img/!logged-user.jpg" />
@@ -372,16 +372,16 @@
     <!-- end: page -->
   </div>
 </section>
-<div id="notification"
-     *ngIf="autoUpdateMessageOne">
-  <p> {{autoUpdateMessageOne}}</p>
-  <p class="mb-3"> {{autoUpdateMessageTwo}}</p>
-  <button (click)="closeNotification()"
+<div *ngIf="updateMessageOne"
+     class="notification">
+  <p>{{ updateMessageOne }}</p>
+  <p class="mb-3">{{ updateMessageTwo }}</p>
+  <button (click)="closeUpdateNotification()"
           class="btn btn-primary btn-sm">
     Sluiten
   </button>
   <button *ngIf="updateDownloaded"
-          (click)="restartApp()"
+          (click)="appRestart()"
           class="btn btn-primary btn-sm ml-3">
     Opnieuw opstarten
   </button>

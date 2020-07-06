@@ -1,9 +1,8 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { throwIfAlreayLoaded } from './module-import-guard';
+import { throwIfAlreayLoaded } from './guards/module-import-guard';
 
 @NgModule({
-    declarations: [],
     imports: [
         CommonModule
     ]
