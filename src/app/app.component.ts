@@ -85,6 +85,7 @@ export class AppComponent implements OnInit {
 
   closeUpdateNotification() {
     this.updateMessageOne = '';
+    this.cd.detectChanges();
   }
 
   appRestart() {

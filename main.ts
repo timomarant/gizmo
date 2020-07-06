@@ -88,24 +88,12 @@ ipcMain.on('app_version', (event) => {
 // -------------------------------------------------------------------
 // Auto updates
 // -------------------------------------------------------------------
-autoUpdater.on('update-available', info => {
+autoUpdater.on('update-available', () => {
   mainWindow.webContents.send('update_available');
 });
-
-autoUpdater.on('error', err => {
-  // sendStatusToWindow(`Error in auto-updater: ${err.toString()}`);
-});
-// autoUpdater.on('download-progress', progressObj => {
-//   // sendStatusToWindow(
-//   //   `Download speed: ${progressObj.bytesPerSecond} -
-//   //    Downloaded ${progressObj.percent}% (${progressObj.transferred} +
-//   //     '/' + ${progressObj.total} + )`
-//   // );
-// });
-autoUpdater.on('update-downloaded', info => {
+autoUpdater.on('update-downloaded', () => {
   mainWindow.webContents.send('update_downloaded');
 });
-
 ipcMain.on('restart_app', () => {
   autoUpdater.quitAndInstall();
 });
