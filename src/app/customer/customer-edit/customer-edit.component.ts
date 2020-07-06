@@ -8,9 +8,9 @@ import { merge } from 'rxjs/internal/observable/merge';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
 import { distinctUntilChanged } from 'rxjs/internal/operators/distinctUntilChanged';
 import { map } from 'rxjs/internal/operators/map';
-import { GenericValidator } from '../../../shared/models/generic-validator';
+import { GenericValidator } from '../../shared/models/generic-validator';
 import { CustomerForEdit } from '../models/customer-for-edit';
-import { CustomerService, CountryService, MunicipalityService, ToastService } from '../../../core';
+import { CustomerService, CountryService, MunicipalityService, ToastService } from '../../core';
 
 @Component({
   selector: 'app-customer-edit',

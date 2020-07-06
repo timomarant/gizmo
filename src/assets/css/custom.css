@@ -1,6 +1,7 @@
 /* Add here all your CSS customizations */
+
 body {
-	font-size: 16px;
+    font-size: 16px;
 }
 
 .nav-tabs li .nav-link {
@@ -15,38 +16,39 @@ body {
     color: #777;
 }
 
-.form-control.is-invalid, .was-validated .form-control:invalid {
+.form-control.is-invalid,
+.was-validated .form-control:invalid {
     background-image: none;
 }
 
-.close-href{
+.close-href {
     font-size: 18px;
 }
 
-a.close-href:link{
+a.close-href:link {
     color: #777;
     text-decoration: none;
 }
 
-a.close-href:visited{
+a.close-href:visited {
     color: #777;
     text-decoration: none;
 }
 
-a.close-href:hover{
+a.close-href:hover {
     color: #33353F;
     text-decoration: none;
 }
 
-.social-icons-list>a{
+.social-icons-list>a {
     margin-right: 5px;
 }
 
-abbr{
+abbr {
     font-size: small;
 }
 
-.innerWrapperHeader{
+.innerWrapperHeader {
     background-color: #1d2127;
     min-height: 100px;
 }
@@ -59,12 +61,12 @@ html.has-tab-navigation .innerWrapperHeader {
     background-color: #1d2127;
 }
 
-.headerFixed{
+.headerFixed {
     position: fixed;
     z-index: 900;
 }
 
-.my-custom-tooltip .tooltip-inner{
+.my-custom-tooltip .tooltip-inner {
     background-color: #1d2127;
 }
 
@@ -72,16 +74,16 @@ agm-map {
     height: 400px;
 }
 
-.alert{
+.alert {
     border-radius: 0;
     margin-bottom: 0;
 }
 
-.alert-dismissible .close{
+.alert-dismissible .close {
     outline: none;
 }
 
-p{
+p {
     margin-top: 0;
     margin-bottom: 0;
 }
@@ -90,26 +92,28 @@ html.has-tab-navigation .content-body {
     border-radius: unset;
 }
 
-.dropdown-item.active, .dropdown-item:active {
+.dropdown-item.active,
+.dropdown-item:active {
     background-color: #0088cc;
 }
 
-.ngb-toast{
+.ngb-toast {
     position: fixed;
-    /* top: 0; */
+    bottom: 20px;
     right: 0;
-    margin: .5em;
+    margin: auto;
     z-index: 1200;
-	left: 40%;
+    left: 0;
+    width: fit-content;
+    max-width: 1080px;
 }
 
-.card-actions{
+.card-actions {
     top: 10px;
     right: 0;
 }
 
 .lni-close {
-    /* background-color: red; */
     padding-top: 10px;
     padding-right: 10px;
     font-size: larger;
@@ -122,30 +126,31 @@ html.has-tab-navigation .content-body {
 
 a.close-href:hover .lni-close {
     background-color: #cc0033;
-    color:#ffffff;
+    color: #ffffff;
     padding-left: 10px;
     padding-bottom: 10px;
 }
 
 .toast-body {
+    font-size: larger;
     text-align: center;
-    padding: .25rem;
-    color: #212529;
-    background-color: #ffffff;
+    padding: .85rem;
+    color: #ffffff;
+    background-color: #212529;
 }
 
 .notification {
-  text-align: center;
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  width: 330px;
-  padding: 20px;
-  border-radius: 5px;
-  background-color: white;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 330px;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 .hidden {
-  display: none;
+    display: none;
 }

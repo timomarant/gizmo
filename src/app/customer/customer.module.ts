@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { SharedModule } from '../../shared/shared.module';
+import { SharedModule } from '../shared/shared.module';
 import { AgmCoreModule } from '@agm/core';
 import { CustomerRoutingModule } from './cutomer-routing.module';
 import { CustomerComponent } from './customer.component';

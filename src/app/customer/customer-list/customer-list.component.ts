@@ -6,14 +6,14 @@ import {
     ViewChild
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IPagination } from '../../../shared/models/pagination';
+import { IPagination } from '../../shared/models/pagination';
 import { ICustomerForList } from '../models/customer-for-list';
 import { CustomerForEdit } from '../models/customer-for-edit';
-import { SearchComponent } from '../../../shared/components/search/search.component';
-import { StarComponent } from '../../../shared/components/star/star.component';
+import { SearchComponent } from '../../shared/components/search/search.component';
+import { StarComponent } from '../../shared/components/star/star.component';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { CustomerParameterService } from '../customer-parameter.service';
-import { CustomerService, PagerService, ToastService } from '../../../core';
+import { CustomerService, PagerService, ToastService } from '../../core';
 
 @Component({
     selector: 'app-customer-list',

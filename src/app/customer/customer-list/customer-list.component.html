@@ -44,12 +44,6 @@
                         <td class="text outline-none cur-pointer"
                             [routerLink]="['/customer/', customer.id, 'edit']">{{ customer.email }}</td>
                         <td class="text-center">
-                            <a [routerLink]="['/customer/', customer.id, 'edit']"
-                               class="cur-pointer"
-                               placement="top"
-                               ngbTooltip="Bewerk"
-                               tooltipClass="my-custom-tooltip"><i class="fas fa-pencil-alt"></i></a>
-                            &nbsp;
                             <a [routerLink]=""
                                (click)="deleteCustomers(customer.id)"
                                placement="top"

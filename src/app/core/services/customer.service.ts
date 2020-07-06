@@ -3,8 +3,8 @@ import { HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs/internal/Observable';
 import { of } from 'rxjs/internal/observable/of';
-import { ICustomerForList } from '../../feature/customer/models/customer-for-list';
-import { CustomerForEdit } from '../../feature/customer/models/customer-for-edit';
+import { ICustomerForList } from '../../customer/models/customer-for-list';
+import { CustomerForEdit } from '../../customer/models/customer-for-edit';
 import { Constants } from '../app.constants';
 
 @Injectable({

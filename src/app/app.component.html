@@ -1,33 +1,24 @@
 <section class="body">
-  <!-- start: header -->
-  <header class="header headerFixed">
-    <ngb-toast *ngFor="let toast of toastService.toasts"
-               class="ngb-toast"
-               [autohide]="true"
-               [delay]="toast.delay || 5000"
-               (hide)="toastService.remove(toast)">
-      <ng-template [ngIf]="isTemplate(toast)"
-                   [ngIfElse]="text">
-        <ng-template [ngTemplateOutlet]="toast.textOrTpl"></ng-template>
-      </ng-template>
-      <ng-template #text>{{ toast.textOrTpl }}</ng-template>
-    </ngb-toast>
-    <div class="logo-container">
-      <a href=""
-         class="logo">
-        <!-- <img src="./assets/img/gizmo.png" width="75" height="35" alt="Porto Admin" /> -->
-      </a>
-      <div class="d-md-none toggle-menu"
-           data-toggle="collapse"
-           data-target=".tab-navigation">
-        <i class="fas fa-bars"
-           aria-label="Toggle Menu"></i>
-      </div>
-    </div>
-    <!-- start: search & user box -->
-    <div class="header-right">
+    <!-- start: header -->
+    <header class="header headerFixed">
+        <ngb-toast *ngFor="let toast of toastService.toasts" class="ngb-toast" [autohide]="true" [delay]="toast.delay || 5000" (hide)="toastService.remove(toast)">
+            <ng-template [ngIf]="isTemplate(toast)" [ngIfElse]="text">
+                <ng-template [ngTemplateOutlet]="toast.textOrTpl"></ng-template>
+            </ng-template>
+            <ng-template #text>{{ toast.textOrTpl }}</ng-template>
+        </ngb-toast>
+        <div class="logo-container">
+            <a href="" class="logo">
+                <!-- <img src="./assets/img/gizmo.png" width="75" height="35" alt="Porto Admin" /> -->
+            </a>
+            <div class="d-md-none toggle-menu" data-toggle="collapse" data-target=".tab-navigation">
+                <i class="fas fa-bars" aria-label="Toggle Menu"></i>
+            </div>
+        </div>
+        <!-- start: search & user box -->
+        <div class="header-right">
 
-      <!-- <form action="pages-search-results.html" class="search nav-form">
+            <!-- <form action="pages-search-results.html" class="search nav-form">
                 <div class="input-group">
                     <input type="text" class="form-control" name="q" id="q" placeholder="Search...">
                     <span class="input-group-append">
@@ -36,10 +27,10 @@
                 </div>
             </form> -->
 
-      <span class="separator"></span>
+            <span class="separator"></span>
 
-      <ul class="notifications">
-        <!-- <li>
+            <ul class="notifications">
+                <!-- <li>
                     <a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
                         <i class="fas fa-tasks"></i>
                         <span class="badge">3</span>
@@ -85,41 +76,35 @@
                         </div>
                     </div>
                 </li>-->
-        <li>
-          <!-- <a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
+                <li>
+                    <!-- <a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
                         <i class="fas fa-envelope"></i>
                         <span class="badge">4</span>
                     </a> -->
 
-          <div class="dropdown-menu notification-menu">
-            <div class="notification-title">
-              <span class="float-right badge badge-default">230</span> Messages
-            </div>
+                    <div class="dropdown-menu notification-menu">
+                        <div class="notification-title">
+                            <span class="float-right badge badge-default">230</span> Messages
+                        </div>
 
-            <div class="content">
-              <ul>
-                <li>
-                  <a href="#"
-                     class="clearfix">
-                    <figure class="image">
-                      <img src="./assets/img/!happy-face.png"
-                           alt="Joseph Doe Junior"
-                           class="rounded-circle" />
-                    </figure>
-                    <span class="title">Timo Marant</span>
-                    <span class="message">Lorem ipsum dolor sit.</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#"
-                     class="clearfix">
-                    <figure class="image">
-                      <img src="./assets/img/!sample-user.jpg"
-                           alt="Joseph Junior"
-                           class="rounded-circle" />
-                    </figure>
-                    <span class="title">Joseph Junior</span>
-                    <span class="message truncate">Truncated message. Lorem ipsum dolor sit
+                        <div class="content">
+                            <ul>
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <figure class="image">
+                                            <img src="./assets/img/!happy-face.png" alt="Joseph Doe Junior" class="rounded-circle" />
+                                        </figure>
+                                        <span class="title">Timo Marant</span>
+                                        <span class="message">Lorem ipsum dolor sit.</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <figure class="image">
+                                            <img src="./assets/img/!sample-user.jpg" alt="Joseph Junior" class="rounded-circle" />
+                                        </figure>
+                                        <span class="title">Joseph Junior</span>
+                                        <span class="message truncate">Truncated message. Lorem ipsum dolor sit
                       amet, consectetur adipiscing elit. Donec sit amet lacinia orci. Proin
                       vestibulum eget risus non luctus. Nunc cursus lacinia lacinia. Nulla
                       molestie malesuada est ac tincidunt. Quisque eget convallis diam, nec
@@ -133,256 +118,202 @@
                       tincidunt gravida dui, sed pharetra odio pharetra nec. Duis consectetur
                       venenatis pharetra. Vestibulum egestas nisi quis elementum
                       elementum.</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#"
-                     class="clearfix">
-                    <figure class="image">
-                      <img src="./assets/img/!sample-user.jpg"
-                           alt="Joe Junior"
-                           class="rounded-circle" />
-                    </figure>
-                    <span class="title">Joe Junior</span>
-                    <span class="message">Lorem ipsum dolor sit.</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#"
-                     class="clearfix">
-                    <figure class="image">
-                      <img src="./assets/img/!sample-user.jpg"
-                           alt="Joseph Junior"
-                           class="rounded-circle" />
-                    </figure>
-                    <span class="title">Joseph Junior</span>
-                    <span class="message">Lorem ipsum dolor sit amet, consectetur adipiscing
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <figure class="image">
+                                            <img src="./assets/img/!sample-user.jpg" alt="Joe Junior" class="rounded-circle" />
+                                        </figure>
+                                        <span class="title">Joe Junior</span>
+                                        <span class="message">Lorem ipsum dolor sit.</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <figure class="image">
+                                            <img src="./assets/img/!sample-user.jpg" alt="Joseph Junior" class="rounded-circle" />
+                                        </figure>
+                                        <span class="title">Joseph Junior</span>
+                                        <span class="message">Lorem ipsum dolor sit amet, consectetur adipiscing
                       elit. Donec sit amet lacinia orci. Proin vestibulum eget risus non
                       luctus. Nunc cursus lacinia lacinia. Nulla molestie malesuada est ac
                       tincidunt. Quisque eget convallis diam.</span>
-                  </a>
-                </li>
-              </ul>
+                                    </a>
+                                </li>
+                            </ul>
 
-              <hr />
+                            <hr />
 
-              <div class="text-right">
-                <a href="#"
-                   class="view-more">View All</a>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li>
-          <a href="#"
-             class="dropdown-toggle notification-icon"
-             data-toggle="dropdown">
-            <i class="fas fa-bell"></i>
-            <span class="badge">3</span>
-          </a>
-
-          <div class="dropdown-menu notification-menu">
-            <div class="notification-title">
-              <span class="float-right badge badge-default">3</span> Alerts
-            </div>
-
-            <div class="content">
-              <ul>
-                <li>
-                  <a href="#"
-                     class="clearfix">
-                    <div class="image">
-                      <i class="fas fa-thumbs-down bg-danger text-light"></i>
+                            <div class="text-right">
+                                <a href="#" class="view-more">View All</a>
+                            </div>
+                        </div>
                     </div>
-                    <span class="title">Server is Down!</span>
-                    <span class="message">Just now</span>
-                  </a>
                 </li>
                 <li>
-                  <a href="#"
-                     class="clearfix">
-                    <div class="image">
-                      <i class="fas fa-lock bg-warning text-light"></i>
+                    <a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
+                    </a>
+
+                    <div class="dropdown-menu notification-menu">
+                        <div class="notification-title">
+                            <span class="float-right badge badge-default">3</span> Alerts
+                        </div>
+
+                        <div class="content">
+                            <ul>
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <div class="image">
+                                            <i class="fas fa-thumbs-down bg-danger text-light"></i>
+                                        </div>
+                                        <span class="title">Server is Down!</span>
+                                        <span class="message">Just now</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <div class="image">
+                                            <i class="fas fa-lock bg-warning text-light"></i>
+                                        </div>
+                                        <span class="title">User Locked</span>
+                                        <span class="message">15 minutes ago</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <div class="image">
+                                            <i class="fas fa-signal bg-success text-light"></i>
+                                        </div>
+                                        <span class="title">Connection Restaured</span>
+                                        <span class="message">10/10/2017</span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <hr />
+
+                            <div class="text-right">
+                                <a href="#" class="view-more">View All</a>
+                            </div>
+                        </div>
                     </div>
-                    <span class="title">User Locked</span>
-                    <span class="message">15 minutes ago</span>
-                  </a>
                 </li>
-                <li>
-                  <a href="#"
-                     class="clearfix">
-                    <div class="image">
-                      <i class="fas fa-signal bg-success text-light"></i>
+            </ul>
+
+            <span class="separator"></span>
+
+            <div id="userbox" class="userbox">
+                <a href="#" data-toggle="dropdown">
+                    <figure class="profile-picture">
+                        <img src="./assets/img/!logged-user.jpg" alt="Joseph Doe" class="rounded-circle" data-lock-picture="img/!logged-user.jpg" />
+                    </figure>
+                    <div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@okler.com">
+                        <span class="name">Timo Marant</span>
+                        <span class="role">administrator</span>
                     </div>
-                    <span class="title">Connection Restaured</span>
-                    <span class="message">10/10/2017</span>
-                  </a>
-                </li>
-              </ul>
 
-              <hr />
+                    <i class="fa custom-caret"></i>
+                </a>
 
-              <div class="text-right">
-                <a href="#"
-                   class="view-more">View All</a>
-              </div>
-            </div>
-          </div>
-        </li>
-      </ul>
-
-      <span class="separator"></span>
-
-      <div id="userbox"
-           class="userbox">
-        <a href="#"
-           data-toggle="dropdown">
-          <figure class="profile-picture">
-            <img src="./assets/img/!logged-user.jpg"
-                 alt="Joseph Doe"
-                 class="rounded-circle"
-                 data-lock-picture="img/!logged-user.jpg" />
-          </figure>
-          <div class="profile-info"
-               data-lock-name="John Doe"
-               data-lock-email="johndoe@okler.com">
-            <span class="name">Timo Marant</span>
-            <span class="role">administrator</span>
-          </div>
-
-          <i class="fa custom-caret"></i>
-        </a>
-
-        <div class="dropdown-menu">
-          <ul class="list-unstyled mb-2">
-            <li class="divider"></li>
-            <li>
-              <a role="menuitem"
-                 tabindex="-1"
-                 href="pages-user-profile.html"><i class="fas fa-user"></i>
+                <div class="dropdown-menu">
+                    <ul class="list-unstyled mb-2">
+                        <li class="divider"></li>
+                        <li>
+                            <a role="menuitem" tabindex="-1" href="pages-user-profile.html"><i class="fas fa-user"></i>
                 My Profile</a>
-            </li>
-            <li>
-              <a role="menuitem"
-                 tabindex="-1"
-                 href="#"
-                 data-lock-screen="true"><i class="fas fa-lock"></i> Lock Screen</a>
-            </li>
-            <li>
-              <a role="menuitem"
-                 tabindex="-1"
-                 href="pages-signin.html"><i class="fas fa-power-off"></i>
+                        </li>
+                        <li>
+                            <a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fas fa-lock"></i> Lock Screen</a>
+                        </li>
+                        <li>
+                            <a role="menuitem" tabindex="-1" href="pages-signin.html"><i class="fas fa-power-off"></i>
                 Logout</a>
-            </li>
-          </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <!-- end: search & user box -->
-    <div class="inner-wrapper innerWrapperHeader">
-      <div class="tab-navigation collapse">
-        <nav>
-          <ul class="nav nav-pills">
-            <li class=""
-                routerLinkActive="nav-expanded nav-active">
-              <a class="nav-link"
-                 routerLink="/home">
-                <i class="fas fa-home"></i>Dashboard
-              </a>
-              <ul class="dropdown-menu">
-                <li><span class="nav-ling">&nbsp;</span>
-                  <a routerLink="/home"
-                     class="nav-link">&nbsp;
+        <!-- end: search & user box -->
+        <div class="inner-wrapper innerWrapperHeader">
+            <div class="tab-navigation collapse">
+                <nav>
+                    <ul class="nav nav-pills">
+                        <li class="" routerLinkActive="nav-expanded nav-active">
+                            <a class="nav-link" routerLink="/home">
+                                <i class="fas fa-home"></i>Dashboard
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><span class="nav-ling">&nbsp;</span>
+                                    <a routerLink="/home" class="nav-link">&nbsp;
                   </a>
-                </li>
-              </ul>
-            </li>
-            <li class="dropdown"
-                routerLinkActive="nav-expanded nav-active">
-              <a routerLink="/customer"
-                 class="nav-link dropdown-toggle">
-                <i class="fas fa-users"></i>Klanten</a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a routerLink="/customer/list"
-                     [queryParams]="{ filter: 'all' }"
-                     class="nav-link">
-                    <i class="fas fa-list mr-2"></i>Alle
-                  </a>
-                </li>
-                <li>
-                  <a routerLink="/customer/list"
-                     [queryParams]="{ filter: 'favourite' }"
-                     class="nav-link">
-                    <i class="fas fa-star mr-2"
-                       style="color: #ffcc33;"></i>Favorieten
-                  </a>
-                </li>
-                <!-- <li>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown" routerLinkActive="nav-expanded nav-active">
+                            <a routerLink="/customer" class="nav-link dropdown-toggle">
+                                <i class="fas fa-users"></i>Klanten</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a routerLink="/customer/list" [queryParams]="{ filter: 'all' }" class="nav-link">
+                                        <i class="fas fa-list mr-2"></i>Alle
+                                    </a>
+                                </li>
+                                <li>
+                                    <a routerLink="/customer/list" [queryParams]="{ filter: 'favourite' }" class="nav-link">
+                                        <i class="fas fa-star mr-2" style="color: #ffcc33;"></i>Favorieten
+                                    </a>
+                                </li>
+                                <!-- <li>
                             <a routerLink="/person/import" class="nav-link">
                                 <i class="fas fa-file-import"></i> Importeer
                             </a>
                         </li> -->
-              </ul>
-            </li>
-            <li class="dropdown"
-                routerLinkActive="nav-expanded nav-active">
-              <a routerLink="/supplier"
-                 class="nav-link dropdown-toggle">
-                <i class="fas fa-handshake"></i>Projecten</a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a routerLink="/supplier/list"
-                     class="nav-link">
-                    <i class="fas fa-list"></i> Overzicht
-                  </a>
-                </li>
-                <li>
-                  <a routerLink="/supplier/import"
-                     class="nav-link">
-                    <i class="fas fa-file-import"></i> Importeer
-                  </a>
-                </li>
-              </ul>
-            </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown" routerLinkActive="nav-expanded nav-active">
+                            <a routerLink="/supplier" class="nav-link dropdown-toggle">
+                                <i class="fas fa-handshake"></i>Projecten</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a routerLink="/supplier/list" class="nav-link">
+                                        <i class="fas fa-list"></i> Overzicht
+                                    </a>
+                                </li>
+                                <li>
+                                    <a routerLink="/supplier/import" class="nav-link">
+                                        <i class="fas fa-file-import"></i> Importeer
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
-          </ul>
-        </nav>
-      </div>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <p class="outline-none" style="padding-right: 15px; padding-left: 15px;">
+            <ngb-alert *ngIf="successMessage" type="success" [dismissible]="false" (close)="successMessage=''">{{ successMessage }}</ngb-alert>
+            <ngb-alert *ngIf="infoMessage" type="info" (close)="infoMessage=''">{{ infoMessage }}</ngb-alert>
+            <ngb-alert *ngIf="dangerMessage" type="danger" (close)="dangerMessage=''">{{ dangerMessage }}</ngb-alert>
+        </p>
+    </header>
+    <!-- end: header -->
+    <div class="inner-wrapper" style="margin-top: 79px;">
+        <!-- start: page -->
+        <router-outlet></router-outlet>
+        <!-- end: page -->
     </div>
-    <p class="outline-none"
-       style="padding-right: 15px; padding-left: 15px;">
-      <ngb-alert *ngIf="successMessage"
-                 type="success"
-                 [dismissible]="false"
-                 (close)="successMessage=''">{{ successMessage }}</ngb-alert>
-      <ngb-alert *ngIf="infoMessage"
-                 type="info"
-                 (close)="infoMessage=''">{{ infoMessage }}</ngb-alert>
-      <ngb-alert *ngIf="dangerMessage"
-                 type="danger"
-                 (close)="dangerMessage=''">{{ dangerMessage }}</ngb-alert>
-    </p>
-  </header>
-  <!-- end: header -->
-  <div class="inner-wrapper"
-       style="margin-top: 79px;">
-    <!-- start: page -->
-    <router-outlet></router-outlet>
-    <!-- end: page -->
-  </div>
 </section>
-<div *ngIf="updateMessageOne"
-     class="notification">
-  <p>{{ updateMessageOne }}</p>
-  <p class="mb-3">{{ updateMessageTwo }}</p>
-  <button (click)="closeUpdateNotification()"
-          class="btn btn-primary btn-sm">
+<div *ngIf="updateMessageOne" class="notification">
+    <p>{{ updateMessageOne }}</p>
+    <p class="mb-3">{{ updateMessageTwo }}</p>
+    <button (click)="closeUpdateNotification()" class="btn btn-primary btn-sm">
     Sluiten
   </button>
-  <button *ngIf="updateDownloaded"
-          (click)="appRestart()"
-          class="btn btn-primary btn-sm ml-3">
+    <button *ngIf="updateDownloaded" (click)="appRestart()" class="btn btn-primary btn-sm ml-3">
     Opnieuw opstarten
   </button>
 </div>

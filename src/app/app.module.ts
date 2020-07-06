@@ -10,12 +10,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AgmCoreModule } from '@agm/core';
-import { CalculationModule } from './feature/calculation/calculation.module';
-import { PersonModule } from './feature/person/person.module';
-import { CustomerModule } from './feature/customer/customer.module';
-import { HomeModule } from './feature/home/home.module';
-import { InvoiceModule } from './feature/invoice/invoice.module';
-import { SettingsModule } from './feature/settings/settings.module';
+import { CustomerModule } from './customer/customer.module';
+import { HomeModule } from './home/home.module';
 import { AppComponent } from './app.component';
 import * as Sentry from '@sentry/browser';
 import { AppConfig } from '../environments/environment';
@@ -45,11 +41,7 @@ Sentry.init({ dsn: AppConfig.sentryDns });
       apiKey: AppConfig.googleApiKey
     }),
     HomeModule,
-    CalculationModule,
     CustomerModule,
-    InvoiceModule,
-    PersonModule,
-    SettingsModule,
     AppRoutingModule,
     TranslateModule.forRoot({
       loader: {
