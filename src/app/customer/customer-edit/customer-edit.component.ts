@@ -18,7 +18,7 @@ import { CustomerService, CountryService, MunicipalityService, ToastService } fr
 })
 export class CustomerEditComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
-  @ViewChild('nameElement', { static: false }) nameElementRef: ElementRef;
+  @ViewChild('nameElement') nameElementRef: ElementRef;
 
   private sub: Subscription;
   private genericValidator: GenericValidator;

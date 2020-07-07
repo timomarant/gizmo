@@ -21,7 +21,7 @@ import { distinctUntilChanged } from 'rxjs/internal/operators/distinctUntilChang
   templateUrl: './search.component.html'
 })
 export class SearchComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
-  @ViewChild('searchElement', { static: false }) searchElementRef: ElementRef;
+  @ViewChild('searchElement') searchElementRef: ElementRef;
   @Input() helpText: string;
   @Output() valueChange: EventEmitter<string> = new EventEmitter<string>();
   public searchForm: FormGroup;

@@ -20,8 +20,8 @@ import { CustomerService, PagerService, ToastService } from '../../core';
     templateUrl: './customer-list.component.html'
 })
 export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
-    @ViewChild(SearchComponent, { static: false }) searchComponent: SearchComponent;
-    @ViewChild(StarComponent, { static: false }) starComponent: StarComponent;
+    @ViewChild(SearchComponent) searchComponent: SearchComponent;
+    @ViewChild(StarComponent) starComponent: StarComponent;
     public customers: ICustomerForList[];
     public pagination: IPagination;
     public pager: any = {};
