@@ -15,9 +15,9 @@ trigger:
 
 steps:
 - checkout: gizmo
-  path: gizmo
+  path: '$(Build.SourcesDirectory)'
 - checkout: Gizmo.App
-  path: gizmo
+  path: '$(Build.SourcesDirectory)'
 
 - task: NodeTool@0
   displayName: 'Node available on machine'
