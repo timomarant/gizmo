@@ -15,7 +15,9 @@ trigger:
 
 steps:
 - checkout: gizmo
+  path: '$(Build.SourcesDirectory)/gizmo'
 - checkout: Gizmo.App
+  path: '$(Build.SourcesDirectory)/gizmo'
 
 - task: NodeTool@0
   displayName: 'Node available on machine'
@@ -33,6 +35,7 @@ steps:
 - task: Npm@1
   displayName: 'Install npm'
   inputs:
+    workingDir: '$(Build.SourcesDirectory)/gizmo'
     verbose: false
 
 - task: Npm@1
