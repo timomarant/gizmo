@@ -15,9 +15,7 @@ trigger:
 
 steps:
 - checkout: gizmo
-  path: gizmo
 - checkout: Gizmo.App
-  path: gizmo
 
 - task: NodeTool@0
   displayName: 'Node available on machine'
