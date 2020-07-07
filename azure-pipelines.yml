@@ -47,14 +47,4 @@ steps:
     verbose: false
     customCommand: 'install -D electron@latest'
 
-- task: Npm@1
-  displayName: 'Run builder-publish-to-github'
-  inputs:
-    command: custom
-    verbose: false
-    customCommand: 'run builder-publish-to-github'
 
-- task: GitHubRelease@1
-  displayName: 'GitHub release (create)'
-  inputs:
-    gitHubConnection: 'GitHub connection 1'
