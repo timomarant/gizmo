@@ -47,4 +47,18 @@ steps:
     verbose: false
     customCommand: 'install -D electron@latest'
 
+- task: Npm@1
+  displayName: 'Run build:prod'
+  inputs:
+    command: custom
+    verbose: false
+    customCommand: 'run build:prod'
 
+- task: ArchiveFiles@2
+  displayName: 'Archive files'
+  inputs:
+    rootFolderOrFile: dist/
+    includeRootFolder: false
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
