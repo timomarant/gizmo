@@ -35,13 +35,11 @@ steps:
 - task: Npm@1
   displayName: 'Install npm'
   inputs:
-    workingDir: gizmo
     verbose: false
 
 - task: Npm@1
   displayName: 'Install -D electron@latest'
   inputs:
-    workingDir: gizmo
     command: custom
     verbose: false
     customCommand: 'install -D electron@latest'
