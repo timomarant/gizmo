@@ -44,6 +44,7 @@ steps:
     command: custom
     verbose: false
     customCommand: 'install -D electron@latest'
+    workingDir: '$(Build.SourcesDirectory)/gizmo'
 
 - task: Npm@1
   displayName: 'Run build:prod'
@@ -51,6 +52,7 @@ steps:
     command: custom
     verbose: false
     customCommand: 'run build:prod'
+    workingDir: '$(Build.SourcesDirectory)/gizmo'
 
 - task: ArchiveFiles@2
   displayName: 'Archive files'
