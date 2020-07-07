@@ -1,7 +1,4 @@
-# Node.js
-# Build a general Node.js project with npm.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+name: 'ubuntu-latest'
 
 resources:
   repositories:
@@ -16,11 +13,11 @@ resources:
 trigger:
 - master
 
-name: 'ubuntu-latest'
-
 steps:
 - checkout: gizmo
+  path: gizmo
 - checkout: Gizmo.App
+  path: gizmo
 
 - task: NodeTool@0
   displayName: 'Node available on machine'
@@ -48,13 +45,18 @@ steps:
     customCommand: 'install -D electron@latest'
 
 - task: Npm@1
-  displayName: 'Run builder-publish-to-github'
+  displayName: 'Run build:prod'
   inputs:
+    workingDir: '$(pipeline.workspace)/gizmo'
     command: custom
     verbose: false
-    customCommand: 'run builder-publish-to-github'
+    customCommand: 'run build:prod'
 
-- task: GitHubRelease@1
-  displayName: 'GitHub release (create)'
+- task: ArchiveFiles@2
+  displayName: 'Archive files'
   inputs:
-    gitHubConnection: 'GitHub connection 1'
+    rootFolderOrFile: dist/
+    includeRootFolder: false
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
