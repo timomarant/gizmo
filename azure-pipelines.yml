@@ -1,5 +1,4 @@
-pool:
-  name: Azure Pipelines
+name: 'ubuntu-latest'
 
 resources:
   repositories:
