@@ -15,9 +15,9 @@ trigger:
 
 steps:
 - checkout: gizmo
-  path: '$(Build.SourcesDirectory)'
+  path: gizmo
 - checkout: Gizmo.App
-  path: '$(Build.SourcesDirectory)'
+  path: gizmo
 
 - task: NodeTool@0
   displayName: 'Node available on machine'
@@ -35,11 +35,13 @@ steps:
 - task: Npm@1
   displayName: 'Install npm'
   inputs:
+    workingDir: gizmo
     verbose: false
 
 - task: Npm@1
   displayName: 'Install -D electron@latest'
   inputs:
+    workingDir: gizmo
     command: custom
     verbose: false
     customCommand: 'install -D electron@latest'
@@ -47,6 +49,7 @@ steps:
 - task: Npm@1
   displayName: 'Run build:prod'
   inputs:
+    workingDir: gizmo
     command: custom
     verbose: false
     customCommand: 'run build:prod'
