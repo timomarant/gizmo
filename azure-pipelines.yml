@@ -46,8 +46,7 @@ steps:
 
 - task: Npm@1
   displayName: 'Run build:prod'
-  inputs:
-    workingDir: '$(pipeline.workspace)/gizmo'
+  inputs:    
     command: custom
     verbose: false
     customCommand: 'run build:prod'
